@@ -1,7 +1,7 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
 import "./index.css"
-import App from "./base/App.jsx"
+import App from "./base/App"
 import * as serviceWorker from "./serviceWorker"
 
 const container = document.getElementById("app")

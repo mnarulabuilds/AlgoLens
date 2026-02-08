@@ -47,7 +47,7 @@ function RouteSection() {
         />
         {siteSuggestions.map((site, index) => {
           const { route, path } = site
-          const Component = lazy(() => import(`../${path}/index.jsx`))
+          const Component = lazy(() => import(`../${path}/index.tsx`))
           return (
             <Route
               path={`${route}`}

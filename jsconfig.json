@@ -1,9 +1,0 @@
-{
-  "compilerOptions": {
-    "jsx": "react",
-    "baseUrl": "./src",
-    "module": "ES6",
-    "target": "ES2015"
-  },
-  "include": ["src/**/*"]
-}
