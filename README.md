@@ -2,7 +2,7 @@
 
 **AlgoLens** is an interactive visualization playground for **Computer Science, Mathematics, Physics, and Games**. It bridges the gap between abstract theory and intuition by letting you **see** algorithms run, **tweak** parameters, and **experiment** with simulations.
 
-[**🚀 Live Demo**](https://m-a-y-a-n-k.github.io/AlgoLens/#/) | [**🎥 Watch Demo Video**](https://youtu.be/ULegeOI0ALE)
+[**🚀 Live Demo**](https://mnarulabuilds.github.io/AlgoLens/) | [**🎥 Watch Demo Video**](https://youtu.be/ULegeOI0ALE)
 
 ## ✨ Features
 
@@ -50,7 +50,7 @@
 1.  **Clone the repository**
 
     ```bash
-    git clone https://github.com/m-a-y-a-n-k/AlgoLens.git
+    git clone https://github.com/mnarulabuilds/AlgoLens.git
     cd AlgoLens
     ```
 
