@@ -43,6 +43,12 @@
   background: rgba(78, 204, 163, 0.1);
 }
 
+.pseudocode-line.highlighted {
+  background: rgba(251, 191, 36, 0.25);
+  border-left: 4px solid #fbbf24;
+  padding-left: calc(0.25rem - 4px);
+}
+
 .line-number {
   display: inline-block;
   min-width: 40px;

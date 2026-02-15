@@ -1,6 +1,42 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
 
-const UserContext = createContext()
+interface User {
+  name: string
+  email: string
+  avatar: string
+  joinedDate: string
+}
+
+interface Favorite {
+  id: string
+  label: string
+  category: string
+  route: string
+  addedAt: string
+}
+
+interface RecentlyViewed {
+  id: string
+  label: string
+  category: string
+  route: string
+  viewedAt: string
+}
+
+interface UserContextType {
+  user: User
+  updateUser: (userData: Partial<User>) => void
+  favorites: Favorite[]
+  addFavorite: (topic: any) => boolean
+  removeFavorite: (topicId: string) => void
+  isFavorite: (topicId: string) => boolean
+  recentlyViewed: RecentlyViewed[]
+  addToRecentlyViewed: (topic: any) => void
+  clearRecentlyViewed: () => void
+  getStats: () => { totalFavorites: number; totalViewed: number; categoriesExplored: number }
+}
+
+const UserContext = createContext<UserContextType | undefined>(undefined)
 
 export const useUser = () => {
   const context = useContext(UserContext)
@@ -10,16 +46,16 @@ export const useUser = () => {
   return context
 }
 
-export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User>({
     name: "Guest User",
     email: "",
     avatar: "",
     joinedDate: new Date().toISOString(),
   })
 
-  const [favorites, setFavorites] = useState([])
-  const [recentlyViewed, setRecentlyViewed] = useState([])
+  const [favorites, setFavorites] = useState<Favorite[]>([])
+  const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewed[]>([])
 
   // Load data from localStorage on mount
   useEffect(() => {
@@ -51,11 +87,11 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem("algolens_recent", JSON.stringify(recentlyViewed))
   }, [recentlyViewed])
 
-  const updateUser = (userData) => {
+  const updateUser = (userData: Partial<User>) => {
     setUser((prev) => ({ ...prev, ...userData }))
   }
 
-  const addFavorite = (topic) => {
+  const addFavorite = (topic: any) => {
     if (!favorites.find((fav) => fav.id === topic.id)) {
       setFavorites((prev) => [
         ...prev,
@@ -66,24 +102,21 @@ export const UserProvider = ({ children }) => {
     return false
   }
 
-  const removeFavorite = (topicId) => {
+  const removeFavorite = (topicId: string) => {
     setFavorites((prev) => prev.filter((fav) => fav.id !== topicId))
   }
 
-  const isFavorite = (topicId) => {
+  const isFavorite = (topicId: string) => {
     return favorites.some((fav) => fav.id === topicId)
   }
 
-  const addToRecentlyViewed = (topic) => {
+  const addToRecentlyViewed = (topic: any) => {
     setRecentlyViewed((prev) => {
-      // Remove if already exists
       const filtered = prev.filter((item) => item.id !== topic.id)
-      // Add to beginning
       const updated = [
         { ...topic, viewedAt: new Date().toISOString() },
         ...filtered,
       ]
-      // Keep only last 20
       return updated.slice(0, 20)
     })
   }

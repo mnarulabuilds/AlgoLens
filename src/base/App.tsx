@@ -1,11 +1,14 @@
-import React from "react"
+import React, { lazy } from "react"
+import { HashRouter as Router } from "react-router-dom"
 import SiteFooter from "./StickyFooter"
 import SiteHeader from "./StickyHeader"
-import Router from "routing/base/Router"
+import RouteSection, { DynamicLoader } from "routing/base/Router"
 import { UserProvider } from "common/context/UserContext"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import ErrorBoundary from "common/components/ErrorBoundary"
+
+const Breadcrumbs = lazy(() => import(`common/components/Breadcrumbs`))
 
 const theme = {
   palette: {
@@ -28,29 +31,30 @@ function App() {
   return (
     <ErrorBoundary>
       <UserProvider>
-        <div
-          className="App"
-          style={{
-            "--primary-light": theme.palette.primary.light,
-            "--primary-main": theme.palette.primary.main,
-            "--primary-dark": theme.palette.primary.dark,
-            "--primary-contrastText": theme.palette.primary.contrastText,
-            "--secondary-light": theme.palette.secondary.light,
-            "--secondary-main": theme.palette.secondary.main,
-            "--secondary-dark": theme.palette.secondary.dark,
-            "--secondary-contrastText": theme.palette.secondary.contrastText,
-          }}
-        >
-          <SiteHeader />
+        <Router>
           <div
-            style={{
-              marginTop: 70,
-            }}
+            className="App"
+            style={
+              {
+                "--primary-light": theme.palette.primary.light,
+                "--primary-main": theme.palette.primary.main,
+                "--primary-dark": theme.palette.primary.dark,
+                "--primary-contrastText": theme.palette.primary.contrastText,
+                "--secondary-light": theme.palette.secondary.light,
+                "--secondary-main": theme.palette.secondary.main,
+                "--secondary-dark": theme.palette.secondary.dark,
+                "--secondary-contrastText": theme.palette.secondary.contrastText,
+              } as any
+            }
           >
-            <Router />
+            <SiteHeader />
+            <div style={{ marginTop: 70 }}>
+              {DynamicLoader(Breadcrumbs)}
+              <RouteSection />
+            </div>
+            <SiteFooter />
           </div>
-          <SiteFooter />
-        </div>
+        </Router>
       </UserProvider>
     </ErrorBoundary>
   )

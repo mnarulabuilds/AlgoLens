@@ -7,7 +7,7 @@ const CategoryPage = lazy(() => import(`dashboard/CategoryPage`))
 const ProfilePage = lazy(() => import(`dashboard/ProfilePage`))
 const NotFound = lazy(() => import(`./NotFound`))
 
-export function DynamicLoader(LazyComponent, props) {
+export function DynamicLoader(LazyComponent, props: any = {}) {
   return (
     <Suspense
       fallback={
@@ -63,9 +63,6 @@ function RouteSection() {
 }
 
 export default function Routes() {
-  return (
-    <Router>
-      <RouteSection />
-    </Router>
-  )
+  return <RouteSection />
 }
+

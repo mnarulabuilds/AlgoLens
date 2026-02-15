@@ -1,9 +1,41 @@
-import React from "react"
-import Link from "./Link"
+import React, { Fragment } from "react"
+import { FaArrowRight } from "react-icons/fa"
 
-const Element = ({ type, data, highlight, next, AllGreater, AllSmaller }) => {
-  let element = null
-  let elStyles = {
+interface ElementProps {
+  type: string
+  data: {
+    value: any
+    index: number
+  }
+  highlight: boolean
+  next?: boolean
+  AllGreater?: boolean
+  AllSmaller?: boolean
+}
+
+const Link = ({ direction }: { direction: string }) => {
+  if (direction === "right") {
+    return (
+      <div style={{ display: "flex", alignItems: "center", padding: "0 10px" }}>
+        <FaArrowRight style={{ color: "white", fontSize: "24px" }} />
+      </div>
+    )
+  }
+  return null
+}
+
+const Element = ({
+  type,
+  data,
+  highlight,
+  next,
+  AllGreater,
+  AllSmaller,
+}: ElementProps) => {
+  if (!data) return null
+
+  let element: React.ReactNode = null
+  let elStyles: React.CSSProperties = {
     border: "1px solid white",
     background: "rgba(40,60,180,0.8)",
     width: "100%",
@@ -17,27 +49,29 @@ const Element = ({ type, data, highlight, next, AllGreater, AllSmaller }) => {
 
   switch (sanitizedType) {
     case "stack":
-      element = [
-        data.index === 0 && (
-          <div key="Top" style={{ padding: "8px", textAlign: "center" }}>
-            Top
+      element = (
+        <Fragment>
+          {data.index === 0 && (
+            <div key="Top" style={{ padding: "8px", textAlign: "center" }}>
+              Top
+            </div>
+          )}
+          <div
+            key={`${data.index}-${data.value}`}
+            style={{
+              ...elStyles,
+              background: highlight
+                ? "rgba(30,150,40,0.8)"
+                : "rgba(40,40,160,0.8)",
+              padding: "8px",
+              textAlign: "center",
+            }}
+          >
+            <div style={{ color: "white", fontSize: "18px" }}>{data.value}</div>
+            <div style={{ color: "white", fontSize: "12px" }}>{data.index}</div>
           </div>
-        ),
-        <div
-          key={`${data.index}-${data.value}`}
-          style={{
-            ...elStyles,
-            background: highlight
-              ? "rgba(30,150,40,0.8)"
-              : "rgba(40,40,160,0.8)",
-            padding: "8px",
-            textAlign: "center",
-          }}
-        >
-          <div style={{ color: "white", fontSize: "18px" }}>{data.value}</div>
-          <div style={{ color: "white", fontSize: "12px" }}>{data.index}</div>
-        </div>,
-      ]
+        </Fragment>
+      )
       break
 
     case "array":
@@ -116,10 +150,10 @@ const Element = ({ type, data, highlight, next, AllGreater, AllSmaller }) => {
             background: highlight
               ? "rgba(30,150,40,0.8)"
               : AllGreater
-              ? "rgba(242,19,23,0.8)"
-              : AllSmaller
-              ? "rgba(250,183,0,0.8)"
-              : "rgba(40,60,180,0.8)",
+                ? "rgba(242,19,23,0.8)"
+                : AllSmaller
+                  ? "rgba(250,183,0,0.8)"
+                  : "rgba(40,60,180,0.8)",
             borderRadius: "50%",
             minHeight: "100px",
             minWidth: "100px",
@@ -147,7 +181,7 @@ const Element = ({ type, data, highlight, next, AllGreater, AllSmaller }) => {
     default:
   }
 
-  return data && element
+  return <Fragment>{element}</Fragment>
 }
 
 export default Element

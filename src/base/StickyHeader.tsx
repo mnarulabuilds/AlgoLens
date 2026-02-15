@@ -16,6 +16,7 @@ export default function PrimarySearchAppBar() {
     <header className="app-bar">
       <nav className="toolbar">
         <section className="menu-sec">{DynamicLoader(FixedSideDrawer)}</section>
+
         <section className="search-sec">
           {DynamicLoader(Search, {
             id: "sitemapSuggestions",
@@ -29,11 +30,10 @@ export default function PrimarySearchAppBar() {
           <a
             aria-label="home page"
             href="#/"
-            className={`home-button ${
-              window.location.hash === "#/" || window.location.hash === ""
-                ? "disabled"
-                : ""
-            }`}
+            className={`home-button ${window.location.hash === "#/" || window.location.hash === ""
+              ? "disabled"
+              : ""
+              }`}
             title="Home"
           >
             <AiFillHome />

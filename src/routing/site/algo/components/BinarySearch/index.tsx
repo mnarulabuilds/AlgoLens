@@ -128,7 +128,13 @@ const BinarySearch = () => {
   }
 
   return (
-    <div>
+    <div className="container py-4">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h1 className="mb-0">Binary Search 🔍</h1>
+        <div className="complexity-badge" title="Time Complexity">
+          <span className="badge bg-dark">O(log n)</span>
+        </div>
+      </div>
       <div>
         <div className="mt-2">
           <Insert parent={{ insert, alert, setAlert }} alertId={1} />

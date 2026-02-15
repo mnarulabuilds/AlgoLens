@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, useMemo } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import parse from "autosuggest-highlight/parse"
 import match from "autosuggest-highlight/match"
@@ -41,6 +41,18 @@ export default function SearchSuggestions(props) {
     props.updateSelection && props.updateSelection({ ...option })
   }
 
+  const groupedOptions = useMemo(() => {
+    const groups: Record<string, any[]> = {}
+    filteredOptions.forEach((option: any) => {
+      const parts = option.title.split(" : ")
+      const category = parts[0] || "Other"
+      const title = parts[1] || parts[0]
+      if (!groups[category]) groups[category] = []
+      groups[category].push({ ...option, displayTitle: title })
+    })
+    return groups
+  }, [filteredOptions])
+
   return (
     <div className="search-container" ref={dropdownRef}>
       <div className="search-icon">
@@ -49,35 +61,43 @@ export default function SearchSuggestions(props) {
       <input
         type="text"
         className="search-input"
-        placeholder="Search Page"
+        placeholder="Search for an algorithm..."
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onFocus={() => inputValue && setOpen(true)}
       />
-      {open && filteredOptions.length > 0 && (
+      {open && Object.keys(groupedOptions).length > 0 && (
         <ul className="search-dropdown">
-          {filteredOptions.map((option, index) => {
-            const matches = match(option.title, inputValue)
-            const parts = parse(option.title, matches)
-            return (
-              <li
-                key={index}
-                className="search-dropdown-item"
-                onClick={() => handleSelect(option)}
-              >
-                <div>
-                  {parts.map((part, idx) => (
-                    <span
-                      key={idx}
-                      style={{ fontWeight: part.highlight ? 700 : 400 }}
-                    >
-                      {part.text}
-                    </span>
-                  ))}
-                </div>
-              </li>
-            )
-          })}
+          {Object.entries(groupedOptions).map(([category, options]) => (
+            <React.Fragment key={category}>
+              <li className="search-dropdown-category">{category}</li>
+              {options.map((option, index) => {
+                const matches = match(option.displayTitle, inputValue)
+                const parts = parse(option.displayTitle, matches)
+                return (
+                  <li
+                    key={`${category}-${index}`}
+                    className="search-dropdown-item"
+                    onClick={() => handleSelect(option)}
+                  >
+                    <div>
+                      {parts.map((part, idx) => (
+                        <span
+                          key={idx}
+                          style={{
+                            fontWeight: part.highlight ? 700 : 400,
+                            color: part.highlight ? "#4ecca3" : "inherit",
+                          }}
+                        >
+                          {part.text}
+                        </span>
+                      ))}
+                    </div>
+                  </li>
+                )
+              })}
+            </React.Fragment>
+          ))}
         </ul>
       )}
     </div>

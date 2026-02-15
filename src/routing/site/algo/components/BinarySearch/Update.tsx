@@ -10,7 +10,16 @@ import {
 import { MdExpandMore } from "react-icons/md"
 import "./BinarySearch.css"
 
-const Update = React.memo(({ parent, alertId }) => {
+interface UpdateProps {
+  parent: {
+    update: (position: number, data: string) => void
+    alert: { text: string; type: string; alertId: number } | null
+    setAlert: (alert: { text: string; type: string; alertId: number } | null) => void
+  }
+  alertId: number
+}
+
+const Update = React.memo(({ parent, alertId }: UpdateProps) => {
   const [data, setData] = useState(null)
   const [position, setPosition] = useState(null)
   const [isExpanded, setIsExpanded] = useState(false)

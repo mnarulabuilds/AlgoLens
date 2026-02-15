@@ -1,5 +1,8 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import styles from "./AStarPathfinding.module.css"
+import Cell from "./Cell"
+import useVisualizerControls from "common/hooks/useVisualizerControls"
+import { FaPlay, FaPause, FaStop } from "react-icons/fa"
 
 const GRID_ROWS = 20
 const GRID_COLS = 40
@@ -19,19 +22,32 @@ const AStarPathfinding = () => {
   const [start, setStart] = useState({ row: 5, col: 5 })
   const [end, setEnd] = useState({ row: 14, col: 34 })
   const [isDrawing, setIsDrawing] = useState(false)
-  const [isRunning, setIsRunning] = useState(false)
+  const [draggingNode, setDraggingNode] = useState(null)
   const [isComplete, setIsComplete] = useState(false)
-  const [speed, setSpeed] = useState(20)
   const [stats, setStats] = useState({ nodesVisited: 0, pathLength: 0 })
-  const [drawMode, setDrawMode] = useState("wall") // wall, start, end
-  const stopRef = useRef(false)
+
+  const {
+    isRunning,
+    setIsRunning,
+    isPaused,
+    setIsPaused,
+    speed,
+    setSpeed,
+    stopRef,
+    start: startVis,
+    stop: stopVis,
+    pause,
+    resume,
+    step,
+    wait,
+  } = useVisualizerControls(25)
 
   // Initialize grid
   useEffect(() => {
     initializeGrid()
   }, [])
 
-  const initializeGrid = () => {
+  const initializeGrid = useCallback(() => {
     const newGrid = []
     for (let row = 0; row < GRID_ROWS; row++) {
       const currentRow = []
@@ -51,21 +67,22 @@ const AStarPathfinding = () => {
     setGrid(newGrid)
     setIsComplete(false)
     setStats({ nodesVisited: 0, pathLength: 0 })
-  }
+    setIsRunning(false)
+    setIsPaused(false)
+  }, [setIsRunning, setIsPaused])
 
-  const heuristic = (node, end) => {
-    // Manhattan distance
-    return Math.abs(node.row - end.row) + Math.abs(node.col - end.col)
+  const heuristic = (node, target) => {
+    return Math.abs(node.row - target.row) + Math.abs(node.col - target.col)
   }
 
   const getNeighbors = (grid, node) => {
     const neighbors = []
     const { row, col } = node
     const directions = [
-      { r: -1, c: 0 }, // up
-      { r: 1, c: 0 }, // down
-      { r: 0, c: -1 }, // left
-      { r: 0, c: 1 }, // right
+      { r: -1, c: 0 },
+      { r: 1, c: 0 },
+      { r: 0, c: -1 },
+      { r: 0, c: 1 },
     ]
 
     directions.forEach(({ r, c }) => {
@@ -83,32 +100,15 @@ const AStarPathfinding = () => {
     return neighbors
   }
 
-  const reconstructPath = (endNode) => {
-    const path = []
-    let current = endNode
-    while (current !== null) {
-      path.unshift(current)
-      current = current.parent
-    }
-    return path
-  }
-
   const runAStar = async () => {
     if (isRunning) return
-    setIsRunning(true)
+    startVis()
     setIsComplete(false)
-    stopRef.current = false
 
-    // Reset grid cells except walls, start, and end
     const newGrid = grid.map((row) =>
       row.map((cell) => ({
         ...cell,
-        type:
-          cell.type === CELL_TYPE.WALL ||
-          (cell.row === start.row && cell.col === start.col) ||
-          (cell.row === end.row && cell.col === end.col)
-            ? cell.type
-            : CELL_TYPE.EMPTY,
+        type: cell.type === CELL_TYPE.WALL ? CELL_TYPE.WALL : CELL_TYPE.EMPTY,
         f: Infinity,
         g: Infinity,
         h: 0,
@@ -127,195 +127,164 @@ const AStarPathfinding = () => {
     const closedSet = new Set()
     let nodesVisited = 0
 
-    while (openSet.length > 0) {
-      if (stopRef.current) {
-        setIsRunning(false)
-        return
-      }
+    try {
+      while (openSet.length > 0) {
+        openSet.sort((a, b) => a.f - b.f)
+        const current = openSet.shift()
 
-      // Find node with lowest f score
-      openSet.sort((a, b) => a.f - b.f)
-      const current = openSet.shift()
+        if (current.row === endNode.row && current.col === endNode.col) {
+          let pathNode = current
+          const path = []
+          while (pathNode) {
+            path.unshift(pathNode)
+            pathNode = pathNode.parent
+          }
 
-      // Reached the end
-      if (current.row === endNode.row && current.col === endNode.col) {
-        const path = reconstructPath(current)
-        // Animate path
-        for (const node of path) {
-          if (
-            node.row !== start.row ||
-            node.col !== start.col ||
-            node.row !== end.row ||
-            node.col !== end.col
-          ) {
+          for (const node of path) {
             newGrid[node.row][node.col].type = CELL_TYPE.PATH
             setGrid([...newGrid])
-            await new Promise((resolve) => setTimeout(resolve, 50 - speed))
+            await wait()
           }
-        }
-        setStats({ nodesVisited, pathLength: path.length - 1 })
-        setIsComplete(true)
-        setIsRunning(false)
-        return
-      }
 
-      closedSet.add(`${current.row},${current.col}`)
-      if (current.row !== start.row || current.col !== start.col) {
-        newGrid[current.row][current.col].type = CELL_TYPE.CLOSED
-      }
-      nodesVisited++
-
-      const neighbors = getNeighbors(newGrid, current)
-
-      for (const neighbor of neighbors) {
-        if (
-          neighbor.type === CELL_TYPE.WALL ||
-          closedSet.has(`${neighbor.row},${neighbor.col}`)
-        ) {
-          continue
+          setStats({ nodesVisited, pathLength: path.length - 1 })
+          setIsComplete(true)
+          stopVis()
+          return
         }
 
-        const tentativeG = current.g + 1
+        closedSet.add(`${current.row},${current.col}`)
+        if (!(current.row === start.row && current.col === start.col)) {
+          newGrid[current.row][current.col].type = CELL_TYPE.CLOSED
+        }
+        nodesVisited++
 
-        if (tentativeG < neighbor.g) {
-          neighbor.parent = current
-          neighbor.g = tentativeG
-          neighbor.h = heuristic(neighbor, endNode)
-          neighbor.f = neighbor.g + neighbor.h
-
+        const neighbors = getNeighbors(newGrid, current)
+        for (const neighbor of neighbors) {
           if (
-            !openSet.find(
-              (n) => n.row === neighbor.row && n.col === neighbor.col
-            )
-          ) {
-            openSet.push(neighbor)
-            if (neighbor.row !== end.row || neighbor.col !== end.col) {
-              newGrid[neighbor.row][neighbor.col].type = CELL_TYPE.OPEN
+            neighbor.type === CELL_TYPE.WALL ||
+            closedSet.has(`${neighbor.row},${neighbor.col}`)
+          )
+            continue
+
+          const tentativeG = current.g + 1
+          if (tentativeG < neighbor.g) {
+            neighbor.parent = current
+            neighbor.g = tentativeG
+            neighbor.h = heuristic(neighbor, endNode)
+            neighbor.f = neighbor.g + neighbor.h
+
+            if (
+              !openSet.find(
+                (n) => n.row === neighbor.row && n.col === neighbor.col
+              )
+            ) {
+              openSet.push(neighbor)
+              if (!(neighbor.row === end.row && neighbor.col === end.col)) {
+                newGrid[neighbor.row][neighbor.col].type = CELL_TYPE.OPEN
+              }
             }
           }
         }
-      }
 
-      setGrid([...newGrid])
-      setStats({ nodesVisited, pathLength: 0 })
-      await new Promise((resolve) => setTimeout(resolve, 50 - speed))
+        setGrid([...newGrid])
+        setStats({ nodesVisited, pathLength: 0 })
+        await wait()
+      }
+    } catch (e) {
+      if (e.message !== "ALGORITHM_STOPPED") throw e
+      return
     }
 
-    // No path found
     setIsComplete(true)
-    setIsRunning(false)
-    alert("No path found!")
+    stopVis()
   }
 
   const handleMouseDown = (row, col) => {
-    setIsDrawing(true)
-    handleCellClick(row, col)
+    if (isRunning) return
+
+    if (row === start.row && col === start.col) {
+      setDraggingNode("start")
+    } else if (row === end.row && col === end.col) {
+      setDraggingNode("end")
+    } else {
+      setIsDrawing(true)
+      toggleWall(row, col)
+    }
   }
 
   const handleMouseEnter = (row, col) => {
-    if (isDrawing) {
-      handleCellClick(row, col)
+    if (isRunning) return
+
+    if (draggingNode === "start") {
+      if (row === end.row && col === end.col) return
+      setStart({ row, col })
+    } else if (draggingNode === "end") {
+      if (row === start.row && col === start.col) return
+      setEnd({ row, col })
+    } else if (isDrawing) {
+      toggleWall(row, col)
     }
   }
 
   const handleMouseUp = () => {
     setIsDrawing(false)
+    setDraggingNode(null)
   }
 
-  const handleCellClick = (row, col) => {
-    if (isRunning) return
-
+  const toggleWall = (row, col) => {
+    if (
+      (row === start.row && col === start.col) ||
+      (row === end.row && col === end.col)
+    )
+      return
     const newGrid = [...grid]
-    const cell = newGrid[row][col]
-
-    if (drawMode === "wall") {
-      // Don't allow walls on start or end
-      if (
-        (row === start.row && col === start.col) ||
-        (row === end.row && col === end.col)
-      ) {
-        return
-      }
-      cell.type =
-        cell.type === CELL_TYPE.WALL ? CELL_TYPE.EMPTY : CELL_TYPE.WALL
-    } else if (drawMode === "start") {
-      // Clear old start
-      if (grid[start.row][start.col].type !== CELL_TYPE.WALL) {
-        newGrid[start.row][start.col].type = CELL_TYPE.EMPTY
-      }
-      setStart({ row, col })
-      cell.type = CELL_TYPE.EMPTY
-    } else if (drawMode === "end") {
-      // Clear old end
-      if (grid[end.row][end.col].type !== CELL_TYPE.WALL) {
-        newGrid[end.row][end.col].type = CELL_TYPE.EMPTY
-      }
-      setEnd({ row, col })
-      cell.type = CELL_TYPE.EMPTY
+    newGrid[row][col] = {
+      ...newGrid[row][col],
+      type:
+        newGrid[row][col].type === CELL_TYPE.WALL
+          ? CELL_TYPE.EMPTY
+          : CELL_TYPE.WALL,
     }
-
     setGrid(newGrid)
   }
 
   const generateMaze = () => {
     if (isRunning) return
-    const newGrid = [...grid]
-
-    // Random maze generation
-    for (let row = 0; row < GRID_ROWS; row++) {
-      for (let col = 0; col < GRID_COLS; col++) {
-        if (
-          (row === start.row && col === start.col) ||
-          (row === end.row && col === end.col)
-        ) {
-          continue
-        }
-        newGrid[row][col].type =
-          Math.random() < 0.3 ? CELL_TYPE.WALL : CELL_TYPE.EMPTY
-      }
-    }
+    const newGrid = grid.map((row) =>
+      row.map((cell) => ({
+        ...cell,
+        type:
+          Math.random() < 0.3 &&
+            !(cell.row === start.row && cell.col === start.col) &&
+            !(cell.row === end.row && cell.col === end.col)
+            ? CELL_TYPE.WALL
+            : CELL_TYPE.EMPTY,
+      }))
+    )
     setGrid(newGrid)
-  }
-
-  const stopAlgorithm = () => {
-    stopRef.current = true
-  }
-
-  const getCellClass = (cell) => {
-    if (cell.row === start.row && cell.col === start.col) return styles.start
-    if (cell.row === end.row && cell.col === end.col) return styles.end
-
-    switch (cell.type) {
-      case CELL_TYPE.WALL:
-        return styles.wall
-      case CELL_TYPE.OPEN:
-        return styles.open
-      case CELL_TYPE.CLOSED:
-        return styles.closed
-      case CELL_TYPE.PATH:
-        return styles.path
-      default:
-        return styles.empty
-    }
   }
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>A* Pathfinding Algorithm 🎯</h1>
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h1 className={`${styles.title} mb-0`}>A* Pathfinding Algorithm 🎯</h1>
+        <div className="complexity-badge" title="Time Complexity">
+          <span className="badge bg-dark">O(E log V)</span>
+        </div>
+      </div>
 
-      {/* Legend */}
       <div className={styles.legend}>
         <div className={styles.legendItem}>
           <div className={`${styles.legendBox} ${styles.start}`} />
-          <span>Start</span>
+          <span>Start (Draggable)</span>
         </div>
         <div className={styles.legendItem}>
           <div className={`${styles.legendBox} ${styles.end}`} />
-          <span>End</span>
+          <span>End (Draggable)</span>
         </div>
         <div className={styles.legendItem}>
           <div className={`${styles.legendBox} ${styles.wall}`} />
-          <span>Wall</span>
+          <span>Wall (Click/Drag)</span>
         </div>
         <div className={styles.legendItem}>
           <div className={`${styles.legendBox} ${styles.open}`} />
@@ -331,27 +300,13 @@ const AStarPathfinding = () => {
         </div>
       </div>
 
-      {/* Controls */}
       <div className={styles.controls}>
-        <div className={styles.controlGroup}>
-          <label>Draw Mode:</label>
-          <select
-            value={drawMode}
-            onChange={(e) => setDrawMode(e.target.value)}
-            disabled={isRunning}
-          >
-            <option value="wall">Wall</option>
-            <option value="start">Start Point</option>
-            <option value="end">End Point</option>
-          </select>
-        </div>
-
         <div className={styles.controlGroup}>
           <label>Speed:</label>
           <input
             type="range"
-            min="0"
-            max="45"
+            min="1"
+            max="49"
             value={speed}
             onChange={(e) => setSpeed(Number(e.target.value))}
             className={styles.slider}
@@ -366,13 +321,31 @@ const AStarPathfinding = () => {
           {isRunning ? "Running..." : "Run A*"}
         </button>
 
-        <button
-          onClick={stopAlgorithm}
-          disabled={!isRunning}
-          className={styles.btnSecondary}
-        >
-          Stop
-        </button>
+        <div className="d-flex gap-2">
+          {isRunning && (
+            <>
+              <button
+                className="btn btn-warning btn-sm"
+                onClick={isPaused ? resume : pause}
+                title={isPaused ? "Resume" : "Pause"}
+              >
+                {isPaused ? <FaPlay /> : <FaPause />}
+              </button>
+              {isPaused && (
+                <button
+                  className="btn btn-info btn-sm"
+                  onClick={step}
+                  title="Next Step"
+                >
+                  Step
+                </button>
+              )}
+              <button className="btn btn-danger btn-sm" onClick={stopVis} title="Stop">
+                <FaStop />
+              </button>
+            </>
+          )}
+        </div>
 
         <button
           onClick={generateMaze}
@@ -391,7 +364,6 @@ const AStarPathfinding = () => {
         </button>
       </div>
 
-      {/* Stats */}
       <div className={styles.stats}>
         <div className={styles.stat}>
           <span className={styles.statLabel}>Nodes Visited:</span>
@@ -405,17 +377,20 @@ const AStarPathfinding = () => {
         )}
       </div>
 
-      {/* Grid */}
       <div className={styles.gridContainer} onMouseLeave={handleMouseUp}>
         <div className={styles.grid}>
           {grid.map((row, rowIdx) => (
             <div key={rowIdx} className={styles.row}>
               {row.map((cell, colIdx) => (
-                <div
+                <Cell
                   key={`${rowIdx}-${colIdx}`}
-                  className={`${styles.cell} ${getCellClass(cell)}`}
-                  onMouseDown={() => handleMouseDown(rowIdx, colIdx)}
-                  onMouseEnter={() => handleMouseEnter(rowIdx, colIdx)}
+                  row={rowIdx}
+                  col={colIdx}
+                  type={cell.type}
+                  isStart={rowIdx === start.row && colIdx === start.col}
+                  isEnd={rowIdx === end.row && colIdx === end.col}
+                  onMouseDown={handleMouseDown}
+                  onMouseEnter={handleMouseEnter}
                   onMouseUp={handleMouseUp}
                 />
               ))}
@@ -424,23 +399,19 @@ const AStarPathfinding = () => {
         </div>
       </div>
 
-      {/* Instructions */}
       <div className={styles.instructions}>
-        <h3>How to use:</h3>
+        <h3>Quick Guide:</h3>
         <ul>
-          <li>Select &quot;Wall&quot; mode and click/drag to draw walls</li>
           <li>
-            Select &quot;Start Point&quot; or &quot;End Point&quot; mode to
-            reposition them
-          </li>
-          <li>Click &quot;Generate Maze&quot; for a random maze</li>
-          <li>
-            Click &quot;Run A*&quot; to watch the algorithm find the shortest
-            path
+            <strong>Move Points:</strong> Drag the Green (Start) or Red (End)
+            nodes.
           </li>
           <li>
-            A* uses f(n) = g(n) + h(n) where g is cost from start, h is
-            heuristic to goal
+            <strong>Draw Walls:</strong> Click and drag on empty (White) cells.
+          </li>
+          <li>
+            <strong>Visualize:</strong> Click "Run A*" to see the algorithm find
+            the shortest path.
           </li>
         </ul>
       </div>

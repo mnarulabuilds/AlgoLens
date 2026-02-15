@@ -230,7 +230,10 @@ export default function EnhancedTable({
       let res = false
       for (let id of searchIds) {
         if (!res) {
-          res = row[id].includes(searchText)
+          const val = row[id]
+          res = String(val !== null && val !== undefined ? val : "")
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
         }
       }
       return res
@@ -328,7 +331,7 @@ export default function EnhancedTable({
                         type="checkbox"
                         className="form-check-input"
                         checked={isItemSelected}
-                        onChange={() => {}}
+                        onChange={() => { }}
                         aria-labelledby={labelId}
                       />
                     </td>

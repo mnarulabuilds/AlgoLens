@@ -8,7 +8,16 @@ import {
 } from "reactstrap"
 import { MdExpandMore } from "react-icons/md"
 
-const Delete = React.memo(({ parent, alertId }) => {
+interface DeleteProps {
+  parent: {
+    deleteItem: (data: string, position: number) => void
+    alert: { text: string; type: string; alertId: number } | null
+    setAlert: (alert: { text: string; type: string; alertId: number } | null) => void
+  }
+  alertId: number
+}
+
+const Delete = React.memo(({ parent, alertId }: DeleteProps) => {
   const [data, setData] = useState(null)
   const [position, setPosition] = useState(null)
 

@@ -1,7 +1,7 @@
 import React from "react"
 import "./PseudocodeViewer.css"
 
-const PseudocodeViewer = ({ pseudocode, title }) => {
+const PseudocodeViewer = ({ pseudocode, title, highlightedLine }) => {
   return (
     <div className="pseudocode-viewer">
       <div className="pseudocode-header">
@@ -10,7 +10,11 @@ const PseudocodeViewer = ({ pseudocode, title }) => {
       <div className="pseudocode-content">
         <pre className="pseudocode-block">
           {pseudocode.map((line, index) => (
-            <div key={index} className="pseudocode-line">
+            <div
+              key={index}
+              className={`pseudocode-line ${highlightedLine === index ? "highlighted" : ""
+                }`}
+            >
               <span className="line-number">{index + 1}</span>
               <code
                 className="line-code"

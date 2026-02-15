@@ -40,33 +40,35 @@
   align-items: flex-end;
   justify-content: center;
   width: 100%;
-  max-width: 1000px;
-  height: 60vh;
+  height: 400px;
+  background: #f8f9fa;
+  padding: 20px;
+  gap: 2px;
 }
 
 .array-bar {
-  background-color: teal;
-  margin: 0 2px;
-  width: calc(100% / 100);
-  transition: height 0.1s, background-color 0.3s;
+  background: linear-gradient(180deg, #4ecca3, #45b291);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  position: relative;
 }
 
-.array-bar:hover {
-  background-color: #007acc;
+.bar-value {
+  font-size: 10px;
+  color: #333;
+  margin-bottom: 4px;
+  font-weight: 700;
 }
 
-.pseudocode-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: 600;
-  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+.range-control {
+  min-width: 120px;
 }
 
-.pseudocode-btn:hover {
-  box-shadow: 0 6px 12px rgba(102, 126, 234, 0.4) !important;
-  transform: translateY(-2px);
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+.visualization-title {
+  font-weight: 800;
+  background: linear-gradient(90deg, #4ecca3, #007acc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
