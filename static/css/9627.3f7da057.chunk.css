@@ -1,2 +1,0 @@
-.game-prisoners-dilemma{align-items:center;display:flex;flex-direction:column;justify-content:center}.grid{grid-gap:8px;display:grid;margin:48px}.cell,.row{display:flex}.cell{align-items:center;border:2px solid #ddd;color:#fff;cursor:pointer;font-size:.8rem;height:72px;justify-content:center;transition:background-color .3s,transform .3s}.cell.C{background-color:#4caf50}.cell.D{background-color:#f44336}.cell:hover{transform:scale(1.1)}
-/*# sourceMappingURL=9627.3f7da057.chunk.css.map*/
