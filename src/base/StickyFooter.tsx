@@ -91,7 +91,7 @@ export default function StickyFooter(props) {
     setDialogConfig({
       title: "Report a Bug",
       open: {
-        callback: () => console.log("Bug report opened"),
+        callback: () => { },
       },
       close: {
         callback: () => setDialogConfig(null),
@@ -151,8 +151,8 @@ export default function StickyFooter(props) {
             boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
           }}
           onClick={openBugReport}
-          onMouseEnter={(e) => (e.target.style.transform = "scale(1.05)")}
-          onMouseLeave={(e) => (e.target.style.transform = "scale(1)")}
+          onMouseEnter={(e) => ((e.target as HTMLElement).style.transform = "scale(1.05)")}
+          onMouseLeave={(e) => ((e.target as HTMLElement).style.transform = "scale(1)")}
         >
           Report A Bug
         </button>

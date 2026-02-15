@@ -11,7 +11,6 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     // In a real app, you'd send this to a backend
-    console.log("Bug Report Submitted:", { title, description, file })
     setSubmitted(true)
     if (onSubmit) {
       setTimeout(() => {
@@ -67,7 +66,7 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
         <textarea
           id="bug-desc"
           className="form-control"
-          rows="4"
+          rows={4}
           placeholder="Explain the steps to reproduce the issue..."
           value={description}
           onChange={(e) => setDescription(e.target.value)}

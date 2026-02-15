@@ -22,16 +22,6 @@ body {
   min-height: 100vh;
 }
 
-.link-label {
-  margin: 0 auto;
-  position: relative;
-  top: 30px;
-}
-
-.link {
-  margin: 32px 12px;
-}
-
 .content {
   -moz-flex-grow: 1;
   -webkit-flex-grow: 1;
@@ -40,31 +30,4 @@ body {
   overflow: auto;
   min-height: 600px;
   padding: 1em;
-}
-
-.ico {
-  border: solid black;
-  border-width: 0 3px 3px 0;
-  display: inline-block;
-  padding: 6px;
-}
-
-.right {
-  transform: rotate(-45deg);
-  -webkit-transform: rotate(-45deg);
-}
-
-.left {
-  transform: rotate(135deg);
-  -webkit-transform: rotate(135deg);
-}
-
-.up {
-  transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
-}
-
-.down {
-  transform: rotate(45deg);
-  -webkit-transform: rotate(45deg);
 }

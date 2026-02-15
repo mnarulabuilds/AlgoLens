@@ -34,9 +34,9 @@
 - **Frontend**: React.js
 - **Styling**: Bootstrap 5, Styled Components
 - **Visualization**: Three.js (`@react-three/fiber`, `@react-three/drei`), Chart.js
-- **Logic**: Math.js, Chess.js, Web Workers (`worker-loader`)
+- **Logic**: Math.js, Chess.js, Web Workers
 - **Routing**: React Router
-- **Build tooling**: `react-app-rewired` (CRA overrides)
+- **Build tooling**: Vite 7
 
 ## ✅ Prerequisites
 
@@ -76,10 +76,9 @@
 
 ## 📜 Scripts
 
-- **`npm start`**: run locally (development)
+- **`npm run dev`**: run locally (development)
 - **`npm run build`**: production build
-- **`npm test`**: run tests (CRA)
-- **`npm run serve`**: serve the production build at `http://localhost:3000`
+- **`npm run preview`**: preview the production build locally
 - **`npm run deploy`**: deploy to GitHub Pages (uses `gh-pages`)
 
 ## 🧭 Project Structure (high-level)
