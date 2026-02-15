@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import * as THREE from "three"
-import Worker from "worker-loader!./generatePoints.worker"
+import MyWorker from "./generatePoints.worker?worker"
 
 const Plot3D = ({ equation, precision = 0.5 }) => {
   const [points, setPoints] = useState([])
@@ -16,7 +16,7 @@ const Plot3D = ({ equation, precision = 0.5 }) => {
   const sphereGeometryRef = useRef()
 
   useEffect(() => {
-    const worker = new Worker()
+    const worker = new MyWorker()
 
     worker.onmessage = (e) => {
       const pointsArray = e.data.map(
