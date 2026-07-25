@@ -5,7 +5,7 @@ import path from 'path';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/AlgoLens/',
+  base: '/',
   resolve: {
     alias: {
       'base': path.resolve(__dirname, './src/base'),
