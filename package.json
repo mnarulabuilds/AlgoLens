@@ -6,8 +6,6 @@
     "node": "16.16.0",
     "npm": "8.11.0"
   },
-  "homepage": "/AlgoLens/#",
-  "proxy": "http://localhost:3000",
   "dependencies": {
     "@react-three/drei": "^9.106.0",
     "@react-three/fiber": "^8.16.7",
@@ -39,8 +37,6 @@
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --quiet",
     "typecheck:strict": "tsc -p tsconfig.strict.json --noEmit",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "serve": "serve -s build -l 3000"
   },
   "browserslist": {
