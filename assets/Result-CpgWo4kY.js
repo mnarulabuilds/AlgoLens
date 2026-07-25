@@ -1,0 +1,1 @@
+import{R as a,j as s}from"./index-CYsF4TiW.js";const l=a.memo(({result:e,resetGame:t})=>s.jsxs("div",{className:"result",children:[s.jsx("h2",{className:"result-text",children:e}),s.jsx("button",{onClick:t,className:"reset-button",children:"Play Again"})]}));l.displayName="RockPaperScissors.Result";export{l as default};
