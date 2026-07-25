@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "paths": {
+      "base/*": ["base/*"],
+      "common/*": ["common/*"],
+      "dashboard/*": ["routing/base/__strict_shims__/*"],
+      "routing/*": ["routing/*"],
+      "src/*": ["*"]
+    }
+  },
+  "include": [
+    "src/common/**/*",
+    "src/routing/base/**/*",
+    "src/vite-env.d.ts"
+  ],
+  "exclude": ["node_modules", "build"]
+}

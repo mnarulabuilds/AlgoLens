@@ -16,7 +16,7 @@ const CPUScheduling = () => {
 
   const calculateFCFS = () => {
     let time = 0
-    let chart = []
+    const chart = []
     let totalWaiting = 0
     let totalTurnaround = 0
 

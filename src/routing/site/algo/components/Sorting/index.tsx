@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import { FaCode, FaPlay, FaPause, FaStop, FaRandom } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"

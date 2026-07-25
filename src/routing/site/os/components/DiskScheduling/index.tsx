@@ -16,7 +16,7 @@ const DiskScheduling = () => {
       .map((r) => parseInt(r.trim()))
       .filter((r) => !isNaN(r))
     let currentHead = initialHead
-    let sequence = [initialHead]
+    const sequence = [initialHead]
     let movement = 0
 
     requests.forEach((req) => {
@@ -34,7 +34,7 @@ const DiskScheduling = () => {
       .split(",")
       .map((r) => parseInt(r.trim()))
       .filter((r) => !isNaN(r))
-    let sequence = [initialHead]
+    const sequence = [initialHead]
     let movement = 0
     let currentHead = initialHead
 

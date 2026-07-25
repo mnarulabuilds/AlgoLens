@@ -25,8 +25,8 @@ const Ball = ({
   }, [position, velocity])
 
   const moveBall = () => {
-    let newPosition = { ...position }
-    let newVelocity = { ...velocity }
+    const newPosition = { ...position }
+    const newVelocity = { ...velocity }
 
     newPosition.x += newVelocity.x
     newPosition.y += newVelocity.y

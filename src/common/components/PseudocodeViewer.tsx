@@ -1,7 +1,22 @@
 import React from "react"
 import "./PseudocodeViewer.css"
 
-const PseudocodeViewer = ({ pseudocode, title, highlightedLine }) => {
+export type PseudocodeLine = {
+  text: string
+  indent: number
+}
+
+type PseudocodeViewerProps = {
+  pseudocode: PseudocodeLine[]
+  title?: string
+  highlightedLine?: number
+}
+
+const PseudocodeViewer = ({
+  pseudocode,
+  title,
+  highlightedLine,
+}: PseudocodeViewerProps) => {
   return (
     <div className="pseudocode-viewer">
       <div className="pseudocode-header">
@@ -12,8 +27,9 @@ const PseudocodeViewer = ({ pseudocode, title, highlightedLine }) => {
           {pseudocode.map((line, index) => (
             <div
               key={index}
-              className={`pseudocode-line ${highlightedLine === index ? "highlighted" : ""
-                }`}
+              className={`pseudocode-line ${
+                highlightedLine === index ? "highlighted" : ""
+              }`}
             >
               <span className="line-number">{index + 1}</span>
               <code

@@ -1,6 +1,6 @@
-import React, { Suspense, lazy, ComponentType } from "react"
+import React, { Suspense, lazy, ComponentType, ReactNode } from "react"
 import { Route, Switch } from "react-router-dom"
-import { siteSuggestions } from "./routes"
+import { siteSuggestions, SiteSuggestion } from "./routes"
 
 const Dashboard = lazy(() => import("dashboard/index"))
 const CategoryPage = lazy(() => import("dashboard/CategoryPage"))
@@ -10,11 +10,10 @@ const NotFound = lazy(() => import("./NotFound"))
 // Vite needs a statically analyzable glob so every visualizer becomes its own chunk.
 const siteModules = import.meta.glob("../site/**/index.tsx")
 
-type SiteRoute = {
-  route: string
-  path: string
-  title: string
-  Component: React.LazyExoticComponent<ComponentType<any>>
+type AnyComponent = ComponentType<Record<string, unknown>>
+
+type SiteRoute = SiteSuggestion & {
+  Component: React.LazyExoticComponent<AnyComponent>
 }
 
 const siteRoutes: SiteRoute[] = siteSuggestions.map((site) => {
@@ -27,16 +26,25 @@ const siteRoutes: SiteRoute[] = siteSuggestions.map((site) => {
     )
   }
 
+  const fallbackLoader = () => import("./NotFound")
+
   return {
     ...site,
     Component: lazy(
-      (loader as () => Promise<{ default: ComponentType<any> }>) ??
-        (() => import("./NotFound"))
+      (loader as (() => Promise<{ default: AnyComponent }>) | undefined) ??
+        fallbackLoader
     ),
   }
 })
 
-export function DynamicLoader(LazyComponent, props: any = {}) {
+type DynamicLoaderProps = Record<string, unknown> & {
+  children?: ReactNode
+}
+
+export function DynamicLoader(
+  LazyComponent: React.LazyExoticComponent<AnyComponent> | AnyComponent,
+  props: DynamicLoaderProps = {}
+) {
   return (
     <Suspense
       fallback={
@@ -54,7 +62,7 @@ export function DynamicLoader(LazyComponent, props: any = {}) {
         </div>
       }
     >
-      <LazyComponent {...props}>{props?.children}</LazyComponent>
+      <LazyComponent {...props}>{props.children}</LazyComponent>
     </Suspense>
   )
 }

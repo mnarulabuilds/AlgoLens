@@ -1,15 +1,44 @@
-import React, { useEffect } from "react"
+import React, { useEffect, ReactNode } from "react"
 import "./CustomizedDialogs.css"
 
-export default function CustomizedDialogs({ dialogConfig }) {
+type DialogAction = {
+  text?: string
+  callback?: (close?: () => void) => void
+}
+
+type DialogOpenConfig = {
+  callback?: () => void
+}
+
+export type DialogConfig = {
+  open?: boolean | DialogOpenConfig
+  close?: DialogAction
+  title?: string
+  contentJSX?: ReactNode
+  accept?: DialogAction
+  reject?: DialogAction
+}
+
+type CustomizedDialogsProps = {
+  dialogConfig?: DialogConfig | null
+}
+
+export default function CustomizedDialogs({
+  dialogConfig,
+}: CustomizedDialogsProps) {
   useEffect(() => {
-    if (dialogConfig && dialogConfig.open && dialogConfig.open.callback) {
+    if (
+      dialogConfig &&
+      dialogConfig.open &&
+      typeof dialogConfig.open === "object" &&
+      dialogConfig.open.callback
+    ) {
       dialogConfig.open.callback()
     }
   }, [dialogConfig])
 
   const handleClose = () => {
-    if (dialogConfig && dialogConfig.close && dialogConfig.close.callback) {
+    if (dialogConfig?.close?.callback) {
       dialogConfig.close.callback()
     }
   }
@@ -39,7 +68,7 @@ export default function CustomizedDialogs({ dialogConfig }) {
               <button
                 className="dialog-button accept"
                 onClick={() => {
-                  if (dialogConfig.accept.callback) {
+                  if (dialogConfig.accept?.callback) {
                     dialogConfig.accept.callback(() => {
                       handleClose()
                     })
@@ -55,7 +84,7 @@ export default function CustomizedDialogs({ dialogConfig }) {
               <button
                 className="dialog-button reject"
                 onClick={() => {
-                  if (dialogConfig.reject.callback) {
+                  if (dialogConfig.reject?.callback) {
                     dialogConfig.reject.callback(() => {
                       handleClose()
                     })

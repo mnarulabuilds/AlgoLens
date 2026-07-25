@@ -29,10 +29,10 @@ const BankersAlgorithm = () => {
       row.map((val, j) => max[i][j] - val)
     )
 
-    let work = [...available]
-    let finish = new Array(n).fill(false)
-    let safeSequence = []
-    let currentSteps = []
+    const work = [...available]
+    const finish = new Array(n).fill(false)
+    const safeSequence = []
+    const currentSteps = []
 
     for (let k = 0; k < n; k++) {
       let found = false

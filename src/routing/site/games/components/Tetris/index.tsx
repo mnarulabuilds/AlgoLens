@@ -292,7 +292,7 @@ export default function TetrisBossRush() {
     let b = [...bag]
     let nb = [...nextBag]
 
-    let key = q.shift()
+    const key = q.shift()
     if (q.length < 3) {
       if (b.length === 0) {
         b = nb
@@ -445,7 +445,7 @@ export default function TetrisBossRush() {
           case "ArrowUp":
           case "w":
           case "W": {
-            let rotated = rotate(cur.shape, 1)
+            const rotated = rotate(cur.shape, 1)
             const kicks = [
               [0, 0],
               [-1, 0],

@@ -30,8 +30,8 @@ const FloydWarshallVisualizer = () => {
   }
 
   const runFW = () => {
-    let dist = matrix.map((row) => [...row])
-    let steps = []
+    const dist = matrix.map((row) => [...row])
+    const steps = []
 
     for (let k = 0; k < nodes.length; k++) {
       for (let i = 0; i < nodes.length; i++) {

@@ -4,11 +4,29 @@ import parse from "autosuggest-highlight/parse"
 import match from "autosuggest-highlight/match"
 import "./SearchSuggestions.css"
 
-export default function SearchSuggestions(props) {
+export type SearchOption = {
+  title?: string
+  data?: string
+  route?: string
+  path?: string
+  [key: string]: unknown
+}
+
+type SearchSuggestionsProps = {
+  id?: string
+  searchOps: SearchOption[]
+  updateSelection?: (selection: SearchOption) => void
+}
+
+type GroupedOption = SearchOption & {
+  displayTitle: string
+}
+
+export default function SearchSuggestions(props: SearchSuggestionsProps) {
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState("")
-  const [filteredOptions, setFilteredOptions] = useState([])
-  const dropdownRef = useRef(null)
+  const [filteredOptions, setFilteredOptions] = useState<SearchOption[]>([])
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (inputValue) {
@@ -26,8 +44,9 @@ export default function SearchSuggestions(props) {
   }, [inputValue, props.searchOps])
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node | null
+      if (dropdownRef.current && target && !dropdownRef.current.contains(target)) {
         setOpen(false)
       }
     }
@@ -35,18 +54,18 @@ export default function SearchSuggestions(props) {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const handleSelect = (option) => {
+  const handleSelect = (option: SearchOption) => {
     setInputValue(option.title || option.data || "")
     setOpen(false)
-    props.updateSelection && props.updateSelection({ ...option })
+    props.updateSelection?.({ ...option })
   }
 
   const groupedOptions = useMemo(() => {
-    const groups: Record<string, any[]> = {}
-    filteredOptions.forEach((option: any) => {
-      const parts = option.title.split(" : ")
+    const groups: Record<string, GroupedOption[]> = {}
+    filteredOptions.forEach((option) => {
+      const parts = (option.title || "").split(" : ")
       const category = parts[0] || "Other"
-      const title = parts[1] || parts[0]
+      const title = parts[1] || parts[0] || ""
       if (!groups[category]) groups[category] = []
       groups[category].push({ ...option, displayTitle: title })
     })

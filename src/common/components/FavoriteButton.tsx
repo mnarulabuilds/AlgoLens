@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react"
 import { FaStar, FaRegStar } from "react-icons/fa"
-import { useUser } from "common/context/UserContext"
+import { useUser, TopicRef } from "common/context/UserContext"
 import "./FavoriteButton.css"
 
-const FavoriteButton = ({ topic }) => {
+type FavoriteButtonProps = {
+  topic: TopicRef
+}
+
+const FavoriteButton = ({ topic }: FavoriteButtonProps) => {
   const { addFavorite, removeFavorite, isFavorite } = useUser()
   const [favorited, setFavorited] = useState(false)
   const [showToast, setShowToast] = useState(false)
@@ -12,7 +16,7 @@ const FavoriteButton = ({ topic }) => {
     setFavorited(isFavorite(topic.id))
   }, [topic.id, isFavorite])
 
-  const handleToggleFavorite = (e) => {
+  const handleToggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault()
     e.stopPropagation()
 

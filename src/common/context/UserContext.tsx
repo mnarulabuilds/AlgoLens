@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react"
 
-interface User {
+export interface User {
   name: string
   email: string
   avatar: string
   joinedDate: string
 }
 
-interface Favorite {
+export interface Favorite {
   id: string
   label: string
   category: string
@@ -15,7 +15,7 @@ interface Favorite {
   addedAt: string
 }
 
-interface RecentlyViewed {
+export interface RecentlyViewed {
   id: string
   label: string
   category: string
@@ -23,22 +23,56 @@ interface RecentlyViewed {
   viewedAt: string
 }
 
+/** Topic payload used when favoriting or tracking a page view. */
+export interface TopicRef {
+  id: string
+  label: string
+  category: string
+  route: string
+}
+
 interface UserContextType {
   user: User
   updateUser: (userData: Partial<User>) => void
   favorites: Favorite[]
-  addFavorite: (topic: any) => boolean
+  addFavorite: (topic: TopicRef) => boolean
   removeFavorite: (topicId: string) => void
   isFavorite: (topicId: string) => boolean
   recentlyViewed: RecentlyViewed[]
-  addToRecentlyViewed: (topic: any) => void
+  addToRecentlyViewed: (topic: TopicRef) => void
   clearRecentlyViewed: () => void
-  getStats: () => { totalFavorites: number; totalViewed: number; categoriesExplored: number }
+  getStats: () => {
+    totalFavorites: number
+    totalViewed: number
+    categoriesExplored: number
+  }
+}
+
+const STORAGE_KEYS = {
+  user: "algolens_user",
+  favorites: "algolens_favorites",
+  recent: "algolens_recent",
+} as const
+
+function readStoredJson<T>(key: string): T | null {
+  try {
+    const raw = localStorage.getItem(key)
+    if (!raw) return null
+    return JSON.parse(raw) as T
+  } catch (error) {
+    console.warn(`[AlgoLens] Ignoring corrupt localStorage key "${key}"`, error)
+    try {
+      localStorage.removeItem(key)
+    } catch {
+      // ignore quota / private-mode failures
+    }
+    return null
+  }
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
-export const useUser = () => {
+export const useUser = (): UserContextType => {
   const context = useContext(UserContext)
   if (!context) {
     throw new Error("useUser must be used within UserProvider")
@@ -46,7 +80,9 @@ export const useUser = () => {
   return context
 }
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User>({
     name: "Guest User",
     email: "",
@@ -57,41 +93,48 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [favorites, setFavorites] = useState<Favorite[]>([])
   const [recentlyViewed, setRecentlyViewed] = useState<RecentlyViewed[]>([])
 
-  // Load data from localStorage on mount
   useEffect(() => {
-    const savedUser = localStorage.getItem("algolens_user")
-    const savedFavorites = localStorage.getItem("algolens_favorites")
-    const savedRecent = localStorage.getItem("algolens_recent")
+    const savedUser = readStoredJson<User>(STORAGE_KEYS.user)
+    const savedFavorites = readStoredJson<Favorite[]>(STORAGE_KEYS.favorites)
+    const savedRecent = readStoredJson<RecentlyViewed[]>(STORAGE_KEYS.recent)
 
-    if (savedUser) {
-      setUser(JSON.parse(savedUser))
-    }
-    if (savedFavorites) {
-      setFavorites(JSON.parse(savedFavorites))
-    }
-    if (savedRecent) {
-      setRecentlyViewed(JSON.parse(savedRecent))
-    }
+    if (savedUser) setUser(savedUser)
+    if (savedFavorites) setFavorites(savedFavorites)
+    if (savedRecent) setRecentlyViewed(savedRecent)
   }, [])
 
-  // Save to localStorage when data changes
   useEffect(() => {
-    localStorage.setItem("algolens_user", JSON.stringify(user))
+    try {
+      localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
+    } catch (error) {
+      console.warn("[AlgoLens] Failed to persist user", error)
+    }
   }, [user])
 
   useEffect(() => {
-    localStorage.setItem("algolens_favorites", JSON.stringify(favorites))
+    try {
+      localStorage.setItem(STORAGE_KEYS.favorites, JSON.stringify(favorites))
+    } catch (error) {
+      console.warn("[AlgoLens] Failed to persist favorites", error)
+    }
   }, [favorites])
 
   useEffect(() => {
-    localStorage.setItem("algolens_recent", JSON.stringify(recentlyViewed))
+    try {
+      localStorage.setItem(
+        STORAGE_KEYS.recent,
+        JSON.stringify(recentlyViewed)
+      )
+    } catch (error) {
+      console.warn("[AlgoLens] Failed to persist recently viewed", error)
+    }
   }, [recentlyViewed])
 
   const updateUser = (userData: Partial<User>) => {
     setUser((prev) => ({ ...prev, ...userData }))
   }
 
-  const addFavorite = (topic: any) => {
+  const addFavorite = (topic: TopicRef) => {
     if (!favorites.find((fav) => fav.id === topic.id)) {
       setFavorites((prev) => [
         ...prev,
@@ -110,7 +153,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return favorites.some((fav) => fav.id === topicId)
   }
 
-  const addToRecentlyViewed = (topic: any) => {
+  const addToRecentlyViewed = (topic: TopicRef) => {
     setRecentlyViewed((prev) => {
       const filtered = prev.filter((item) => item.id !== topic.id)
       const updated = [
@@ -133,7 +176,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }
 
-  const value = {
+  const value: UserContextType = {
     user,
     updateUser,
     favorites,

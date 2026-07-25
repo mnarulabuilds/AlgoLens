@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react"
+import { useHistory } from "react-router-dom"
 import { motion, AnimatePresence } from "framer-motion"
 import { pages } from "routing/base/routes"
 import useOutsideClick from "common/hooks/useOutsideClick"
@@ -40,18 +41,19 @@ const cleanLabel = (label) => {
 }
 
 const SideDrawer = () => {
-  const sideDrawerRef = useRef(null)
+  const history = useHistory()
+  const sideDrawerRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
-  const [openSections, setOpenSections] = useState({})
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({})
 
   // Toggle drawer state
-  const toggleDrawer = (e) => {
+  const toggleDrawer = (e?: React.MouseEvent) => {
     if (e) e.stopPropagation()
     setIsOpen(!isOpen)
   }
 
   // Toggle section expansion
-  const toggleSection = (topic, e) => {
+  const toggleSection = (topic: string, e?: React.MouseEvent) => {
     if (e) e.stopPropagation()
     setOpenSections((prevState) => ({
       ...prevState,
@@ -60,8 +62,8 @@ const SideDrawer = () => {
   }
 
   // Close everything when an item is selected
-  const handleItemClick = (category, page) => {
-    window.location.hash = `/${category}/${page}`
+  const handleItemClick = (category: string, page: string) => {
+    history.push(`/${category}/${page}`)
     setIsOpen(false)
   }
 

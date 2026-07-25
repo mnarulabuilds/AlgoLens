@@ -5,12 +5,12 @@ import Pop from "./Pop"
 import Get from "./Get"
 
 export default function Stack() {
-  let [array, setArray] = useState([])
-  let [highlights, setHighlights] = useState(null)
-  let [where, setWhere] = useState("Top")
-  let [result, setResult] = useState(null)
+  const [array, setArray] = useState([])
+  const [highlights, setHighlights] = useState(null)
+  const [where, setWhere] = useState("Top")
+  const [result, setResult] = useState(null)
 
-  let [radioVal, setRadioVal] = useState(false)
+  const [radioVal, setRadioVal] = useState(false)
 
   const containerStyle = {
     display: "flex",
@@ -66,14 +66,14 @@ export default function Stack() {
     gap: "8px",
   }
 
-  let showOperation = (event) => {
-    let operation = event.target.value
+  const showOperation = (event) => {
+    const operation = event.target.value
     setRadioVal(operation)
   }
 
-  let push = (data) => {
+  const push = (data) => {
     if (data) {
-      let arr = array
+      const arr = array
       arr.splice(0, 0, data)
       setArray(arr)
       setHighlights([0])
@@ -83,16 +83,16 @@ export default function Stack() {
     }
   }
 
-  let pop = () => {
-    let arr = array
+  const pop = () => {
+    const arr = array
     arr.splice(0, 1)
     setArray(arr)
     setHighlights([])
     setResult(null)
   }
 
-  let get = () => {
-    let arr = array
+  const get = () => {
+    const arr = array
 
     switch (where.toLowerCase()) {
       case "top":
@@ -173,7 +173,7 @@ export default function Stack() {
       <div style={{ flex: "1 1 auto", marginLeft: "16px" }}>
         <div style={boxStyle}>
           {array.map((value, index) => {
-            let highlight = highlights && highlights.includes(index)
+            const highlight = highlights && highlights.includes(index)
             return (
               <Element
                 highlight={highlight}

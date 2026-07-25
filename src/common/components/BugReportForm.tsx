@@ -1,25 +1,58 @@
-import React, { useState } from "react"
+import React, { useState, FormEvent, ChangeEvent } from "react"
 import { motion } from "framer-motion"
-import { FaBug, FaUpload, FaCheckCircle } from "react-icons/fa"
+import { FaBug, FaUpload, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa"
+import {
+  sendBugReportEmail,
+  isBugReportConfigured,
+  BugReportPayload,
+} from "common/helpers/sendBugReport"
 
-const BugReportForm = ({ onSubmit, onCancel }) => {
+export type { BugReportPayload }
+
+type BugReportFormProps = {
+  onSubmit?: (payload: BugReportPayload) => void
+  onCancel?: () => void
+}
+
+const BugReportForm = ({ onSubmit, onCancel }: BugReportFormProps) => {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
-  const [file, setFile] = useState(null)
-  const [submitted, setSubmitted] = useState(false)
+  const [reporterEmail, setReporterEmail] = useState("")
+  const [file, setFile] = useState<File | null>(null)
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
+    "idle"
+  )
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const handleSubmit = (e) => {
+  const configured = isBugReportConfigured()
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // In a real app, you'd send this to a backend
-    setSubmitted(true)
-    if (onSubmit) {
-      setTimeout(() => {
-        onSubmit({ title, description, file })
-      }, 2000)
+    if (!configured || status === "sending") return
+
+    setStatus("sending")
+    setErrorMessage("")
+
+    const payload: BugReportPayload = {
+      title: title.trim(),
+      description: description.trim(),
+      file,
+      reporterEmail: reporterEmail.trim() || undefined,
+    }
+
+    try {
+      await sendBugReportEmail(payload)
+      setStatus("success")
+      onSubmit?.(payload)
+    } catch (err) {
+      setStatus("error")
+      setErrorMessage(
+        err instanceof Error ? err.message : "Something went wrong. Please try again."
+      )
     }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
@@ -28,7 +61,9 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
       >
         <FaCheckCircle size={60} color="#0d681c" className="mb-3" />
         <h3 className="text-success">Bug Reported Successfully!</h3>
-        <p className="text-muted">Thank you for helping us improve AlgoLens.</p>
+        <p className="text-muted">
+          Thanks — your report was emailed to the AlgoLens inbox.
+        </p>
       </motion.div>
     )
   }
@@ -44,6 +79,14 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
         </p>
       </div>
 
+      {!configured && (
+        <div className="alert alert-warning small py-2" role="alert">
+          Bug reporting is not configured yet. Add{" "}
+          <code>VITE_WEB3FORMS_ACCESS_KEY</code> to your <code>.env</code> file
+          (see <code>.env.example</code>).
+        </div>
+      )}
+
       <div className="mb-3">
         <label htmlFor="bug-title" className="form-label fw-bold small">
           Bug Title
@@ -56,6 +99,7 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
+          disabled={status === "sending"}
         />
       </div>
 
@@ -71,12 +115,31 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
+          disabled={status === "sending"}
         ></textarea>
+      </div>
+
+      <div className="mb-3">
+        <label htmlFor="bug-email" className="form-label fw-bold small">
+          Your email <span className="text-muted fw-normal">(optional)</span>
+        </label>
+        <input
+          type="email"
+          id="bug-email"
+          className="form-control"
+          placeholder="So we can follow up if needed"
+          value={reporterEmail}
+          onChange={(e) => setReporterEmail(e.target.value)}
+          disabled={status === "sending"}
+        />
       </div>
 
       <div className="mb-4">
         <label className="form-label fw-bold small">
-          Attach Recording/Screenshot
+          Attach Recording/Screenshot{" "}
+          <span className="text-muted fw-normal">
+            (optional — filename is emailed)
+          </span>
         </label>
         <div className="file-upload-wrapper">
           <input
@@ -84,7 +147,10 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
             id="bug-file"
             className="form-control d-none"
             accept="image/*,video/*"
-            onChange={(e) => setFile(e.target.files[0])}
+            onChange={(e: ChangeEvent<HTMLInputElement>) =>
+              setFile(e.target.files?.[0] ?? null)
+            }
+            disabled={status === "sending"}
           />
           <label htmlFor="bug-file" className="file-upload-label py-3">
             <FaUpload className="mb-2" />
@@ -93,16 +159,32 @@ const BugReportForm = ({ onSubmit, onCancel }) => {
         </div>
       </div>
 
+      {status === "error" && (
+        <div
+          className="alert alert-danger small d-flex align-items-start gap-2 py-2"
+          role="alert"
+        >
+          <FaExclamationTriangle className="mt-1 flex-shrink-0" />
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
       <div className="d-flex gap-2 justify-content-end border-top pt-3">
-        <button type="button" className="btn btn-light" onClick={onCancel}>
+        <button
+          type="button"
+          className="btn btn-light"
+          onClick={onCancel}
+          disabled={status === "sending"}
+        >
           Cancel
         </button>
         <button
           type="submit"
           className="btn btn-primary px-4"
           style={{ backgroundColor: "#162788", borderColor: "#162788" }}
+          disabled={!configured || status === "sending"}
         >
-          Submit Report
+          {status === "sending" ? "Sending..." : "Submit Report"}
         </button>
       </div>
 

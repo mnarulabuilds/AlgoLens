@@ -41,7 +41,7 @@ const BinarySearch = () => {
     let arr = [...array]
     if (data) {
       const num = parseFloat(data)
-      let length = arr.length
+      const length = arr.length
       arr = arr.filter((value) => {
         return value !== num
       })
@@ -84,7 +84,7 @@ const BinarySearch = () => {
   }
 
   const bs = (data, start, end, arr) => {
-    let mid = Math.floor((start + end) / 2)
+    const mid = Math.floor((start + end) / 2)
 
     if (start > end) return
 

@@ -34,7 +34,7 @@ export default function DFSGraph() {
   useEffect(() => {
     if (!running) return
 
-    let order = []
+    const order = []
     const visitedSet = new Set()
 
     function dfs(node) {

@@ -36,7 +36,7 @@ const Sieve = () => {
     }
 
     for (let p = 2; p * p <= end; p++) {
-      let startIdx = Math.max(p * p, Math.ceil(start / p) * p)
+      const startIdx = Math.max(p * p, Math.ceil(start / p) * p)
       if (startIdx > end) continue
 
       for (let multiple = startIdx; multiple <= end; multiple += p) {

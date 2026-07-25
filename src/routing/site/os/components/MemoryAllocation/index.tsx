@@ -30,13 +30,13 @@ const MemoryAllocation = () => {
   }
 
   const runFirstFit = () => {
-    let currentBlocks = initialBlocks.map((b) => ({
+    const currentBlocks = initialBlocks.map((b) => ({
       ...b,
       process: null,
       size: b.originalSize,
     }))
-    let results = []
-    let newLogs = ["Running First Fit Allocation..."]
+    const results = []
+    const newLogs = ["Running First Fit Allocation..."]
 
     processes.forEach((proc) => {
       let allocated = false
@@ -69,13 +69,13 @@ const MemoryAllocation = () => {
   }
 
   const runBestFit = () => {
-    let currentBlocks = initialBlocks.map((b) => ({
+    const currentBlocks = initialBlocks.map((b) => ({
       ...b,
       process: null,
       size: b.originalSize,
     }))
-    let results = []
-    let newLogs = ["Running Best Fit Allocation..."]
+    const results = []
+    const newLogs = ["Running Best Fit Allocation..."]
 
     processes.forEach((proc) => {
       let bestIdx = -1

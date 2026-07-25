@@ -1,7 +1,7 @@
 import { useEffect } from "react"
-import { useUser } from "common/context/UserContext"
+import { useUser, TopicRef } from "common/context/UserContext"
 
-const useTrackView = (topicData) => {
+const useTrackView = (topicData: TopicRef | null | undefined): void => {
   const { addToRecentlyViewed } = useUser()
 
   useEffect(() => {

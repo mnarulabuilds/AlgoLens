@@ -153,7 +153,7 @@ const InclinedPlane = ({ angle, initialPosition }) => {
     }
 
     const animateRollingBall = () => {
-      let speed = initialPosition === "onGround" ? 1 : -1
+      const speed = initialPosition === "onGround" ? 1 : -1
 
       const startX =
         width / 2 -

@@ -49,7 +49,7 @@ export default function RealisticTrafficSimulation({
 
   const stepSimulation = () => {
     setCars((prev) => {
-      let next = prev.map((c) => ({ ...c }))
+      const next = prev.map((c) => ({ ...c }))
 
       // update speeds & positions
       for (let lane = 0; lane < lanes; lane++) {
@@ -65,7 +65,7 @@ export default function RealisticTrafficSimulation({
 
           // distance to next car
           const nextCar = laneCars[i + 1]
-          let gap = nextCar ? nextCar.pos - car.pos - 1 : roadLength
+          const gap = nextCar ? nextCar.pos - car.pos - 1 : roadLength
 
           if (car.speed > gap) car.speed = gap
 

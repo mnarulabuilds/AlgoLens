@@ -30,7 +30,7 @@ const RSAEncryption = () => {
   const findD = (e, phiVal) => {
     let [a, b, x, y, x1, y1] = [e, phiVal, 1, 0, 0, 1]
     while (b) {
-      let q = Math.floor(a / b)
+      const q = Math.floor(a / b)
       ;[a, b] = [b, a % b]
       ;[x, x1] = [x1, x - q * x1]
       ;[y, y1] = [y1, y - q * y1]

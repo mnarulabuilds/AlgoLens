@@ -270,7 +270,7 @@ const GradientDescent = () => {
   const run = async () => {
     setIsRunning(true)
     let x = currentX
-    let newPath = [...path]
+    const newPath = [...path]
     let iter = iteration
 
     for (let i = 0; i < 100; i++) {

@@ -12,7 +12,7 @@ class Trie {
 
   insert(word) {
     let node = this.root
-    for (let char of word.toLowerCase()) {
+    for (const char of word.toLowerCase()) {
       if (!node.children[char]) {
         node.children[char] = new TrieNode()
       }
@@ -24,7 +24,7 @@ class Trie {
   search(word) {
     let node = this.root
     const path = []
-    for (let char of word.toLowerCase()) {
+    for (const char of word.toLowerCase()) {
       if (!node.children[char]) {
         return { found: false, path }
       }
@@ -37,7 +37,7 @@ class Trie {
   startsWith(prefix) {
     let node = this.root
     const path = []
-    for (let char of prefix.toLowerCase()) {
+    for (const char of prefix.toLowerCase()) {
       if (!node.children[char]) {
         return { found: false, path }
       }
@@ -88,7 +88,7 @@ class Trie {
       words.push(prefix)
     }
 
-    for (let char in node.children) {
+    for (const char in node.children) {
       this.collectWords(node.children[char], prefix + char, words)
     }
   }
@@ -103,7 +103,7 @@ class Trie {
     if (!node) return null
     const newNode = new TrieNode()
     newNode.isEndOfWord = node.isEndOfWord
-    for (let char in node.children) {
+    for (const char in node.children) {
       newNode.children[char] = this.cloneNode(node.children[char])
     }
     return newNode

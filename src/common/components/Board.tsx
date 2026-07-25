@@ -1,7 +1,12 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, CSSProperties, ReactNode } from "react"
 import { FaChessQueen } from "react-icons/fa"
 
-const Cell = ({ styles, children }) => {
+type CellProps = {
+  styles?: CSSProperties
+  children?: ReactNode
+}
+
+const Cell = ({ styles, children }: CellProps) => {
   return (
     <div
       style={{
@@ -30,12 +35,17 @@ const Cell = ({ styles, children }) => {
   )
 }
 
-const Board = React.memo(({ size, queens }) => {
-  const [cells, setCells] = useState([])
+type BoardProps = {
+  size: number
+  queens: number[]
+}
+
+const Board = React.memo(({ size, queens }: BoardProps) => {
+  const [cells, setCells] = useState<ReactNode[]>([])
 
   useEffect(() => {
     const totalPieces = size * size
-    const newCells = []
+    const newCells: ReactNode[] = []
     let color = "#D3D3D3"
 
     for (let i = 0; i < totalPieces; i++) {
@@ -62,7 +72,7 @@ const Board = React.memo(({ size, queens }) => {
     setCells(newCells)
   }, [size, queens])
 
-  const boardStyle = {
+  const boardStyle: CSSProperties = {
     display: "grid",
     gridTemplateColumns: `repeat(${size}, minmax(12px, 1fr))`,
     gridTemplateRows: `repeat(${size}, minmax(12px, 1fr))`,

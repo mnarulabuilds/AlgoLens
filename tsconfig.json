@@ -14,27 +14,26 @@
         "strict": false,
         "forceConsistentCasingInFileNames": true,
         "module": "ESNext",
-        "moduleResolution": "Node",
+        "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "baseUrl": "./src",
         "paths": {
             "base/*": [
-                "base/*"
+                "./src/base/*"
             ],
             "common/*": [
-                "common/*"
+                "./src/common/*"
             ],
             "dashboard/*": [
-                "dashboard/*"
+                "./src/dashboard/*"
             ],
             "routing/*": [
-                "routing/*"
+                "./src/routing/*"
             ],
             "src/*": [
-                "*"
+                "./src/*"
             ]
         }
     },

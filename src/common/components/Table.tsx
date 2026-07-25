@@ -1,5 +1,11 @@
-import React, { useCallback, useState, useEffect } from "react"
-import PropTypes from "prop-types"
+import React, {
+  useCallback,
+  useState,
+  useEffect,
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+} from "react"
 import {
   AiOutlineDelete,
   AiOutlineSearch,
@@ -8,24 +14,44 @@ import {
 import { BsArrowDown, BsArrowUp } from "react-icons/bs"
 import "./Table.css"
 
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1
-  }
+type Order = "asc" | "desc"
+
+type TableRow = Record<string, string | number | boolean | null | undefined>
+
+type HeadCell = {
+  id: string
+  label: string
+  numeric?: boolean
+}
+
+type SearchState = {
+  searchText: string
+  searchIds: Set<string>
+}
+
+function descendingComparator(a: TableRow, b: TableRow, orderBy: string) {
+  const left = b[orderBy]
+  const right = a[orderBy]
+  if (left === undefined || left === null) return -1
+  if (right === undefined || right === null) return 1
+  if (left < right) return -1
+  if (left > right) return 1
   return 0
 }
 
-function getComparator(order, orderBy) {
+function getComparator(order: Order, orderBy: string) {
   return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy)
+    ? (a: TableRow, b: TableRow) => descendingComparator(a, b, orderBy)
+    : (a: TableRow, b: TableRow) => -descendingComparator(a, b, orderBy)
 }
 
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index])
+function stableSort(
+  array: TableRow[],
+  comparator: (a: TableRow, b: TableRow) => number
+) {
+  const stabilizedThis = array.map(
+    (el, index) => [el, index] as [TableRow, number]
+  )
   stabilizedThis.sort((a, b) => {
     const order = comparator(a[0], b[0])
     if (order !== 0) return order
@@ -34,7 +60,17 @@ function stableSort(array, comparator) {
   return stabilizedThis.map((el) => el[0])
 }
 
-function EnhancedTableHead(props) {
+type EnhancedTableHeadProps = {
+  numSelected: number
+  order: Order
+  orderBy: string
+  onSelectAllClick: (event: ChangeEvent<HTMLInputElement>) => void
+  onRequestSort: (property: string) => void
+  rowCount: number
+  headCells: HeadCell[]
+}
+
+function EnhancedTableHead(props: EnhancedTableHeadProps) {
   const {
     numSelected,
     order,
@@ -45,7 +81,7 @@ function EnhancedTableHead(props) {
     headCells,
   } = props
 
-  const createSortHandler = (property) => () => {
+  const createSortHandler = (property: string) => () => {
     onRequestSort(property)
   }
 
@@ -83,14 +119,16 @@ function EnhancedTableHead(props) {
   )
 }
 
-EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
-  order: PropTypes.oneOf(["asc", "desc"]).isRequired,
-  orderBy: PropTypes.string.isRequired,
-  rowCount: PropTypes.number.isRequired,
-  headCells: PropTypes.array.isRequired,
+type EnhancedTableToolbarProps = {
+  numSelected: number
+  title: string
+  setSelected: Dispatch<SetStateAction<(string | number)[]>>
+  deleteHandler: (selected: (string | number)[]) => void
+  selected: (string | number)[]
+  searchState: SearchState
+  setSearchState: Dispatch<SetStateAction<SearchState>>
+  performSearch: () => void
+  headCells: HeadCell[]
 }
 
 const EnhancedTableToolbar = ({
@@ -103,9 +141,9 @@ const EnhancedTableToolbar = ({
   setSearchState,
   performSearch,
   headCells,
-}) => {
+}: EnhancedTableToolbarProps) => {
   const searchText = searchState?.searchText || ""
-  const selectedIds = searchState?.searchIds || new Set()
+  const selectedIds = searchState?.searchIds || new Set<string>()
 
   return (
     <div className={`table-toolbar ${numSelected > 0 ? "highlight" : ""}`}>
@@ -142,7 +180,7 @@ const EnhancedTableToolbar = ({
               />
               <button
                 className="btn btn-outline-secondary"
-                onClick={() => performSearch(searchState)}
+                onClick={() => performSearch()}
                 disabled={!searchText}
                 title="Filter table"
               >
@@ -191,12 +229,13 @@ const EnhancedTableToolbar = ({
   )
 }
 
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  searchState: PropTypes.object.isRequired,
-  performSearch: PropTypes.func.isRequired,
-  setSearchState: PropTypes.func.isRequired,
+type EnhancedTableProps = {
+  allRows: TableRow[]
+  rows: TableRow[]
+  headCells: HeadCell[]
+  deleteHandler: (selected: (string | number)[]) => void
+  title: string
+  setFilteredRows: (rows: TableRow[]) => void
 }
 
 export default function EnhancedTable({
@@ -206,20 +245,20 @@ export default function EnhancedTable({
   deleteHandler,
   title,
   setFilteredRows,
-}) {
+}: EnhancedTableProps) {
   const primaryCellKey =
     (headCells &&
       Array.isArray(headCells) &&
       headCells.length > 0 &&
       headCells[0].id) ||
     ""
-  const [order, setOrder] = useState("asc")
+  const [order, setOrder] = useState<Order>("asc")
   const [orderBy, setOrderBy] = useState(primaryCellKey)
-  const [selected, setSelected] = useState([])
+  const [selected, setSelected] = useState<(string | number)[]>([])
   const [page, setPage] = useState(0)
   const [dense, setDense] = useState(false)
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [searchState, setSearchState] = useState({
+  const [searchState, setSearchState] = useState<SearchState>({
     searchText: "",
     searchIds: new Set([primaryCellKey]),
   })
@@ -228,7 +267,7 @@ export default function EnhancedTable({
     const { searchText, searchIds } = searchState
     const temp = allRows.filter((row) => {
       let res = false
-      for (let id of searchIds) {
+      for (const id of searchIds) {
         if (!res) {
           const val = row[id]
           res = String(val !== null && val !== undefined ? val : "")
@@ -246,24 +285,29 @@ export default function EnhancedTable({
     handlePerformSearch()
   }, [handlePerformSearch])
 
-  const handleRequestSort = (property) => {
+  const handleRequestSort = (property: string) => {
     const isAsc = orderBy === property && order === "asc"
     setOrder(isAsc ? "desc" : "asc")
     setOrderBy(property)
   }
 
-  const handleSelectAllClick = (event) => {
+  const handleSelectAllClick = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n[primaryCellKey])
+      const newSelected = rows
+        .map((n) => n[primaryCellKey])
+        .filter(
+          (value): value is string | number =>
+            typeof value === "string" || typeof value === "number"
+        )
       setSelected(newSelected)
       return
     }
     setSelected([])
   }
 
-  const handleClick = (name) => {
+  const handleClick = (name: string | number) => {
     const selectedIndex = selected.indexOf(name)
-    let newSelected = []
+    let newSelected: (string | number)[] = []
 
     if (selectedIndex === -1) {
       newSelected = newSelected.concat(selected, name)
@@ -280,7 +324,7 @@ export default function EnhancedTable({
     setSelected(newSelected)
   }
 
-  const isSelected = (name) => selected.indexOf(name) !== -1
+  const isSelected = (name: string | number) => selected.indexOf(name) !== -1
 
   const emptyRows = rows.length === 0
 
@@ -316,13 +360,18 @@ export default function EnhancedTable({
             />
             <tbody>
               {displayedRows.map((row, index) => {
-                const isItemSelected = isSelected(row[primaryCellKey])
+                const rowKey = row[primaryCellKey]
+                const selectionKey =
+                  typeof rowKey === "string" || typeof rowKey === "number"
+                    ? rowKey
+                    : index
+                const isItemSelected = isSelected(selectionKey)
                 const labelId = `enhanced-table-checkbox-${index}`
 
                 return (
                   <tr
-                    key={row[primaryCellKey]}
-                    onClick={() => handleClick(row[primaryCellKey])}
+                    key={String(selectionKey)}
+                    onClick={() => handleClick(selectionKey)}
                     className={isItemSelected ? "table-active" : ""}
                     style={{ cursor: "pointer" }}
                   >
@@ -331,7 +380,7 @@ export default function EnhancedTable({
                         type="checkbox"
                         className="form-check-input"
                         checked={isItemSelected}
-                        onChange={() => { }}
+                        onChange={() => {}}
                         aria-labelledby={labelId}
                       />
                     </td>
@@ -341,7 +390,7 @@ export default function EnhancedTable({
                         className={idx === 0 ? "fw-bold" : ""}
                         id={idx === 0 ? labelId : undefined}
                       >
-                        {row[cell.id]}
+                        {row[cell.id] as React.ReactNode}
                       </td>
                     ))}
                   </tr>

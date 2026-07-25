@@ -7,18 +7,18 @@ import Search from "./Search"
 import "./LinkedList.css"
 
 export default function LinkedList() {
-  let [head, setHead] = useState(null)
-  let [list, setList] = useState(null)
-  let [rendered, setRendered] = useState(false)
-  let [radioVal, setRadioVal] = useState(false)
+  const [head, setHead] = useState(null)
+  const [list, setList] = useState(null)
+  const [rendered, setRendered] = useState(false)
+  const [radioVal, setRadioVal] = useState(false)
 
-  let showOperation = (event) => {
-    let operation = event.target.value
+  const showOperation = (event) => {
+    const operation = event.target.value
     setRadioVal(operation)
   }
 
   // clear function --------------------------------------------
-  let clear = () => {
+  const clear = () => {
     let curr = head
     while (curr) {
       curr.highlight = false
@@ -27,11 +27,11 @@ export default function LinkedList() {
     setHead(head)
   }
   // insert--------------------------------------------------------
-  let insert = (data, where) => {
+  const insert = (data, where) => {
     if (data) {
       clear()
-      let newNode = { info: data, next: null, highlight: false },
-        curr
+      const newNode = { info: data, next: null, highlight: false }
+      let curr
       if (!head) {
         setHead({ ...newNode })
       } else {
@@ -56,7 +56,7 @@ export default function LinkedList() {
     }
   }
   //----------Using 'del' instead of delete is some keyword
-  let del = (data, where, position) => {
+  const del = (data, where, position) => {
     if (head) {
       clear()
       if (data) {
@@ -76,8 +76,9 @@ export default function LinkedList() {
         setHead(head1)
       } else if (position == parseInt(position)) {
         position = parseInt(position)
+        let nextHead = head
         if (position === 0) {
-          head = head.next
+          nextHead = head.next
         } else {
           let curr = head
           while (--position > 0 && curr) {
@@ -89,16 +90,17 @@ export default function LinkedList() {
             alert("No element to delete")
           }
         }
-        setHead(head)
+        setHead(nextHead)
       } else if (where) {
+        let nextHead = head
         let curr = head
         switch (where) {
           case "start":
-            head = head.next
+            nextHead = head.next
             break
           case "end":
             if (!head.next) {
-              head = null
+              nextHead = null
             } else {
               while (curr && curr.next && curr.next.next) {
                 curr = curr.next
@@ -110,7 +112,7 @@ export default function LinkedList() {
             break
           default:
         }
-        setHead(head)
+        setHead(nextHead)
       } else {
         alert("Invalid Deletion Exception")
       }
@@ -120,11 +122,11 @@ export default function LinkedList() {
     }
   }
   //Update------------------------------------------------------
-  let update = (position, value) => {
+  const update = (position, value) => {
     if (position && value && parseInt(position) >= 0) {
       clear()
-      let head1 = head,
-        curr = head
+      const head1 = head
+      let curr = head
       while (curr && --position >= 0) {
         curr = curr.next
       }
@@ -143,11 +145,11 @@ export default function LinkedList() {
 
   // Search----------------------------------------------------
 
-  let search = (data) => {
+  const search = (data) => {
     if (data) {
       clear()
-      let head1 = head,
-        curr = head
+      const head1 = head
+      let curr = head
       while (curr) {
         if (curr.info === data) {
           curr.highlight = true
@@ -161,8 +163,8 @@ export default function LinkedList() {
     }
   }
 
-  let renderList = () => {
-    let list = []
+  const renderList = () => {
+    const list = []
     if (head) {
       let curr = head,
         key = 0

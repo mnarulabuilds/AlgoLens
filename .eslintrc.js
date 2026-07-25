@@ -1,17 +1,23 @@
 // eslint-disable-next-line no-undef
 module.exports = {
+  root: true,
   env: {
     browser: true,
     es2021: true,
     node: true,
-    jest: true,
   },
   settings: {
     react: {
       version: "detect",
     },
   },
-  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  extends: [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+  ],
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -19,10 +25,18 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: ["react", "prettier"],
+  plugins: ["react", "@typescript-eslint", "prettier"],
   rules: {
-    "prettier/prettier": ["error", { endOfLine: "auto" }],
-    "react/prop-types": 0,
+    // Formatting should not block CI; Prettier can still run locally / via editor.
+    "prettier/prettier": "warn",
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+    ],
+    "no-unused-vars": "off",
     "linebreak-style": [
       "error",
       process.platform === "win32" ? "windows" : "unix",
@@ -30,4 +44,5 @@ module.exports = {
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
   },
+  ignorePatterns: ["build/", "node_modules/", "public/", "*.config.js"],
 }

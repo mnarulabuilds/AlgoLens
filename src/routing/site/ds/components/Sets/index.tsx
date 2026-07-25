@@ -16,7 +16,7 @@ export default function Sets() {
   }
 
   const cloneSet = (sortedSet) => {
-    let clone = new SortedSet()
+    const clone = new SortedSet()
     if (!sortedSet || sortedSet.length === 0) {
       return clone
     }

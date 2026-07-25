@@ -1,15 +1,17 @@
-import { useCallback } from "react"
+import { useCallback, MouseEvent as ReactMouseEvent } from "react"
 
-const usePoint = (canvas) => {
+const usePoint = (canvas: HTMLCanvasElement | null) => {
   const size = 3
 
   const drawCoordinates = useCallback(
-    (x, y) => {
+    (x: number, y: number) => {
       if (!canvas) return
 
       const ctx = canvas.getContext("2d")
-      ctx.fillStyle = "#ff2626" // Red color
-      ctx.beginPath() // Start path
+      if (!ctx) return
+
+      ctx.fillStyle = "#ff2626"
+      ctx.beginPath()
       ctx.arc(x, y, size, 0, Math.PI * 2, true)
       ctx.fill()
       ctx.font = "15px Arial"
@@ -19,7 +21,7 @@ const usePoint = (canvas) => {
   )
 
   const draw = useCallback(
-    (event) => {
+    (event: MouseEvent | ReactMouseEvent<HTMLCanvasElement>) => {
       if (!canvas) return
 
       const rect = canvas.getBoundingClientRect()

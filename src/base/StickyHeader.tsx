@@ -1,4 +1,5 @@
 import React, { lazy } from "react"
+import { Link, useHistory, useLocation } from "react-router-dom"
 import { siteSuggestions } from "routing/base/routes"
 import { DynamicLoader } from "routing/base/Router"
 import { useUser } from "common/context/UserContext"
@@ -11,6 +12,9 @@ const FixedSideDrawer = lazy(() => import(`base/FixedSideDrawer`))
 
 export default function PrimarySearchAppBar() {
   const { favorites } = useUser()
+  const history = useHistory()
+  const location = useLocation()
+  const isHome = location.pathname === "/"
 
   return (
     <header className="app-bar">
@@ -21,26 +25,26 @@ export default function PrimarySearchAppBar() {
           {DynamicLoader(Search, {
             id: "sitemapSuggestions",
             searchOps: siteSuggestions,
-            updateSelection: (selection) => {
-              window.location.hash = selection.route
+            updateSelection: (selection: { route: string }) => {
+              history.push(selection.route)
             },
           })}
         </section>
         <div className="icon-sec">
-          <a
+          <Link
             aria-label="home page"
-            href="#/"
-            className={`home-button ${window.location.hash === "#/" || window.location.hash === ""
-              ? "disabled"
-              : ""
-              }`}
+            to="/"
+            className={`home-button ${isHome ? "disabled" : ""}`}
             title="Home"
+            onClick={(e) => {
+              if (isHome) e.preventDefault()
+            }}
           >
             <AiFillHome />
-          </a>
-          <a
+          </Link>
+          <Link
             aria-label="profile page"
-            href="#/profile"
+            to="/profile"
             className="profile-button"
             title="My Profile"
           >
@@ -51,7 +55,7 @@ export default function PrimarySearchAppBar() {
                 {favorites.length}
               </span>
             )}
-          </a>
+          </Link>
         </div>
       </nav>
     </header>

@@ -9,13 +9,13 @@ const PageReplacement = () => {
 
   const simulateFIFO = () => {
     const pages = pageString.split(",").map((p) => p.trim())
-    let frames = Array(frameCount).fill(null)
-    let results = []
+    const frames = Array(frameCount).fill(null)
+    const results = []
     let pageFaults = 0
     let pointer = 0
 
     pages.forEach((page) => {
-      let hit = frames.includes(page)
+      const hit = frames.includes(page)
       let currentStatus = [...frames]
 
       if (!hit) {

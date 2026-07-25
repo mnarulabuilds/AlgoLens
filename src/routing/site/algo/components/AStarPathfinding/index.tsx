@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from "react"
+import React, { useState, useEffect, useCallback } from "react"
 import styles from "./AStarPathfinding.module.css"
 import Cell from "./Cell"
 import useVisualizerControls from "common/hooks/useVisualizerControls"
@@ -33,7 +33,6 @@ const AStarPathfinding = () => {
     setIsPaused,
     speed,
     setSpeed,
-    stopRef,
     start: startVis,
     stop: stopVis,
     pause,
@@ -410,8 +409,8 @@ const AStarPathfinding = () => {
             <strong>Draw Walls:</strong> Click and drag on empty (White) cells.
           </li>
           <li>
-            <strong>Visualize:</strong> Click "Run A*" to see the algorithm find
-            the shortest path.
+            <strong>Visualize:</strong> Click &quot;Run A*&quot; to see the
+            algorithm find the shortest path.
           </li>
         </ul>
       </div>

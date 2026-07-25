@@ -90,8 +90,8 @@ const FourierSeries = () => {
     ctx.lineWidth = 1
 
     for (let i = 0; i < terms; i++) {
-      let prevX = x
-      let prevY = y
+      const prevX = x
+      const prevY = y
 
       let n, radius
       if (waveType === "square") {

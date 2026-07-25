@@ -7,17 +7,17 @@ import Element from "common/components/Element"
 import "./Queues.css"
 
 export default function Queues() {
-  let [head, setHead] = useState(null)
-  let [list, setList] = useState(null)
-  let [rendered, setRendered] = useState(false)
-  let [radioVal, setRadioVal] = useState(false)
+  const [head, setHead] = useState(null)
+  const [list, setList] = useState(null)
+  const [rendered, setRendered] = useState(false)
+  const [radioVal, setRadioVal] = useState(false)
 
-  let showOperation = (event) => {
-    let operation = event.target.value
+  const showOperation = (event) => {
+    const operation = event.target.value
     setRadioVal(operation)
   }
 
-  let clear = () => {
+  const clear = () => {
     let curr = head
     while (curr) {
       curr.highlight = false
@@ -26,11 +26,11 @@ export default function Queues() {
     setHead(head)
   }
 
-  let insert = (data) => {
+  const insert = (data) => {
     if (data) {
       clear()
-      let newNode = { info: data, next: null, highlight: false },
-        curr
+      const newNode = { info: data, next: null, highlight: false }
+      let curr
       if (!head) {
         setHead({ ...newNode })
       } else {
@@ -47,22 +47,21 @@ export default function Queues() {
     }
   }
 
-  let del = () => {
+  const del = () => {
     if (head) {
       clear()
-      head = head.next
-      setHead(head)
+      setHead(head.next)
       setRendered(false)
     } else {
       alert("Queue is empty")
     }
   }
 
-  let update = (position, value) => {
+  const update = (position, value) => {
     if (position && value && parseInt(position) >= 0) {
       clear()
-      let head1 = head,
-        curr = head
+      const head1 = head
+      let curr = head
       while (curr && --position >= 0) {
         curr = curr.next
       }
@@ -79,11 +78,11 @@ export default function Queues() {
     }
   }
 
-  let search = (data) => {
+  const search = (data) => {
     if (data) {
       clear()
-      let head1 = head,
-        curr = head
+      const head1 = head
+      let curr = head
       while (curr) {
         if (curr.info === data) {
           curr.highlight = true
@@ -97,8 +96,8 @@ export default function Queues() {
     }
   }
 
-  let renderList = () => {
-    let list = []
+  const renderList = () => {
+    const list = []
     if (head) {
       let curr = head,
         key = 0

@@ -100,8 +100,6 @@ export default function StickyFooter(props) {
         <Suspense fallback={<div>Loading form...</div>}>
           <BugReportForm
             onSubmit={() => {
-              // The form handles its own "success" state
-              // We'll just close the dialog after a delay
               setTimeout(() => setDialogConfig(null), 2500)
             }}
             onCancel={() => setDialogConfig(null)}

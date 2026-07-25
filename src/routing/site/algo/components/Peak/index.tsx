@@ -15,7 +15,7 @@ const Visuals = () => {
   const insert = useCallback(
     (data, where) => {
       if (data) {
-        let newArr = [...array]
+        const newArr = [...array]
         if (where.toLowerCase() === "start") {
           newArr.unshift(data)
         } else {
@@ -61,7 +61,7 @@ const Visuals = () => {
         parseInt(position) <= array.length - 1 &&
         parseInt(position) >= 0
       ) {
-        let newArr = [...array]
+        const newArr = [...array]
         newArr[position] = value
         setArray(newArr)
         setHighlights([parseInt(position)])
@@ -73,14 +73,14 @@ const Visuals = () => {
   )
 
   const isPeak = (arr, mid, start, end) => {
-    let midEle =
+    const midEle =
       arr[mid] === parseFloat(arr[mid]) ? parseFloat(arr[mid]) : arr[mid]
     if (mid > start && mid < end) {
-      let midMoreEle =
+      const midMoreEle =
         arr[mid + 1] === parseFloat(arr[mid + 1])
           ? parseFloat(arr[mid + 1])
           : arr[mid + 1]
-      let midLessEle =
+      const midLessEle =
         arr[mid - 1] === parseFloat(arr[mid - 1])
           ? parseFloat(arr[mid - 1])
           : arr[mid - 1]
@@ -91,7 +91,7 @@ const Visuals = () => {
         return { r: false, d: "left" }
       }
     } else if (mid === start && mid < end) {
-      let midMoreEle =
+      const midMoreEle =
         arr[mid + 1] === parseFloat(arr[mid + 1])
           ? parseFloat(arr[mid + 1])
           : arr[mid + 1]
@@ -99,7 +99,7 @@ const Visuals = () => {
         return { r: true }
       }
     } else if (mid === end && mid > start) {
-      let midLessEle =
+      const midLessEle =
         arr[mid - 1] === parseFloat(arr[mid - 1])
           ? parseFloat(arr[mid - 1])
           : arr[mid - 1]
@@ -112,12 +112,12 @@ const Visuals = () => {
   }
 
   const bsPeak = useCallback((start, end, arr) => {
-    let mid = parseInt(start + (end - start) / 2)
+    const mid = parseInt(start + (end - start) / 2)
     if (start > end) {
       setHighlights([])
       return
     }
-    let { r, d } = isPeak(arr, mid, start, end)
+    const { r, d } = isPeak(arr, mid, start, end)
     if (r) {
       setHighlights([mid])
       setIter("Completed")
@@ -146,7 +146,7 @@ const Visuals = () => {
             let s = Math.floor(start)
             start = s
             end = Math.floor(end)
-            let highlightsRange = []
+            const highlightsRange = []
             while (s <= end) {
               highlightsRange.push(s)
               s++

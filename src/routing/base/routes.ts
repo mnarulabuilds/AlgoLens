@@ -1,4 +1,21 @@
-const pages = [
+export type PageTopic = {
+  topic: string
+  label: string
+}
+
+export type Category = {
+  topic: string
+  label: string
+  pages: PageTopic[]
+}
+
+export type SiteSuggestion = {
+  route: string
+  title: string
+  path: string
+}
+
+const pages: Category[] = [
   {
     topic: "algo",
     label: "Algorithms 🧠",
@@ -469,15 +486,15 @@ const pages = [
   },
 ]
 
-const dynamicRoute = (categoryTopic, subjectTopic) => {
+const dynamicRoute = (categoryTopic: string, subjectTopic: string) => {
   return `${categoryTopic}/${subjectTopic}`
 }
 
-const dynamicPath = (categoryTopic, subjectTopic) => {
+const dynamicPath = (categoryTopic: string, subjectTopic: string) => {
   return `site/${categoryTopic}/components/${subjectTopic}`
 }
 
-const siteSuggestions = []
+const siteSuggestions: SiteSuggestion[] = []
 
 pages.forEach((category) => {
   category.pages.forEach((subject) => {

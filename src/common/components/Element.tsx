@@ -4,9 +4,9 @@ import { FaArrowRight } from "react-icons/fa"
 interface ElementProps {
   type: string
   data: {
-    value: any
+    value: string | number
     index: number
-  }
+  } | null
   highlight: boolean
   next?: boolean
   AllGreater?: boolean
@@ -35,7 +35,7 @@ const Element = ({
   if (!data) return null
 
   let element: React.ReactNode = null
-  let elStyles: React.CSSProperties = {
+  const elStyles: React.CSSProperties = {
     border: "1px solid white",
     background: "rgba(40,60,180,0.8)",
     width: "100%",

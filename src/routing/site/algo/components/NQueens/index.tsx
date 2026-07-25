@@ -10,7 +10,7 @@ const NQueens = () => {
 
   const safe = useCallback((row, col, board) => {
     const queens = board.map((col, row) => ({ row, col }))
-    for (let queen of queens) {
+    for (const queen of queens) {
       if (
         queen.row === row ||
         queen.col === col ||

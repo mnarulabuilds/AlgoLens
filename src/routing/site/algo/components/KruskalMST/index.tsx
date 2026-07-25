@@ -28,8 +28,8 @@ function useKruskal(nodes, edges) {
   }
 
   function union(parent, rank, a, b) {
-    let ra = find(parent, a)
-    let rb = find(parent, b)
+    const ra = find(parent, a)
+    const rb = find(parent, b)
     if (ra === rb) return false
     if (rank[ra] < rank[rb]) parent[ra] = rb
     else if (rank[ra] > rank[rb]) parent[rb] = ra
@@ -63,9 +63,9 @@ function useKruskal(nodes, edges) {
     const rankCopy = { ...state.dsu.rank }
     const alreadyConnected = find(parentCopy, u) === find(parentCopy, v)
 
-    let newAccepted = [...state.acceptedEdges]
-    let newRejected = [...state.rejectedEdges]
-    let newLogs = [...state.logs]
+    const newAccepted = [...state.acceptedEdges]
+    const newRejected = [...state.rejectedEdges]
+    const newLogs = [...state.logs]
 
     if (!alreadyConnected) {
       union(parentCopy, rankCopy, u, v)
@@ -165,9 +165,9 @@ export default function KruskalMST() {
           for (let j = i + 1; j < keys.length; j++) {
             const a = p[keys[i]]
             const b = p[keys[j]]
-            let dx = a.x - b.x
-            let dy = a.y - b.y
-            let dist = Math.sqrt(dx * dx + dy * dy) || 1
+            const dx = a.x - b.x
+            const dy = a.y - b.y
+            const dist = Math.sqrt(dx * dx + dy * dy) || 1
             const force = 800 / (dist * dist)
             const fx = (dx / dist) * force
             const fy = (dy / dist) * force
@@ -182,9 +182,9 @@ export default function KruskalMST() {
           const a = p[e.u]
           const b = p[e.v]
           if (!a || !b) return
-          let dx = b.x - a.x
-          let dy = b.y - a.y
-          let dist = Math.sqrt(dx * dx + dy * dy) || 1
+          const dx = b.x - a.x
+          const dy = b.y - a.y
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1
           const desired = 120
           const k = 0.02
           const diff = dist - desired
@@ -343,7 +343,7 @@ export default function KruskalMST() {
             // find leader for DSU highlighting
             const leader = state.dsu?.parent
               ? (function () {
-                  let pr = state.dsu.parent
+                  const pr = state.dsu.parent
                   let x = n
                   while (pr[x] !== x) x = pr[x]
                   return x
