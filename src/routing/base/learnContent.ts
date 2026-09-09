@@ -82,6 +82,16 @@ const TOPIC_CONTENT: Record<string, LearnContent> = {
       "2048 merges tiles with the same value. The game ends when the board fills with no valid moves.",
     useCases: ["Grid state management", "Move validation patterns"],
   },
+  "physics/Optics": {
+    summary:
+      "Explore reflection and refraction by moving a light source, mirrors, and lenses on an optical bench. Rays follow the law of reflection and Snell's law at lens surfaces.",
+    complexity: "Reflection: θᵢ = θᵣ · Refraction: n₁ sin θ₁ = n₂ sin θ₂",
+    useCases: [
+      "Understanding mirrors and lenses",
+      "Predicting beam direction",
+      "Physics lab demonstrations",
+    ],
+  },
   "ml/LinearRegression": {
     summary:
       "Linear regression fits a line to data by minimizing squared error with gradient descent.",
