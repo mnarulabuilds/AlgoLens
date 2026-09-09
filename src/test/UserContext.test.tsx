@@ -12,14 +12,26 @@ const topic = {
 };
 
 function TestConsumer() {
-  const { favorites, addFavorite, removeFavorite, isFavorite, recentlyViewed, addToRecentlyViewed } =
-    useUser();
+  const {
+    favorites,
+    addFavorite,
+    removeFavorite,
+    isFavorite,
+    recentlyViewed,
+    addToRecentlyViewed,
+    clearRecentlyViewed,
+    getStats,
+  } = useUser();
+
+  const stats = getStats();
 
   return (
     <div>
       <span data-testid="fav-count">{favorites.length}</span>
       <span data-testid="recent-count">{recentlyViewed.length}</span>
       <span data-testid="is-fav">{String(isFavorite(topic.id))}</span>
+      <span data-testid="categories-explored">{stats.categoriesExplored}</span>
+      <span data-testid="recent-top">{recentlyViewed[0]?.id ?? "none"}</span>
       <button type="button" onClick={() => addFavorite(topic)}>
         Add favorite
       </button>
@@ -28,6 +40,9 @@ function TestConsumer() {
       </button>
       <button type="button" onClick={() => addToRecentlyViewed(topic)}>
         Track view
+      </button>
+      <button type="button" onClick={() => clearRecentlyViewed()}>
+        Clear recent
       </button>
     </div>
   );
@@ -64,5 +79,60 @@ describe('UserContext', () => {
     });
 
     expect(screen.getByTestId('recent-count')).toHaveTextContent('1');
+    expect(screen.getByTestId('recent-top')).toHaveTextContent('algo/Sorting');
+  });
+
+  it('does not duplicate recently viewed when the same topic is tracked again', async () => {
+    const user = userEvent.setup();
+    render(
+      <UserProvider>
+        <TestConsumer />
+      </UserProvider>
+    );
+
+    await user.click(screen.getByText('Track view'));
+    await user.click(screen.getByText('Track view'));
+
+    expect(screen.getByTestId('recent-count')).toHaveTextContent('1');
+  });
+
+  it('clears recently viewed topics', async () => {
+    const user = userEvent.setup();
+    render(
+      <UserProvider>
+        <TestConsumer />
+      </UserProvider>
+    );
+
+    await user.click(screen.getByText('Track view'));
+    await user.click(screen.getByText('Clear recent'));
+
+    expect(screen.getByTestId('recent-count')).toHaveTextContent('0');
+  });
+
+  it('returns favorite stats', async () => {
+    const user = userEvent.setup();
+    render(
+      <UserProvider>
+        <TestConsumer />
+      </UserProvider>
+    );
+
+    await user.click(screen.getByText('Add favorite'));
+    expect(screen.getByTestId('categories-explored')).toHaveTextContent('1');
+  });
+
+  it('ignores duplicate favorite additions', async () => {
+    const user = userEvent.setup();
+    render(
+      <UserProvider>
+        <TestConsumer />
+      </UserProvider>
+    );
+
+    await user.click(screen.getByText('Add favorite'));
+    await user.click(screen.getByText('Add favorite'));
+
+    expect(screen.getByTestId('fav-count')).toHaveTextContent('1');
   });
 });

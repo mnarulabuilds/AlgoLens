@@ -13,4 +13,16 @@ describe('sorting helpers', () => {
     expect(bubbleSortPass([3, 1, 2])).toEqual([1, 2, 3]);
     expect(bubbleSortPass([5, 4, 3, 2, 1])).toEqual([4, 3, 2, 1, 5]);
   });
+
+  it('does not mutate the original array', () => {
+    const input = [3, 1, 2];
+    bubbleSortPass(input);
+    expect(input).toEqual([3, 1, 2]);
+  });
+
+  it('handles edge-case array lengths', () => {
+    expect(bubbleSortPass([])).toEqual([]);
+    expect(bubbleSortPass([7])).toEqual([7]);
+    expect(isSorted([2, 2, 2])).toBe(true);
+  });
 });

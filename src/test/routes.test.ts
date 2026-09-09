@@ -40,4 +40,19 @@ describe('routes', () => {
     expect(totalPages).toBeGreaterThanOrEqual(100);
     expect(CATEGORIES.length).toBe(10);
   });
+
+  it('returns undefined for unknown routes', () => {
+    expect(getTopicFromRoute('/does/not/exist')).toBeUndefined();
+  });
+
+  it('builds unique routes for every page', () => {
+    const routes = siteSuggestions.map((site) => site.route);
+    expect(new Set(routes).size).toBe(routes.length);
+  });
+
+  it('maps known routes to human-readable labels', () => {
+    const topic = getTopicFromRoute('/ml/LinearRegression');
+    expect(topic?.label).toBe('Linear Regression 📈');
+    expect(topic?.category).toBe('Machine Learning 🤖');
+  });
 });
