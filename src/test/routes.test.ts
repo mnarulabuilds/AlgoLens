@@ -4,7 +4,8 @@ import path from 'path';
 import { siteSuggestions, getTopicFromRoute, pages } from '../routing/base/routes';
 
 const CATEGORIES = [
-  'algo', 'ds', 'physics', 'math', 'games', 'os', 'networking', 'ml', 'security', 'logic',
+  'algo', 'ds', 'physics', 'math', 'games', 'os', 'networking', 'ml',
+  'databases', 'statistics', 'distributed', 'compilers', 'security', 'logic',
 ];
 
 describe('routes', () => {
@@ -38,7 +39,8 @@ describe('routes', () => {
   it('lists at least 100 visualizers across all categories', () => {
     const totalPages = pages.reduce((sum, cat) => sum + cat.pages.length, 0);
     expect(totalPages).toBeGreaterThanOrEqual(100);
-    expect(CATEGORIES.length).toBe(10);
+    expect(CATEGORIES.length).toBe(14);
+    expect(pages.length).toBeGreaterThanOrEqual(CATEGORIES.length);
   });
 
   it('returns undefined for unknown routes', () => {

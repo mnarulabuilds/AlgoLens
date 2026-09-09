@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback, useMemo } from "react"
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import styled from "styled-components"
 import { Alert } from "reactstrap"
 
@@ -84,6 +85,8 @@ const ProjectileMotion = () => {
   const [angle, setAngle] = useState(45)
   const [speed, setSpeed] = useState(50)
   const [trajectory, setTrajectory] = useState([])
+  const markComplete = useMarkComplete()
+  const hasMarked = useRef(false)
 
   const g = 9.81 // acceleration due to gravity
 
@@ -108,6 +111,13 @@ const ProjectileMotion = () => {
   useEffect(() => {
     calculateTrajectory()
   }, [angle, speed, calculateTrajectory])
+
+  useEffect(() => {
+    if (trajectory.length > 0 && !hasMarked.current) {
+      hasMarked.current = true
+      markComplete()
+    }
+  }, [trajectory.length, markComplete])
 
   const totalDistance = useMemo(() => {
     return trajectory.length > 0 ? trajectory[trajectory.length - 1].x : 0

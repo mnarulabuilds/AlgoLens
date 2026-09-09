@@ -2,7 +2,7 @@
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
 }
 
 .kmeans-header {
@@ -11,13 +11,13 @@
 }
 
 .kmeans-header h1 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
 .kmeans-header p {
-  color: #b0b0b0;
+  color: var(--viz-text-muted, #b0b0b0);
   font-size: 1.1rem;
 }
 
@@ -80,7 +80,7 @@
 }
 
 .control-group h3 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 0;
   margin-bottom: 1rem;
   font-size: 1.2rem;
@@ -115,7 +115,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   font-size: 0.95rem;
   margin-bottom: 1rem;
 }
@@ -138,12 +138,12 @@
 }
 
 .info-item span:first-child {
-  color: #b0b0b0;
+  color: var(--viz-text-muted, #b0b0b0);
   font-weight: 600;
 }
 
 .info-item span:last-child {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   font-weight: 700;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .legend-item span {
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   font-size: 0.9rem;
 }
 
@@ -182,25 +182,25 @@
 }
 
 .kmeans-info h3 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 0;
   font-size: 1.5rem;
 }
 
 .kmeans-info h4 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 1.5rem;
   font-size: 1.2rem;
 }
 
 .kmeans-info p {
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
 .kmeans-info ol {
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   line-height: 1.8;
   padding-left: 1.5rem;
 }
@@ -210,7 +210,7 @@
 }
 
 .kmeans-info strong {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
 }
 
 @media (max-width: 1024px) {

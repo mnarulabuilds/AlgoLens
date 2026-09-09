@@ -1,21 +1,11 @@
+@import "./a11y-tokens.css";
+
 :root,
 [data-theme="dark"] {
   --primary-light: #757ce8;
-  --primary-main: #162788;
   --primary-dark: #002884;
-  --primary-contrastText: #fff;
-  --text-primary: #fff;
-  --surface-bg: #162788;
-  --content-bg: #1a3099;
-  --header-bg: #3f51b5;
-  --footer-bg: #111;
-  --footer-text: #fff;
-  --accent-color: #4ecca3;
-  --link-accent: #25d4eb;
   --profile-bg: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
   --profile-header-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --learn-bg: rgba(255, 255, 255, 0.05);
-  --text-muted: rgba(255, 255, 255, 0.65);
 
   --secondary-light: #ff7961;
   --secondary-main: #0d681c;
@@ -25,21 +15,9 @@
 
 [data-theme="light"] {
   --primary-light: #5c6bc0;
-  --primary-main: #e8eaf6;
   --primary-dark: #3949ab;
-  --primary-contrastText: #1a237e;
-  --text-primary: #1a237e;
-  --surface-bg: #3f51b5;
-  --content-bg: #f5f5f5;
-  --header-bg: #3949ab;
-  --footer-bg: #e8eaf6;
-  --footer-text: #1a237e;
-  --accent-color: #2e7d32;
-  --link-accent: #1565c0;
   --profile-bg: linear-gradient(135deg, #e8eaf6 0%, #f5f5f5 100%);
   --profile-header-bg: linear-gradient(135deg, #5c6bc0 0%, #3949ab 100%);
-  --learn-bg: #fff;
-  --text-muted: #4a5568;
 
   --secondary-light: #66bb6a;
   --secondary-main: #2e7d32;
@@ -49,12 +27,12 @@
 
 body {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  color: var(--primary-contrastText);
+  color: var(--text-primary);
   background-color: var(--surface-bg);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-[data-theme="light"] .content {
+.content {
   background-color: var(--content-bg);
   color: var(--text-primary);
 }

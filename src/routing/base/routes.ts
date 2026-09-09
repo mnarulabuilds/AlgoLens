@@ -445,6 +445,48 @@ const pages: Category[] = [
         topic: "KNearestNeighbors",
         label: "K-Nearest Neighbors 🎯",
       },
+      {
+        topic: "DecisionTrees",
+        label: "Decision Trees 🌲",
+      },
+    ],
+  },
+  {
+    topic: "databases",
+    label: "Databases 🗄️",
+    pages: [
+      { topic: "LRUCache", label: "LRU Cache 🔄" },
+      { topic: "BloomFilter", label: "Bloom Filter 🎯" },
+      { topic: "IndexScan", label: "Index vs Full Scan 📇" },
+      { topic: "SQLJoin", label: "SQL JOIN Visualizer 🔗" },
+      { topic: "TransactionIsolation", label: "Transaction Isolation 🔒" },
+    ],
+  },
+  {
+    topic: "statistics",
+    label: "Statistics & Probability 📊",
+    pages: [
+      { topic: "CentralLimitTheorem", label: "Central Limit Theorem 📈" },
+      { topic: "BayesTheorem", label: "Bayes' Theorem 🎲" },
+      { topic: "ConfidenceIntervals", label: "Confidence Intervals 📏" },
+      { topic: "MarkovChains", label: "Markov Chains 🔀" },
+    ],
+  },
+  {
+    topic: "distributed",
+    label: "Distributed Systems ☁️",
+    pages: [
+      { topic: "RaftConsensus", label: "Raft Consensus 🗳️" },
+      { topic: "ConsistentHashing", label: "Consistent Hashing 💍" },
+      { topic: "MapReduce", label: "MapReduce 📦" },
+    ],
+  },
+  {
+    topic: "compilers",
+    label: "Compilers & Languages 🔤",
+    pages: [
+      { topic: "Lexer", label: "Lexer / Tokenizer 🔤" },
+      { topic: "Parser", label: "Recursive Descent Parser 🌳" },
     ],
   },
   {

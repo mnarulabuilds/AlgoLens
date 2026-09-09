@@ -20,7 +20,7 @@
 .card-subheader {
   font-size: 14px;
   margin: 0;
-  color: #666;
+  color: var(--text-muted, #475569);
 }
 
 .card-actions {

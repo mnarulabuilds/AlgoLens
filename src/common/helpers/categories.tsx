@@ -10,6 +10,9 @@ import {
   FaBrain,
   FaShieldAlt,
   FaMicrochip,
+  FaDatabase,
+  FaChartBar,
+  FaCloud,
 } from "react-icons/fa"
 import { pages } from "routing/base/routes"
 
@@ -24,6 +27,10 @@ export const categoryIcons: Record<string, React.ReactNode> = {
   ml: <FaBrain />,
   security: <FaShieldAlt />,
   logic: <FaMicrochip />,
+  databases: <FaDatabase />,
+  statistics: <FaChartBar />,
+  distributed: <FaCloud />,
+  compilers: <FaCode />,
 }
 
 export const categoryDescriptions: Record<string, string> = {
@@ -47,6 +54,14 @@ export const categoryDescriptions: Record<string, string> = {
     "Explore cybersecurity fundamentals including Encryption, Hashing, and secure communication protocols.",
   logic:
     "Understand the hardware foundations of computing through Logic Gates, Digital Displays, and Arithmetic Circuits.",
+  databases:
+    "Explore caching, indexing, joins, and transaction isolation — essential database concepts for backend engineers.",
+  statistics:
+    "Build intuition for probability, inference, and stochastic processes through interactive simulations.",
+  distributed:
+    "Visualize consensus, hashing, and large-scale data processing patterns used in modern cloud systems.",
+  compilers:
+    "See how source code becomes tokens and parse trees in the front-end of a compiler pipeline.",
 }
 
 export function getCategoryLabel(categoryTopic: string): string | undefined {

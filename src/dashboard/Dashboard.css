@@ -45,7 +45,7 @@
   font-size: 1.25rem;
   max-width: 800px;
   margin: 0 auto 2.5rem;
-  opacity: 0.9;
+  color: #e8eaf6;
   line-height: 1.6;
 }
 
@@ -170,7 +170,7 @@
 }
 
 .back-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: #e2e8f0;
   text-decoration: none;
   font-weight: 500;
   display: flex;
@@ -196,7 +196,7 @@
 
 .category-subtitle-main {
   font-size: 1.1rem;
-  opacity: 0.8;
+  color: #e2e8f0;
   margin: 0.5rem 0 0;
 }
 
@@ -269,6 +269,95 @@
   background: #4ecca3;
   border-radius: 999px;
   transition: width 0.3s ease;
+}
+
+.section-heading {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.section-subheading {
+  color: var(--text-secondary);
+  margin-bottom: 1.25rem;
+}
+
+.learning-paths-section {
+  margin-bottom: 3rem;
+}
+
+.learning-paths-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.learning-path-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 1.25rem;
+  box-shadow: var(--card-shadow);
+  border: var(--card-border);
+}
+
+.learning-path-header {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.learning-path-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.learning-path-header h3 {
+  margin: 0 0 0.35rem;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.learning-path-header p {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.learning-path-progress {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.learning-path-steps {
+  margin: 0;
+  padding-left: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.learning-path-steps li {
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.learning-path-steps a {
+  color: #162788;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.learning-path-steps a:hover {
+  text-decoration: underline;
+}
+
+.step-done {
+  color: var(--accent-color, #0f766e);
+  font-size: 0.75rem;
 }
 
 [data-theme="light"] .dashboard-root {

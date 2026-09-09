@@ -38,7 +38,7 @@
   display: block;
   margin-bottom: 0.25rem;
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-muted, #475569);
   font-weight: 500;
 }
 

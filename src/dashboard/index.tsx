@@ -10,6 +10,10 @@ import {
 import { useUser } from "common/context/UserContext"
 import { pages, siteSuggestions } from "routing/base/routes"
 import { preloadCategory } from "routing/base/preload"
+import {
+  LEARNING_PATHS,
+  getPathProgress,
+} from "routing/base/learningPaths"
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa"
 import "./Dashboard.css"
 
@@ -36,7 +40,7 @@ const itemVariants = {
 }
 
 export default function Dashboard() {
-  const { getStats } = useUser()
+  const { getStats, completedTopics } = useUser()
   const stats = getStats()
   const totalVisualizers = siteSuggestions.length
   const progressPercent = Math.round(
@@ -94,6 +98,54 @@ export default function Dashboard() {
       </motion.section>
 
       <div className="features-container">
+        <section className="learning-paths-section">
+          <h2 className="section-heading">Learning Paths</h2>
+          <p className="section-subheading">
+            Curated sequences to guide you from fundamentals to advanced topics.
+          </p>
+          <div className="learning-paths-grid">
+            {LEARNING_PATHS.map((path) => {
+              const progress = getPathProgress(path, completedTopics)
+              return (
+                <div key={path.id} className="learning-path-card">
+                  <div className="learning-path-header">
+                    <span className="learning-path-icon" aria-hidden="true">
+                      {path.icon}
+                    </span>
+                    <div>
+                      <h3>{path.title}</h3>
+                      <p>{path.description}</p>
+                    </div>
+                  </div>
+                  <div className="learning-path-progress">
+                    <span>
+                      {progress.done}/{progress.total} complete ({progress.percent}
+                      %)
+                    </span>
+                    <div className="hero-progress-bar">
+                      <div
+                        className="hero-progress-fill"
+                        style={{ width: `${progress.percent}%` }}
+                      />
+                    </div>
+                  </div>
+                  <ol className="learning-path-steps">
+                    {path.steps.map((step) => (
+                      <li key={step.topicId}>
+                        <Link to={step.route}>{step.label}</Link>
+                        {completedTopics.includes(step.topicId) && (
+                          <FaCheckCircle className="step-done" aria-label="Completed" />
+                        )}
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              )
+            })}
+          </div>
+        </section>
+
+        <h2 className="section-heading">Explore Categories</h2>
         <motion.div
           className="features-grid"
           variants={containerVariants}

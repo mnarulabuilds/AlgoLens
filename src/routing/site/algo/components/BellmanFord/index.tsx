@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import styles from "./BellmanFord.module.css"
 
 const BellmanFordVisualizer = () => {
@@ -8,6 +9,7 @@ const BellmanFordVisualizer = () => {
   const [distances, setDistances] = useState({})
   const [log, setLog] = useState([])
   const [negativeCycle, setNegativeCycle] = useState(false)
+  const markComplete = useMarkComplete()
 
   const addNode = () => {
     const newNode = `N${nodes.length}`
@@ -59,6 +61,7 @@ const BellmanFordVisualizer = () => {
     setNegativeCycle(hasNegCycle)
     setDistances(dist)
     setLog(logSteps)
+    if (nodes.length > 0) markComplete()
   }
 
   return (

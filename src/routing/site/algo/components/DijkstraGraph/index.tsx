@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import styles from "./DijkstraGraph.module.css"
 
 const Dijkstra = () => {
@@ -32,6 +33,13 @@ const Dijkstra = () => {
   const [current, setCurrent] = useState(null)
   const [distances, setDistances] = useState({})
   const [step, setStep] = useState(0)
+  const markComplete = useMarkComplete()
+
+  useEffect(() => {
+    if (visited.length === nodes.length && current === null && step > 0) {
+      markComplete()
+    }
+  }, [visited.length, current, step, markComplete, nodes.length])
 
   useEffect(() => {
     const runDijkstra = async () => {

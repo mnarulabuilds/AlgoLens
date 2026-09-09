@@ -1,0 +1,60 @@
+/* Touch-friendly layout and collapsible controls on small screens */
+
+@media (max-width: 768px) {
+  .visualizer-toolbar-row {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .visualizer-toolbar-group {
+    width: 100%;
+  }
+
+  .visualizer-toolbar-speed {
+    order: 3;
+  }
+
+  .visualizer-keyboard-hints {
+    display: none;
+  }
+
+  .sim-workbench-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sim-btn,
+  .visualizer-toolbar .btn,
+  .hero-cta,
+  .feature-link {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  .learning-paths-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .profile-page .tabs {
+    flex-wrap: wrap;
+  }
+
+  .profile-page .tab {
+    min-height: 44px;
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.75rem !important;
+  }
+
+  .section-heading {
+    font-size: 1.35rem;
+  }
+}

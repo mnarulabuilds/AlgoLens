@@ -24,7 +24,7 @@
 .time-label {
   position: absolute;
   bottom: -25px;
-  color: #666;
+  color: var(--text-muted, #475569);
   font-size: 0.8rem;
   font-weight: normal;
 }

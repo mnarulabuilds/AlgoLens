@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import "./PageReplacement.css"
 
 const PageReplacement = () => {
@@ -6,6 +7,7 @@ const PageReplacement = () => {
   const [frameCount, setFrameCount] = useState(3)
   const [steps, setSteps] = useState([])
   const [faults, setFaults] = useState(0)
+  const markComplete = useMarkComplete()
 
   const simulateFIFO = () => {
     const pages = pageString.split(",").map((p) => p.trim())
@@ -34,6 +36,7 @@ const PageReplacement = () => {
 
     setSteps(results)
     setFaults(pageFaults)
+    markComplete()
   }
 
   return (

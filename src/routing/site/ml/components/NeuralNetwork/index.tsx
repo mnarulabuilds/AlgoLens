@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
@@ -13,6 +14,7 @@ const NeuralNetwork = () => {
   const [animationSpeed, setAnimationSpeed] = useState(500)
   const [inputValues, setInputValues] = useState([0.5, 0.8, 0.3])
   const [showPseudocode, setShowPseudocode] = useState(false)
+  const markComplete = useMarkComplete()
 
   const canvasWidth = 800
   const canvasHeight = 500
@@ -138,6 +140,7 @@ const NeuralNetwork = () => {
     }
 
     setIsAnimating(false)
+    markComplete()
   }
 
   const drawNetwork = () => {

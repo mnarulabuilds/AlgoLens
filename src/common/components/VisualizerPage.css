@@ -11,6 +11,24 @@
   flex-wrap: wrap;
 }
 
+.visualizer-page-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.visualizer-gold-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.2rem 0.5rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffd54f, #ff8f00);
+  color: #1a237e;
+}
+
 .visualizer-page-title {
   margin: 0;
   font-size: 1.5rem;
@@ -29,5 +47,5 @@
 .visualizer-page-content h2.visualization-title {
   font-size: 1.1rem;
   margin-bottom: 1rem;
-  color: var(--text-muted, rgba(255, 255, 255, 0.75));
+  color: var(--text-muted, #b0b8db);
 }

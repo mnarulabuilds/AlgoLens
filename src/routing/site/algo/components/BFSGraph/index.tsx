@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
@@ -30,9 +31,16 @@ const positions = {
   J: { x: 460, y: 200 },
 }
 
+const NODE_COUNT = Object.keys(graph).length
+
 const BFSGraph = () => {
   const [visited, setVisited] = useState([])
   const [showPseudocode, setShowPseudocode] = useState(false)
+  const markComplete = useMarkComplete()
+
+  useEffect(() => {
+    if (visited.length === NODE_COUNT) markComplete()
+  }, [visited.length, markComplete])
 
   const pseudocode = [
     { text: "// Breadth-First Search (BFS) Algorithm", indent: 0 },

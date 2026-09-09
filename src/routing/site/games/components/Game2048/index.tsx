@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { motion } from "framer-motion"
 import "./Game2048.css"
 
@@ -8,6 +9,11 @@ const Game2048 = () => {
   const [bestScore, setBestScore] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
+  const markComplete = useMarkComplete()
+
+  useEffect(() => {
+    if (won) markComplete()
+  }, [won, markComplete])
 
   useEffect(() => {
     const savedBest = localStorage.getItem("2048-best-score")

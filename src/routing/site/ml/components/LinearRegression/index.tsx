@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
@@ -13,6 +14,7 @@ const LinearRegression = () => {
   const [intercept, setIntercept] = useState(0)
   const [learningRate, setLearningRate] = useState(0.01)
   const [loss, setLoss] = useState(0)
+  const markComplete = useMarkComplete()
   const [showPseudocode, setShowPseudocode] = useState(false)
 
   const canvasWidth = 600
@@ -130,6 +132,7 @@ const LinearRegression = () => {
     }
 
     setIsTraining(false)
+    markComplete()
   }
 
   const clearCanvas = () => {

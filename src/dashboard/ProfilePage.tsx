@@ -3,6 +3,10 @@ import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useUser } from "common/context/UserContext"
 import {
+  LEARNING_PATHS,
+  getPathProgress,
+} from "routing/base/learningPaths"
+import {
   FaStar,
   FaHistory,
   FaEdit,
@@ -12,6 +16,7 @@ import {
   FaCalendar,
   FaHeart,
   FaCheckCircle,
+  FaRoute,
 } from "react-icons/fa"
 import "./ProfilePage.css"
 
@@ -24,6 +29,7 @@ const ProfilePage = () => {
     recentlyViewed,
     clearRecentlyViewed,
     getStats,
+    completedTopics,
   } = useUser()
 
   const [isEditing, setIsEditing] = useState(false)
@@ -182,6 +188,12 @@ const ProfilePage = () => {
             >
               <FaHistory /> Recent ({recentlyViewed.length})
             </button>
+            <button
+              className={`tab ${activeTab === "paths" ? "active" : ""}`}
+              onClick={() => setActiveTab("paths")}
+            >
+              <FaRoute /> Paths ({LEARNING_PATHS.length})
+            </button>
           </div>
         </div>
 
@@ -244,6 +256,58 @@ const ProfilePage = () => {
                   ))}
                 </div>
               )}
+            </motion.div>
+          )}
+
+          {activeTab === "paths" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="learning-paths-grid">
+                {LEARNING_PATHS.map((path) => {
+                  const progress = getPathProgress(path, completedTopics)
+                  return (
+                    <div key={path.id} className="learning-path-card">
+                      <div className="learning-path-header">
+                        <span className="learning-path-icon" aria-hidden="true">
+                          {path.icon}
+                        </span>
+                        <div>
+                          <h3>{path.title}</h3>
+                          <p>{path.description}</p>
+                        </div>
+                      </div>
+                      <div className="learning-path-progress">
+                        <span>
+                          {progress.done}/{progress.total} complete (
+                          {progress.percent}%)
+                        </span>
+                        <div className="hero-progress-bar">
+                          <div
+                            className="hero-progress-fill"
+                            style={{ width: `${progress.percent}%` }}
+                          />
+                        </div>
+                      </div>
+                      <ol className="learning-path-steps">
+                        {path.steps.map((step) => (
+                          <li key={step.topicId}>
+                            <Link to={step.route}>{step.label}</Link>
+                            {completedTopics.includes(step.topicId) && (
+                              <FaCheckCircle
+                                className="step-done"
+                                aria-label="Completed"
+                              />
+                            )}
+                          </li>
+                        ))}
+                      </ol>
+                    </div>
+                  )
+                })}
+              </div>
             </motion.div>
           )}
 

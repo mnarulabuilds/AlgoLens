@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import "./CPUScheduling.css"
 
 const CPUScheduling = () => {
@@ -13,6 +14,11 @@ const CPUScheduling = () => {
   const [currentTime, setCurrentTime] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [stats, setStats] = useState({ avgWaiting: 0, avgTurnaround: 0 })
+  const markComplete = useMarkComplete()
+
+  useEffect(() => {
+    if (!isRunning && ganttChart.length > 0) markComplete()
+  }, [isRunning, ganttChart.length, markComplete])
 
   const calculateFCFS = () => {
     let time = 0

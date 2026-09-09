@@ -6,6 +6,7 @@ import RouteSection, { DynamicLoader } from "routing/base/Router"
 import { UserProvider } from "common/context/UserContext"
 import { ThemeProvider } from "common/context/ThemeContext"
 import "./App.css"
+import "./mobile.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import ErrorBoundary from "common/components/ErrorBoundary"
 

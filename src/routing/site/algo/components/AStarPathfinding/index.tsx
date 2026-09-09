@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react"
 import styles from "./AStarPathfinding.module.css"
 import Cell from "./Cell"
+import VisualizerToolbar from "common/components/VisualizerToolbar"
 import useVisualizerControls from "common/hooks/useVisualizerControls"
-import { FaPlay, FaPause, FaStop } from "react-icons/fa"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 
 const GRID_ROWS = 20
 const GRID_COLS = 40
@@ -40,6 +41,11 @@ const AStarPathfinding = () => {
     step,
     wait,
   } = useVisualizerControls(25)
+  const markComplete = useMarkComplete()
+
+  useEffect(() => {
+    if (isComplete && stats.pathLength > 0) markComplete()
+  }, [isComplete, stats.pathLength, markComplete])
 
   // Initialize grid
   useEffect(() => {
@@ -299,69 +305,47 @@ const AStarPathfinding = () => {
         </div>
       </div>
 
-      <div className={styles.controls}>
-        <div className={styles.controlGroup}>
-          <label>Speed:</label>
-          <input
-            type="range"
-            min="1"
-            max="49"
-            value={speed}
-            onChange={(e) => setSpeed(Number(e.target.value))}
-            className={styles.slider}
-          />
-        </div>
-
-        <button
-          onClick={runAStar}
-          disabled={isRunning}
-          className={styles.btnPrimary}
-        >
-          {isRunning ? "Running..." : "Run A*"}
-        </button>
-
-        <div className="d-flex gap-2">
-          {isRunning && (
-            <>
-              <button
-                className="btn btn-warning btn-sm"
-                onClick={isPaused ? resume : pause}
-                title={isPaused ? "Resume" : "Pause"}
-              >
-                {isPaused ? <FaPlay /> : <FaPause />}
-              </button>
-              {isPaused && (
-                <button
-                  className="btn btn-info btn-sm"
-                  onClick={step}
-                  title="Next Step"
-                >
-                  Step
-                </button>
-              )}
-              <button className="btn btn-danger btn-sm" onClick={stopVis} title="Stop">
-                <FaStop />
-              </button>
-            </>
-          )}
-        </div>
-
-        <button
-          onClick={generateMaze}
-          disabled={isRunning}
-          className={styles.btnSecondary}
-        >
-          Generate Maze
-        </button>
-
-        <button
-          onClick={initializeGrid}
-          disabled={isRunning}
-          className={styles.btnSecondary}
-        >
-          Clear Grid
-        </button>
-      </div>
+      <VisualizerToolbar
+        isRunning={isRunning}
+        isPaused={isPaused}
+        speed={speed}
+        onSpeedChange={setSpeed}
+        onPause={pause}
+        onResume={resume}
+        onStop={stopVis}
+        onStep={step}
+        onReset={initializeGrid}
+        speedMin={1}
+        speedMax={49}
+        leftActions={
+          <>
+            <button
+              type="button"
+              onClick={runAStar}
+              disabled={isRunning}
+              className={`${styles.btnPrimary} btn btn-sm`}
+            >
+              {isRunning ? "Running..." : "Run A*"}
+            </button>
+            <button
+              type="button"
+              onClick={generateMaze}
+              disabled={isRunning}
+              className={`${styles.btnSecondary} btn btn-sm`}
+            >
+              Generate Maze
+            </button>
+            <button
+              type="button"
+              onClick={initializeGrid}
+              disabled={isRunning}
+              className={`${styles.btnSecondary} btn btn-sm`}
+            >
+              Clear Grid
+            </button>
+          </>
+        }
+      />
 
       <div className={styles.stats}>
         <div className={styles.stat}>

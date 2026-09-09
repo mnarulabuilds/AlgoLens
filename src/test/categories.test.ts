@@ -7,7 +7,7 @@ import {
 } from "../common/helpers/categories"
 
 describe("categories helpers", () => {
-  it("provides icons for all ten categories", () => {
+  it("provides icons for all fourteen categories", () => {
     const topics = [
       "algo",
       "ds",
@@ -17,6 +17,10 @@ describe("categories helpers", () => {
       "os",
       "networking",
       "ml",
+      "databases",
+      "statistics",
+      "distributed",
+      "compilers",
       "security",
       "logic",
     ]

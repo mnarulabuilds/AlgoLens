@@ -1,4 +1,5 @@
 import React, { lazy, useState, Suspense } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import Insert from "routing/site/algo/components/BinarySearch/Insert"
 import Update from "routing/site/algo/components/BinarySearch/Update"
 import Delete from "routing/site/algo/components/BinarySearch/Delete"
@@ -13,6 +14,7 @@ const BinarySearch = () => {
   const [highlights, setHighlights] = useState({ start: 0, end: -1 })
   const [iter, setIter] = useState(0)
   const [alert, setAlert] = useState(null)
+  const markComplete = useMarkComplete()
 
   const insert = (data) => {
     if (data) {
@@ -91,6 +93,7 @@ const BinarySearch = () => {
     if (arr[mid] === data) {
       setHighlights({ start: mid, end: mid })
       setIter((prevIter) => prevIter + 1)
+      markComplete()
     } else if (arr[mid] < data) {
       setHighlights((highlights) => ({
         ...highlights,

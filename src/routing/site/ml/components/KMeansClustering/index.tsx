@@ -1,4 +1,5 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
@@ -13,6 +14,11 @@ const KMeansClustering = () => {
   const [converged, setConverged] = useState(false)
   const [speed, setSpeed] = useState(500)
   const [showPseudocode, setShowPseudocode] = useState(false)
+  const markComplete = useMarkComplete()
+
+  useEffect(() => {
+    if (converged) markComplete()
+  }, [converged, markComplete])
 
   const canvasWidth = 600
   const canvasHeight = 400

@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useMarkComplete } from "common/hooks/useMarkComplete"
 import {
   createId,
   traceBeam,
@@ -112,6 +113,7 @@ const OpticsSimulation = () => {
   const [activePreset, setActivePreset] = useState<PresetKey>("mirror")
   const [showBeam, setShowBeam] = useState(true)
   const dragRef = useRef<DragTarget>(null)
+  const markComplete = useMarkComplete()
 
   useEffect(() => {
     const node = stageRef.current?.parentElement
@@ -145,8 +147,9 @@ const OpticsSimulation = () => {
       setElements(scaled.elements)
       setSelectedId(null)
       setActivePreset(key)
+      markComplete()
     },
-    [size.width, size.height]
+    [size.width, size.height, markComplete]
   )
 
   const clientToSvg = useCallback((clientX: number, clientY: number) => {

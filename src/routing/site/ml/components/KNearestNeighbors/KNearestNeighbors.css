@@ -2,7 +2,7 @@
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
 }
 
 .knn-header {
@@ -11,13 +11,13 @@
 }
 
 .knn-header h1 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
 }
 
 .knn-header p {
-  color: #b0b0b0;
+  color: var(--viz-text-muted, #b0b0b0);
   font-size: 1.1rem;
 }
 
@@ -82,14 +82,14 @@
 }
 
 .control-group h3 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 0;
   margin-bottom: 1rem;
   font-size: 1.2rem;
 }
 
 .control-group h4 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   font-size: 1rem;
@@ -166,7 +166,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
 }
@@ -183,7 +183,7 @@
   text-align: center;
   font-size: 0.9rem;
   margin-top: 0.5rem;
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
 }
 
 .info-item {
@@ -199,12 +199,12 @@
 }
 
 .info-item span:first-child {
-  color: #b0b0b0;
+  color: var(--viz-text-muted, #b0b0b0);
   font-weight: 600;
 }
 
 .info-item span:last-child {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   font-weight: 700;
 }
 
@@ -237,7 +237,7 @@
 }
 
 .vote-item span:first-child {
-  color: #b0b0b0;
+  color: var(--viz-text-muted, #b0b0b0);
 }
 
 .vote-item span:last-child {
@@ -254,11 +254,11 @@
 
 .instructions li {
   margin-bottom: 0.5rem;
-  color: #b0b0b0;
+  color: var(--viz-text-muted, #b0b0b0);
 }
 
 .instructions strong {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
 }
 
 .knn-info {
@@ -269,26 +269,26 @@
 }
 
 .knn-info h3 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 0;
   font-size: 1.5rem;
 }
 
 .knn-info h4 {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
   margin-top: 1.5rem;
   font-size: 1.2rem;
 }
 
 .knn-info p {
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
 
 .knn-info ol,
 .knn-info ul {
-  color: #e0e0e0;
+  color: var(--viz-text, #e0e0e0);
   line-height: 1.8;
   padding-left: 1.5rem;
 }
@@ -298,7 +298,7 @@
 }
 
 .knn-info strong {
-  color: #4ecca3;
+  color: var(--accent-color, #4ecca3);
 }
 
 /* Scrollbar styling */

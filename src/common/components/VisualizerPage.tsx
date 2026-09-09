@@ -3,6 +3,8 @@ import FavoriteButton from "common/components/FavoriteButton"
 import LearnPanel from "common/components/LearnPanel"
 import useTrackView from "common/hooks/useTrackView"
 import { TopicRef } from "common/context/UserContext"
+import { VisualizerTopicProvider } from "common/context/VisualizerTopicContext"
+import { isGoldVisualizer } from "common/config/goldVisualizers"
 import { getLearnContent } from "routing/base/learnContent"
 import "./VisualizerPage.css"
 
@@ -29,15 +31,26 @@ const VisualizerPage = ({
     }
   }, [pageTitle])
 
+  const gold = isGoldVisualizer(topic.id)
+
   return (
-    <div className="visualizer-page">
-      <div className="visualizer-page-header">
-        <h1 className="visualizer-page-title">{pageTitle}</h1>
-        <FavoriteButton topic={topic} />
+    <VisualizerTopicProvider topic={topic}>
+      <div className="visualizer-page">
+        <div className="visualizer-page-header">
+          <div className="visualizer-page-title-wrap">
+            <h1 className="visualizer-page-title">{pageTitle}</h1>
+            {gold && (
+              <span className="visualizer-gold-badge" title="Gold-tier visualizer">
+                Gold
+              </span>
+            )}
+          </div>
+          <FavoriteButton topic={topic} />
+        </div>
+        {showLearnPanel && <LearnPanel content={learnContent} />}
+        <div className="visualizer-page-content">{children}</div>
       </div>
-      {showLearnPanel && <LearnPanel content={learnContent} />}
-      <div className="visualizer-page-content">{children}</div>
-    </div>
+    </VisualizerTopicProvider>
   )
 }
 

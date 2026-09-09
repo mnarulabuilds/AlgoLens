@@ -14,6 +14,13 @@ describe("learnContent", () => {
     expect(content.useCases?.length).toBeGreaterThan(0)
   })
 
+  it("covers new category topics", () => {
+    const db = getLearnContent("databases/LRUCache")
+    expect(db.summary).toContain("LRU")
+    const stats = getLearnContent("statistics/BayesTheorem")
+    expect(stats.summary).toBeTruthy()
+  })
+
   it("returns a generic fallback for unknown topics", () => {
     const content = getLearnContent("unknown/Topic")
     expect(content.summary).toContain("interactive")
