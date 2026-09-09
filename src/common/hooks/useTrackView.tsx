@@ -3,12 +3,13 @@ import { useUser, TopicRef } from "common/context/UserContext"
 
 const useTrackView = (topicData: TopicRef | null | undefined): void => {
   const { addToRecentlyViewed } = useUser()
+  const topicId = topicData?.id
 
   useEffect(() => {
-    if (topicData && topicData.id) {
+    if (topicData?.id) {
       addToRecentlyViewed(topicData)
     }
-  }, [topicData, addToRecentlyViewed])
+  }, [topicId, addToRecentlyViewed])
 }
 
 export default useTrackView

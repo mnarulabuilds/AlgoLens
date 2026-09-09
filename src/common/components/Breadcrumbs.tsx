@@ -1,7 +1,17 @@
 import React from "react"
 import { useLocation, Link } from "react-router-dom"
 import { FaChevronRight, FaHome } from "react-icons/fa"
+import { getCategoryLabel } from "common/helpers/categories"
+import { getTopicFromRoute } from "routing/base/routes"
 import "./Breadcrumbs.css"
+
+function formatSlug(slug: string): string {
+  return slug
+    .replace(/([a-z])([A-Z])/g, "$1 $2")
+    .split(/[-_\s]+/)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")
+}
 
 const Breadcrumbs = () => {
   const location = useLocation()
@@ -10,11 +20,25 @@ const Breadcrumbs = () => {
 
   if (pathnames.length === 0) return null
 
-  const formatLabel = (slug: string) => {
-    return slug
-      .split("-")
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(" ")
+  const crumbs: { label: string; to: string; isLast: boolean }[] = []
+
+  if (pathnames[0]) {
+    const categoryTopic = pathnames[0]
+    crumbs.push({
+      label: getCategoryLabel(categoryTopic) ?? formatSlug(categoryTopic),
+      to: `/${categoryTopic}`,
+      isLast: pathnames.length === 1,
+    })
+  }
+
+  if (pathnames.length >= 2) {
+    const route = `/${pathnames[0]}/${pathnames[1]}`
+    const topic = getTopicFromRoute(route)
+    crumbs.push({
+      label: topic?.label ?? formatSlug(pathnames[1]),
+      to: route,
+      isLast: true,
+    })
   }
 
   return (
@@ -24,29 +48,25 @@ const Breadcrumbs = () => {
           <li className="breadcrumb-item">
             <Link to="/" className="breadcrumb-link home" title="Home">
               <FaHome />
+              <span className="visually-hidden">Home</span>
             </Link>
           </li>
-          {pathnames.map((value, index) => {
-            const last = index === pathnames.length - 1
-            const to = `/${pathnames.slice(0, index + 1).join("/")}`
-
-            return (
-              <li key={to} className="breadcrumb-item">
-                <span className="separator">
-                  <FaChevronRight />
+          {crumbs.map((crumb) => (
+            <li key={crumb.to} className="breadcrumb-item">
+              <span className="separator" aria-hidden="true">
+                <FaChevronRight />
+              </span>
+              {crumb.isLast ? (
+                <span className="breadcrumb-current" aria-current="page">
+                  {crumb.label}
                 </span>
-                {last ? (
-                  <span className="breadcrumb-current">
-                    {formatLabel(value)}
-                  </span>
-                ) : (
-                  <Link to={to} className="breadcrumb-link">
-                    {formatLabel(value)}
-                  </Link>
-                )}
-              </li>
-            )
-          })}
+              ) : (
+                <Link to={crumb.to} className="breadcrumb-link">
+                  {crumb.label}
+                </Link>
+              )}
+            </li>
+          ))}
         </ol>
       </nav>
     </div>

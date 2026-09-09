@@ -62,12 +62,18 @@ ScrollTop.propTypes = {
 
 function Copyright({ brandName }) {
   return (
-    <div style={{ textAlign: "center", padding: "1rem", color: "white" }}>
+    <div
+      style={{
+        textAlign: "center",
+        padding: "1rem",
+        color: "var(--footer-text, #fff)",
+      }}
+    >
       {"Copyright © "}
       <a
         href={`/${brandName}`}
         style={{
-          color: "#25d4eb",
+          color: "var(--link-accent, #25d4eb)",
           textDecoration: "none",
         }}
       >
@@ -114,12 +120,12 @@ export default function StickyFooter(props) {
       <footer
         style={{
           padding: "2rem 1rem",
-          backgroundColor: "#111",
+          backgroundColor: "var(--footer-bg, #111)",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          color: "white",
-          borderTop: "1px solid rgba(255,255,255,0.1)",
+          color: "var(--footer-text, #fff)",
+          borderTop: "1px solid rgba(128, 128, 128, 0.2)",
         }}
       >
         <Copyright brandName="AlgoLens" />
@@ -137,8 +143,8 @@ export default function StickyFooter(props) {
         </p>
         <button
           style={{
-            backgroundColor: "#162788",
-            color: "white",
+            backgroundColor: "var(--primary-main, #162788)",
+            color: "var(--primary-contrastText, white)",
             border: "none",
             padding: "12px 24px",
             margin: "10px auto",

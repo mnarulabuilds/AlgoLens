@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./Puzzle15.css"
 
 const GRID_SIZE = 4
@@ -15,13 +13,6 @@ const Puzzle15 = () => {
   const [isRunning, setIsRunning] = useState(false)
   const [isSolved, setIsSolved] = useState(false)
   const [bestScore, setBestScore] = useState(null)
-
-  useTrackView({
-    id: "games-puzzle15",
-    label: "15-Puzzle Slider",
-    category: "Game Zone",
-    route: "/games/Puzzle15",
-  })
 
   useEffect(() => {
     const saved = localStorage.getItem("puzzle15-best")
@@ -152,16 +143,7 @@ const Puzzle15 = () => {
       <div className="puzzle15-header">
         <h1>15-Puzzle Slider 🧩</h1>
         <p>Arrange the tiles in order!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-puzzle15",
-              label: "15-Puzzle Slider",
-              category: "Game Zone",
-              route: "/games/Puzzle15",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="puzzle15-content">

@@ -1,8 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { FaRedo, FaUser, FaRobot } from "react-icons/fa"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./ConnectFour.css"
 
 const ROWS = 6
@@ -39,13 +37,6 @@ const ConnectFour = () => {
   useEffect(() => {
     boardRef.current = board
   }, [board])
-
-  useTrackView({
-    id: "games-connect-four",
-    label: "Connect Four",
-    category: "Game Zone",
-    route: "/games/ConnectFour",
-  })
 
   useEffect(() => {
     // Prevent double-scheduling in React 18 StrictMode and ensure latest board is used.
@@ -289,16 +280,7 @@ const ConnectFour = () => {
       <div className="connect-four-header">
         <h1>Connect Four 🔴🟡</h1>
         <p>Connect four discs in a row to win!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-connect-four",
-              label: "Connect Four",
-              category: "Game Zone",
-              route: "/games/ConnectFour",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="connect-four-content">

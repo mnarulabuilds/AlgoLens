@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./Game2048.css"
 
 const Game2048 = () => {
@@ -10,14 +8,6 @@ const Game2048 = () => {
   const [bestScore, setBestScore] = useState(0)
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
-
-  // Track this view
-  useTrackView({
-    id: "games-2048",
-    label: "2048 Game",
-    category: "Game Zone",
-    route: "/games/Game2048",
-  })
 
   useEffect(() => {
     const savedBest = localStorage.getItem("2048-best-score")
@@ -214,16 +204,7 @@ const Game2048 = () => {
       <div className="game2048-header">
         <h1>2048 Game 🔢</h1>
         <p>Use arrow keys to slide tiles. Merge tiles to reach 2048!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-2048",
-              label: "2048 Game",
-              category: "Game Zone",
-              route: "/games/Game2048",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="game2048-content">

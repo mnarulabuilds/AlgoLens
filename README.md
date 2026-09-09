@@ -1,107 +1,104 @@
 # AlgoLens
 
-**AlgoLens** is an interactive visualization playground for **Computer Science, Mathematics, Physics, and Games**. It bridges the gap between abstract theory and intuition by letting you **see** algorithms run, **tweak** parameters, and **experiment** with simulations.
+**AlgoLens** is an interactive visualization playground for **Computer Science, Mathematics, Physics, Games, Operating Systems, Networking, Machine Learning, Security, and Digital Logic**. It bridges the gap between abstract theory and intuition by letting you **see** algorithms run, **tweak** parameters, and **experiment** with simulations.
 
-[**🚀 Live Demo**](https://mnarulabuilds.github.io/AlgoLens/) | [**🎥 Watch Demo Video**](https://youtu.be/ULegeOI0ALE)
+[**Live Demo**](https://mnarulabuilds.github.io/AlgoLens/) | [**Watch Demo Video**](https://youtu.be/ULegeOI0ALE)
 
-## ✨ Features
+## Features
 
-### 🧠 Algorithms
+### Algorithms
 
-- **Pathfinding & Graph**: A\* Pathfinding, Dijkstra, Bellman-Ford, Floyd-Warshall, BFS, DFS, MST (Prim's & Kruskal's), Flood Fill.
-- **Sorting & Searching**: Visual Sorting Algorithms, Binary Search, Jump Search.
-- **Mathematics**: Factorial, Fibonacci, Prime Factorization, Sieve of Eratosthenes, Exponentiation.
-- **Optimization & Others**: N-Queens, Tower of Hanoi, Huffman Coding, Traffic Simulation, Peak Finding, Palindrome Check.
+Pathfinding & graphs (A*, Dijkstra, Bellman-Ford, Floyd-Warshall, BFS, DFS, MST), sorting & searching, math utilities (factorial, Fibonacci, primes, sieve), and classics like N-Queens, Tower of Hanoi, and Huffman coding.
 
-### 🌳 Data Structures
+### Data Structures
 
-- **Trees**: Binary Tree, B-Tree, B+ Tree, Red-Black Tree, Trie (Prefix Tree), Min/Max Heap.
-- **Linear Structures**: Arrays, Linked Lists, Stacks, Queues.
-- **Others**: Disjoint Set Union, Hash Lookup, Randomized Graphs, Sets.
+Arrays, linked lists, stacks, queues, trees (binary, B-tree, B+, red-black, trie), heaps, disjoint set union, hash lookup, and sets.
 
-### 🌌 Physics & Math
+### Physics & Math
 
-- **Physics**: Solar System Simulation, Double Pendulum (Chaos), Wave Interference, Projectile Motion, Simple Harmonic Motion, Simple Pendulum, Rolling Motion, Circular Motion.
-- **Mathematics Utilities**: 2D & 3D Equation Plotters, Advanced Calculator, Number Systems Converter, Pythagoras Theorem Visualizer.
+Solar system, pendulums, wave interference, projectile motion, optics, thermodynamics, 2D/3D plotters, Taylor/Fourier series, fractals, and more.
 
-### 🎮 Game Zone
+### Game Zone
 
-- **Classic Games**: Chess, Sudoku, Tetris, Tic Tac Toe, Rock Paper Scissors.
-- **Puzzles**: Prisoner's Dilemma, Match Tiles.
+Chess, Sudoku, Tetris, 2048, Snake, Minesweeper, Connect Four, Breakout, and many puzzles.
 
-## 🛠️ Tech Stack
+### Operating Systems
 
-- **Frontend**: React.js
-- **Styling**: Bootstrap 5, Styled Components
-- **Visualization**: Three.js (`@react-three/fiber`, `@react-three/drei`), Chart.js
-- **Logic**: Math.js, Chess.js, Web Workers
-- **Routing**: React Router
-- **Build tooling**: Vite 7
+CPU scheduling, page replacement, disk scheduling, Banker's algorithm, dining philosophers, memory allocation.
 
-## ✅ Prerequisites
+### Computer Networking
 
-- **Node.js**: `16.16.0`
-- **npm**: `8.11.0`
+OSI model, TCP handshake, DNS lookup, IPv4 subnetting.
 
-> These match the versions declared in `package.json` under `engines`.
+### Machine Learning
 
-## 📦 Installation & Usage
+Linear regression, k-means, neural networks, gradient descent, k-NN.
 
-1.  **Clone the repository**
+### Cyber Security & Digital Logic
 
-    ```bash
-    git clone https://github.com/mnarulabuilds/AlgoLens.git
-    cd AlgoLens
-    ```
+Caesar cipher, RSA, hashing; logic gates, SR latch, MUX, 7-segment display, full adder.
 
-2.  **Install dependencies**
+### Platform features
 
-    ```bash
-    npm install
-    ```
+- **Favorites & profile** — star any visualizer; track recently viewed pages
+- **Dark / light mode** — toggle in the header (respects system preference by default)
+- **Search** — jump to any of 100+ visualizers from the header
+- **Bug reports** — optional Web3Forms integration
 
-3.  **Start the development server**
+## Tech stack
 
-    ```bash
-    npm start
-    ```
+- **Frontend**: React 18, TypeScript, Vite 7
+- **Styling**: Bootstrap 5, CSS variables, Styled Components
+- **Visualization**: Three.js, Chart.js, Math.js, Chess.js
+- **Routing**: React Router (HashRouter for GitHub Pages)
+- **Testing**: Vitest, Testing Library
 
-    The application will run at `http://localhost:3000`.
+## Prerequisites
 
-4.  **Build for production**
+- **Node.js** 18 or later
+- **npm** 9 or later
 
-    ```bash
-    npm run build
-    ```
+## Installation & usage
 
-## 📜 Scripts
+```bash
+git clone https://github.com/mnarulabuilds/AlgoLens.git
+cd AlgoLens
+npm install
+npm start          # http://localhost:3000
+```
 
-- **`npm run dev`**: run locally (development)
-- **`npm run build`**: production build
-- **`npm run preview`**: preview the production build locally
-- **`npm run deploy`**: deploy to GitHub Pages (uses `gh-pages`)
+## Scripts
 
-## 🧭 Project Structure (high-level)
+| Script | Description |
+|--------|-------------|
+| `npm start` / `npm run dev` | Development server |
+| `npm run build` | Production build |
+| `npm run preview` | Preview production build |
+| `npm run test` | Run unit tests |
+| `npm run lint` | ESLint |
+| `npm run typecheck:strict` | Strict TypeScript check |
+| `npm run deploy` | Build for GitHub Pages and publish via `gh-pages` |
 
-- `src/routing/`: site routes + feature pages (algorithms, games, physics, etc.)
-- `src/base/`: shared layout components
-- `src/common/`: shared UI/components
-- `public/`: static assets and entry HTML
+## Environment variables
 
-## 🤝 Contributing
+Copy `.env.example` to `.env` and set `VITE_WEB3FORMS_ACCESS_KEY` to enable in-app bug reports. For GitHub Pages deploys, add the same secret in your repository settings (used by the deploy workflow).
 
-Contributions are always welcome!
+## Project structure
 
-1.  Fork the project.
-2.  Create your feature branch (`git checkout -b feature/AmazingFeature`).
-3.  Commit your changes (`git commit -m 'Add some AmazingFeature'`).
-4.  Push to the branch (`git push origin feature/AmazingFeature`).
-5.  Open a Pull Request.
+```
+src/
+├── base/           # App shell, header, footer
+├── common/         # Shared components, hooks, context
+├── dashboard/      # Home, category, and profile pages
+└── routing/
+    ├── base/       # Router, routes registry
+    └── site/       # Visualizer components by category
+```
 
-## 🧪 Notes / Troubleshooting
+## Contributing
 
-- If you see **source-map warnings** from dependencies during development, they are typically safe to ignore and do not affect runtime behavior.
+See [CONTRIBUTING.md](CONTRIBUTING.md). Pull requests welcome!
 
-## 📄 License
+## License
 
-This project is open source.
+[MIT](LICENSE)

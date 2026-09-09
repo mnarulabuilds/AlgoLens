@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { motion } from "framer-motion"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./SnakeGame.css"
 
 const GRID_SIZE = 20
@@ -24,14 +22,6 @@ const SnakeGame = () => {
   const [speed, setSpeed] = useState(150)
 
   const directionRef = useRef(direction)
-
-  // Track this view
-  useTrackView({
-    id: "games-snake",
-    label: "Snake Game",
-    category: "Game Zone",
-    route: "/games/SnakeGame",
-  })
 
   useEffect(() => {
     const savedBest = localStorage.getItem("snake-best-score")
@@ -162,16 +152,7 @@ const SnakeGame = () => {
       <div className="snake-game-header">
         <h1>Snake Game 🐍</h1>
         <p>Use arrow keys to control the snake. Eat food to grow!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-snake",
-              label: "Snake Game",
-              category: "Game Zone",
-              route: "/games/SnakeGame",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="snake-game-content">

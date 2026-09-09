@@ -2,7 +2,7 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #3f51b5;
+  background-color: var(--header-bg, #3f51b5);
   z-index: 1100;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
@@ -37,7 +37,8 @@
 }
 
 .home-button,
-.profile-button {
+.profile-button,
+.theme-toggle-button {
   color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
   transition: all 0.3s ease;
@@ -49,10 +50,12 @@
   padding: 0.5rem;
   border-radius: 8px;
   background: transparent;
+  border: none;
 }
 
 .home-button:hover,
-.profile-button:hover {
+.profile-button:hover,
+.theme-toggle-button:hover {
   color: white;
   transform: scale(1.15);
   background: rgba(255, 255, 255, 0.1);
@@ -60,7 +63,8 @@
 }
 
 .home-button:active,
-.profile-button:active {
+.profile-button:active,
+.theme-toggle-button:active {
   transform: scale(1.05);
 }
 

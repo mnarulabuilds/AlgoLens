@@ -2,8 +2,6 @@ import React, { useState } from "react"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./LinearRegression.css"
 
 const LinearRegression = () => {
@@ -16,14 +14,6 @@ const LinearRegression = () => {
   const [learningRate, setLearningRate] = useState(0.01)
   const [loss, setLoss] = useState(0)
   const [showPseudocode, setShowPseudocode] = useState(false)
-
-  // Track this view in user's history
-  useTrackView({
-    id: "ml-linear-regression",
-    label: "Linear Regression",
-    category: "Machine Learning",
-    route: "/ml/LinearRegression",
-  })
 
   const canvasWidth = 600
   const canvasHeight = 400
@@ -178,16 +168,7 @@ const LinearRegression = () => {
             title="View Pseudocode"
           >
             <FaCode /> View Pseudocode
-          </button>
-          <FavoriteButton
-            topic={{
-              id: "ml-linear-regression",
-              label: "Linear Regression",
-              category: "Machine Learning",
-              route: "/ml/LinearRegression",
-            }}
-          />
-        </div>
+          </button>        </div>
       </div>
 
       <div className="lr-content">

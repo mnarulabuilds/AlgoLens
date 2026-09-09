@@ -4,7 +4,8 @@ import { siteSuggestions } from "routing/base/routes"
 import { DynamicLoader } from "routing/base/Router"
 import { useUser } from "common/context/UserContext"
 import { AiFillHome } from "react-icons/ai"
-import { FaUser, FaStar } from "react-icons/fa"
+import { FaUser, FaStar, FaMoon, FaSun } from "react-icons/fa"
+import { useTheme } from "common/context/ThemeContext"
 import "./Header.css"
 
 const Search = lazy(() => import(`common/components/SearchSuggestions`))
@@ -12,6 +13,7 @@ const FixedSideDrawer = lazy(() => import(`base/FixedSideDrawer`))
 
 export default function PrimarySearchAppBar() {
   const { favorites } = useUser()
+  const { theme, toggleTheme } = useTheme()
   const history = useHistory()
   const location = useLocation()
   const isHome = location.pathname === "/"
@@ -42,6 +44,17 @@ export default function PrimarySearchAppBar() {
           >
             <AiFillHome />
           </Link>
+          <button
+            type="button"
+            className="theme-toggle-button"
+            onClick={toggleTheme}
+            aria-label={
+              theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+            }
+            title={theme === "dark" ? "Light mode" : "Dark mode"}
+          >
+            {theme === "dark" ? <FaSun /> : <FaMoon />}
+          </button>
           <Link
             aria-label="profile page"
             to="/profile"

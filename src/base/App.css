@@ -1,8 +1,17 @@
-:root {
+:root,
+[data-theme="dark"] {
   --primary-light: #757ce8;
   --primary-main: #162788;
   --primary-dark: #002884;
   --primary-contrastText: #fff;
+  --text-primary: #fff;
+  --surface-bg: #162788;
+  --content-bg: #1a3099;
+  --header-bg: #3f51b5;
+  --footer-bg: #111;
+  --footer-text: #fff;
+  --accent-color: #4ecca3;
+  --link-accent: #25d4eb;
 
   --secondary-light: #ff7961;
   --secondary-main: #0d681c;
@@ -10,10 +19,36 @@
   --secondary-contrastText: #000;
 }
 
+[data-theme="light"] {
+  --primary-light: #5c6bc0;
+  --primary-main: #e8eaf6;
+  --primary-dark: #3949ab;
+  --primary-contrastText: #1a237e;
+  --text-primary: #1a237e;
+  --surface-bg: #3f51b5;
+  --content-bg: #f5f5f5;
+  --header-bg: #3949ab;
+  --footer-bg: #e8eaf6;
+  --footer-text: #1a237e;
+  --accent-color: #2e7d32;
+  --link-accent: #1565c0;
+
+  --secondary-light: #66bb6a;
+  --secondary-main: #2e7d32;
+  --secondary-dark: #1b5e20;
+  --secondary-contrastText: #fff;
+}
+
 body {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   color: var(--primary-contrastText);
-  background-color: var(--primary-main);
+  background-color: var(--surface-bg);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="light"] .content {
+  background-color: var(--content-bg);
+  color: var(--text-primary);
 }
 
 .App {

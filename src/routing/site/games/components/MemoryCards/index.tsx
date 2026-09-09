@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./MemoryCards.css"
 
 const CARD_SETS = {
@@ -55,13 +53,6 @@ const MemoryCards = () => {
   const [timer, setTimer] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [gameWon, setGameWon] = useState(false)
-
-  useTrackView({
-    id: "games-memory-cards",
-    label: "Memory Cards",
-    category: "Game Zone",
-    route: "/games/MemoryCards",
-  })
 
   useEffect(() => {
     const saved = localStorage.getItem(`memory-best-${difficulty}`)
@@ -153,16 +144,7 @@ const MemoryCards = () => {
       <div className="memory-cards-header">
         <h1>Memory Cards 🃏</h1>
         <p>Match all pairs to win!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-memory-cards",
-              label: "Memory Cards",
-              category: "Game Zone",
-              route: "/games/MemoryCards",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="memory-cards-content">

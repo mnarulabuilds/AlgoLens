@@ -2,57 +2,14 @@ import React from "react"
 import { motion } from "framer-motion"
 import { Link } from "react-router-dom"
 import constants from "common/helpers/constants"
-import { pages } from "routing/base/routes"
 import {
-  FaCode,
-  FaTree,
-  FaAtom,
-  FaCalculator,
-  FaGamepad,
-  FaArrowRight,
-  FaBrain,
-  FaLaptop,
-  FaNetworkWired,
-  FaShieldAlt,
-  FaMicrochip,
-} from "react-icons/fa"
+  categoryIcons,
+  categoryDescriptions,
+  getCategoryIcon,
+} from "common/helpers/categories"
+import { pages } from "routing/base/routes"
+import { FaArrowRight } from "react-icons/fa"
 import "./Dashboard.css"
-
-const iconMap = {
-  algo: <FaCode />,
-  ds: <FaTree />,
-  physics: <FaAtom />,
-  math: <FaCalculator />,
-  games: <FaGamepad />,
-  os: <FaLaptop />,
-  networking: <FaNetworkWired />,
-  ml: <FaBrain />,
-  security: <FaShieldAlt />,
-  logic: <FaMicrochip />,
-}
-
-const descriptions = {
-  algo:
-    "Visualize complex algorithms like Pathfinding, Sorting, and Graph traversals to understand their inner workings.",
-  ds:
-    "Explore fundamental data structures including Trees, Graphs, Linked Lists, and Heaps with interactive demos.",
-  physics:
-    "Simulate physical phenomena such as Projectile Motion, Solar Systems, and Pendulums in a virtual lab.",
-  math:
-    "Interactive tools for plotting equations, number systems, and geometric theorems.",
-  games:
-    "Play and analyze classic games and puzzles backed by Game Theory concepts.",
-  os:
-    "Understand operating system concepts like CPU Scheduling, Memory Allocation, and process synchronization.",
-  networking:
-    "Explore network protocols, TCP/IP stack, DNS resolution, and network communication fundamentals.",
-  ml:
-    "Visualize ML algorithms and neural networks including Linear Regression, K-Means, Neural Networks, and more.",
-  security:
-    "Explore cybersecurity fundamentals including Encryption, Hashing, and secure communication protocols.",
-  logic:
-    "Understand the hardware foundations of computing through Logic Gates, Digital Displays, and Arithmetic Circuits.",
-}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -123,11 +80,11 @@ export default function Dashboard() {
             <motion.div key={category.topic} variants={itemVariants}>
               <Link to={`/${category.topic}`} className="feature-card">
                 <div className="feature-icon-wrapper">
-                  {iconMap[category.topic] || <FaCode />}
+                  {categoryIcons[category.topic] ?? getCategoryIcon(category.topic)}
                 </div>
                 <h3 className="feature-title">{category.label}</h3>
                 <p className="feature-desc">
-                  {descriptions[category.topic] ||
+                  {categoryDescriptions[category.topic] ??
                     "Explore these concepts visually."}
                 </p>
                 <div className="feature-tags">

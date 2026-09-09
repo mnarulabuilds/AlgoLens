@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
 import { FaPlay, FaMapMarkedAlt } from "react-icons/fa"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./MazeGame.css"
 
 const CELL_SIZE = 20
@@ -28,13 +26,6 @@ const MazeGame = () => {
   const [isSolving, setIsSolving] = useState(false)
   const [stats, setStats] = useState({ pathLength: 0, nodesVisited: 0 })
   const canvasRef = useRef(null)
-
-  useTrackView({
-    id: "games-maze",
-    label: "Maze Generator & Solver",
-    category: "Game Zone",
-    route: "/games/MazeGame",
-  })
 
   useEffect(() => {
     generateMaze()
@@ -377,16 +368,7 @@ const MazeGame = () => {
       <div className="maze-game-header">
         <h1>Maze Generator & Solver 🌀</h1>
         <p>Watch algorithms find the path!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-maze",
-              label: "Maze Generator & Solver",
-              category: "Game Zone",
-              route: "/games/MazeGame",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="maze-game-content">

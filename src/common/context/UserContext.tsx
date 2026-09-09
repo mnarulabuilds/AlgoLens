@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from "react"
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react"
 
 export interface User {
   name: string
@@ -130,64 +137,85 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [recentlyViewed])
 
-  const updateUser = (userData: Partial<User>) => {
+  const updateUser = useCallback((userData: Partial<User>) => {
     setUser((prev) => ({ ...prev, ...userData }))
-  }
+  }, [])
 
-  const addFavorite = (topic: TopicRef) => {
-    if (!favorites.find((fav) => fav.id === topic.id)) {
+  const addFavorite = useCallback(
+    (topic: TopicRef) => {
+      if (favorites.some((fav) => fav.id === topic.id)) {
+        return false
+      }
       setFavorites((prev) => [
         ...prev,
         { ...topic, addedAt: new Date().toISOString() },
       ])
       return true
-    }
-    return false
-  }
+    },
+    [favorites]
+  )
 
-  const removeFavorite = (topicId: string) => {
+  const removeFavorite = useCallback((topicId: string) => {
     setFavorites((prev) => prev.filter((fav) => fav.id !== topicId))
-  }
+  }, [])
 
-  const isFavorite = (topicId: string) => {
-    return favorites.some((fav) => fav.id === topicId)
-  }
+  const isFavorite = useCallback(
+    (topicId: string) => favorites.some((fav) => fav.id === topicId),
+    [favorites]
+  )
 
-  const addToRecentlyViewed = (topic: TopicRef) => {
+  const addToRecentlyViewed = useCallback((topic: TopicRef) => {
     setRecentlyViewed((prev) => {
+      if (prev[0]?.id === topic.id) {
+        return prev
+      }
       const filtered = prev.filter((item) => item.id !== topic.id)
-      const updated = [
+      return [
         { ...topic, viewedAt: new Date().toISOString() },
         ...filtered,
-      ]
-      return updated.slice(0, 20)
+      ].slice(0, 20)
     })
-  }
+  }, [])
 
-  const clearRecentlyViewed = () => {
+  const clearRecentlyViewed = useCallback(() => {
     setRecentlyViewed([])
-  }
+  }, [])
 
-  const getStats = () => {
-    return {
+  const getStats = useCallback(
+    () => ({
       totalFavorites: favorites.length,
       totalViewed: recentlyViewed.length,
       categoriesExplored: new Set(favorites.map((f) => f.category)).size,
-    }
-  }
+    }),
+    [favorites, recentlyViewed]
+  )
 
-  const value: UserContextType = {
-    user,
-    updateUser,
-    favorites,
-    addFavorite,
-    removeFavorite,
-    isFavorite,
-    recentlyViewed,
-    addToRecentlyViewed,
-    clearRecentlyViewed,
-    getStats,
-  }
+  const value: UserContextType = useMemo(
+    () => ({
+      user,
+      updateUser,
+      favorites,
+      addFavorite,
+      removeFavorite,
+      isFavorite,
+      recentlyViewed,
+      addToRecentlyViewed,
+      clearRecentlyViewed,
+      getStats,
+    }),
+    [
+      user,
+      updateUser,
+      favorites,
+      addFavorite,
+      removeFavorite,
+      isFavorite,
+      recentlyViewed,
+      addToRecentlyViewed,
+      clearRecentlyViewed,
+      getStats,
+    ]
+  )
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>
 }

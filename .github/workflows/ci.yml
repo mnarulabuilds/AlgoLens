@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Lint, typecheck, and build
+    name: Lint, test, typecheck, and build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -26,7 +26,10 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Typecheck (strict common + routing/base)
+      - name: Test
+        run: npm run test
+
+      - name: Typecheck (strict)
         run: npm run typecheck:strict
 
       - name: Build

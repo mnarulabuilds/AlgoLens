@@ -13,6 +13,9 @@ export type SiteSuggestion = {
   route: string
   title: string
   path: string
+  topicId: string
+  topicLabel: string
+  categoryLabel: string
 }
 
 const pages: Category[] = [
@@ -360,6 +363,10 @@ const pages: Category[] = [
         topic: "Puzzle15",
         label: "15-Puzzle Slider 🧩",
       },
+      {
+        topic: "Breakout",
+        label: "Breakout 🧱",
+      },
     ],
   },
   {
@@ -398,7 +405,7 @@ const pages: Category[] = [
     pages: [
       {
         topic: "OSIModel",
-        label: "OSI Model Explorer  camadas",
+        label: "OSI Model Explorer 🌐",
       },
       {
         topic: "TCPHandshake",
@@ -495,18 +502,38 @@ const dynamicPath = (categoryTopic: string, subjectTopic: string) => {
 }
 
 const siteSuggestions: SiteSuggestion[] = []
+const topicByRoute: Record<
+  string,
+  { id: string; label: string; category: string; route: string }
+> = {}
 
 pages.forEach((category) => {
   category.pages.forEach((subject) => {
     const path = `${dynamicPath(category.topic, subject.topic)}`
     const route = `/${dynamicRoute(category.topic, subject.topic)}`
     const title = `${category.label} : ${subject.label}`
+    const topicId = `${category.topic}/${subject.topic}`
+
     siteSuggestions.push({
       route,
       title,
       path,
+      topicId,
+      topicLabel: subject.label,
+      categoryLabel: category.label,
     })
+
+    topicByRoute[route] = {
+      id: topicId,
+      label: subject.label,
+      category: category.label,
+      route,
+    }
   })
 })
 
-export { siteSuggestions, pages }
+function getTopicFromRoute(route: string) {
+  return topicByRoute[route]
+}
+
+export { siteSuggestions, pages, getTopicFromRoute }

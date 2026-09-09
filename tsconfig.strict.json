@@ -9,12 +9,13 @@
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
+    "baseUrl": "./src",
     "paths": {
-      "base/*": ["base/*"],
-      "common/*": ["common/*"],
-      "dashboard/*": ["routing/base/__strict_shims__/*"],
-      "routing/*": ["routing/*"],
-      "src/*": ["*"]
+      "base/*": ["./base/*"],
+      "common/*": ["./common/*"],
+      "dashboard/*": ["./routing/base/__strict_shims__/*"],
+      "routing/*": ["./routing/*"],
+      "src/*": ["./*"]
     }
   },
   "include": [

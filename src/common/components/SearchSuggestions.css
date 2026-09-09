@@ -56,8 +56,14 @@
   border-bottom: 1px solid #f0f0f0;
 }
 
-.search-dropdown-item:hover {
+.search-dropdown-item:hover,
+.search-dropdown-item.active {
   background-color: #f5f5f5;
+}
+
+.search-highlight {
+  font-weight: 700;
+  color: var(--accent-color, #4ecca3);
 }
 
 .search-dropdown-item:last-child {

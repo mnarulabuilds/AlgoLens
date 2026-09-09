@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { FaBomb, FaFlag } from "react-icons/fa"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./Minesweeper.css"
 
 const DIFFICULTY = {
@@ -22,13 +20,6 @@ const Minesweeper = () => {
   const [timer, setTimer] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   const [firstClick, setFirstClick] = useState(true)
-
-  useTrackView({
-    id: "games-minesweeper",
-    label: "Minesweeper",
-    category: "Game Zone",
-    route: "/games/Minesweeper",
-  })
 
   useEffect(() => {
     let interval
@@ -218,16 +209,7 @@ const Minesweeper = () => {
       <div className="minesweeper-header">
         <h1>Minesweeper 💣</h1>
         <p>Find all mines without detonating any!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-minesweeper",
-              label: "Minesweeper",
-              category: "Game Zone",
-              route: "/games/Minesweeper",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="minesweeper-content">

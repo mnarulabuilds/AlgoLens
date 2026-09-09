@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { FaLightbulb, FaRedo } from "react-icons/fa"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import "./LightsOut.css"
 
 const GRID_SIZES = {
@@ -20,13 +18,6 @@ const LightsOut = () => {
     easy: null,
     medium: null,
     hard: null,
-  })
-
-  useTrackView({
-    id: "games-lights-out",
-    label: "Lights Out",
-    category: "Game Zone",
-    route: "/games/LightsOut",
   })
 
   useEffect(() => {
@@ -121,16 +112,7 @@ const LightsOut = () => {
       <div className="lights-out-header">
         <h1>Lights Out 💡</h1>
         <p>Turn off all the lights!</p>
-        <div className="header-buttons">
-          <FavoriteButton
-            topic={{
-              id: "games-lights-out",
-              label: "Lights Out",
-              category: "Game Zone",
-              route: "/games/LightsOut",
-            }}
-          />
-        </div>
+        <div className="header-buttons">        </div>
       </div>
 
       <div className="lights-out-content">

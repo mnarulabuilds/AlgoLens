@@ -4,6 +4,7 @@ import SiteFooter from "./StickyFooter"
 import SiteHeader from "./StickyHeader"
 import RouteSection, { DynamicLoader } from "routing/base/Router"
 import { UserProvider } from "common/context/UserContext"
+import { ThemeProvider } from "common/context/ThemeContext"
 import "./App.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import ErrorBoundary from "common/components/ErrorBoundary"
@@ -30,32 +31,34 @@ const theme = {
 function App() {
   return (
     <ErrorBoundary>
-      <UserProvider>
-        <Router>
-          <div
-            className="App"
-            style={
-              {
-                "--primary-light": theme.palette.primary.light,
-                "--primary-main": theme.palette.primary.main,
-                "--primary-dark": theme.palette.primary.dark,
-                "--primary-contrastText": theme.palette.primary.contrastText,
-                "--secondary-light": theme.palette.secondary.light,
-                "--secondary-main": theme.palette.secondary.main,
-                "--secondary-dark": theme.palette.secondary.dark,
-                "--secondary-contrastText": theme.palette.secondary.contrastText,
-              } as any
-            }
-          >
-            <SiteHeader />
-            <div style={{ marginTop: 70 }}>
-              {DynamicLoader(Breadcrumbs)}
-              <RouteSection />
+      <ThemeProvider>
+        <UserProvider>
+          <Router>
+            <div
+              className="App"
+              style={
+                {
+                  "--primary-light": theme.palette.primary.light,
+                  "--primary-main": theme.palette.primary.main,
+                  "--primary-dark": theme.palette.primary.dark,
+                  "--primary-contrastText": theme.palette.primary.contrastText,
+                  "--secondary-light": theme.palette.secondary.light,
+                  "--secondary-main": theme.palette.secondary.main,
+                  "--secondary-dark": theme.palette.secondary.dark,
+                  "--secondary-contrastText": theme.palette.secondary.contrastText,
+                } as any
+              }
+            >
+              <SiteHeader />
+              <div style={{ marginTop: 70 }}>
+                {DynamicLoader(Breadcrumbs)}
+                <RouteSection />
+              </div>
+              <SiteFooter />
             </div>
-            <SiteFooter />
-          </div>
-        </Router>
-      </UserProvider>
+          </Router>
+        </UserProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   )
 }

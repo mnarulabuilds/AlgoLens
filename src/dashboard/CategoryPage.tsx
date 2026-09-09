@@ -1,27 +1,10 @@
 import React from "react"
 import { motion } from "framer-motion"
 import { useParams, Link } from "react-router-dom"
+import { getCategoryIcon } from "common/helpers/categories"
 import { pages } from "routing/base/routes"
-import {
-  FaCode,
-  FaTree,
-  FaAtom,
-  FaCalculator,
-  FaGamepad,
-  FaArrowLeft,
-  FaExternalLinkAlt,
-  FaDesktop,
-} from "react-icons/fa"
+import { FaArrowLeft, FaExternalLinkAlt } from "react-icons/fa"
 import "./Dashboard.css"
-
-const iconMap = {
-  algo: <FaCode />,
-  ds: <FaTree />,
-  physics: <FaAtom />,
-  math: <FaCalculator />,
-  games: <FaGamepad />,
-  os: <FaDesktop />,
-}
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -72,7 +55,9 @@ export default function CategoryPage() {
             animate={{ y: 0, opacity: 1 }}
             className="d-flex align-items-center gap-3 mt-4"
           >
-            <div className="category-icon-large">{iconMap[category.topic]}</div>
+            <div className="category-icon-large">
+              {getCategoryIcon(category.topic)}
+            </div>
             <div>
               <h1 className="category-title-main">{category.label}</h1>
               <p className="category-subtitle-main">

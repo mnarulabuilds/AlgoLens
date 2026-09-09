@@ -2,8 +2,6 @@ import React, { useState, useEffect, useMemo } from "react"
 import { FaCode, FaPlay, FaPause, FaStop, FaRandom } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import FavoriteButton from "common/components/FavoriteButton"
-import useTrackView from "common/hooks/useTrackView"
 import useVisualizerControls from "common/hooks/useVisualizerControls"
 import "./SortingVisualizer.css"
 
@@ -27,13 +25,6 @@ const SortingVisualizer = () => {
     step,
     wait,
   } = useVisualizerControls(60)
-
-  useTrackView({
-    id: "algo-sorting",
-    label: "Sorting Algorithms",
-    category: "Algorithms",
-    route: "/algo/Sorting",
-  })
 
   const algoData = {
     bubble: {
@@ -170,14 +161,6 @@ const SortingVisualizer = () => {
               {algoData[activeAlgo].title}: {algoData[activeAlgo].complexity}
             </span>
           )}
-          <FavoriteButton
-            topic={{
-              id: "algo-sorting",
-              label: "Sorting Algorithms",
-              category: "Algorithms",
-              route: "/algo/Sorting",
-            }}
-          />
         </div>
       </div>
 
