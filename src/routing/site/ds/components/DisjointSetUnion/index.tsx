@@ -407,7 +407,7 @@ const DisjointSetUnion = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Disjoint Set Union (Union-Find) 🔗</h1>
+      <h2 className={styles.title}>Disjoint Set Union (Union-Find) 🔗</h2>
 
       {/* Description */}
       <div className={styles.description}>

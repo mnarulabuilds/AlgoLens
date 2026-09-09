@@ -130,7 +130,7 @@ const BinarySearch = () => {
   return (
     <div className="container py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="mb-0">Binary Search 🔍</h1>
+        <h2 className="mb-0">Binary Search 🔍</h2>
         <div className="complexity-badge" title="Time Complexity">
           <span className="badge bg-dark">O(log n)</span>
         </div>

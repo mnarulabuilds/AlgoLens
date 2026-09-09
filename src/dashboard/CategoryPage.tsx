@@ -3,6 +3,7 @@ import { motion } from "framer-motion"
 import { useParams, Link } from "react-router-dom"
 import { getCategoryIcon } from "common/helpers/categories"
 import { pages } from "routing/base/routes"
+import { preloadVisualizer } from "routing/base/preload"
 import { FaArrowLeft, FaExternalLinkAlt } from "react-icons/fa"
 import "./Dashboard.css"
 
@@ -81,6 +82,9 @@ export default function CategoryPage() {
               <Link
                 to={`/${category.topic}/${page.topic}`}
                 className="subcategory-card"
+                onMouseEnter={() =>
+                  preloadVisualizer(`/${category.topic}/${page.topic}`)
+                }
               >
                 <div className="subcategory-info">
                   <h3 className="subcategory-name">{page.label}</h3>

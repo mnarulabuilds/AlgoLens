@@ -393,7 +393,7 @@ const RedBlackTreeVisualizer = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Red-Black Tree Visualization 🔴⚫</h1>
+      <h2 className={styles.title}>Red-Black Tree Visualization 🔴⚫</h2>
 
       {/* Description */}
       <div className={styles.description}>

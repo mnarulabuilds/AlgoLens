@@ -1,15 +1,27 @@
 import React, { useState, useEffect, useMemo } from "react"
-import { FaCode, FaPlay, FaPause, FaStop, FaRandom } from "react-icons/fa"
+import { FaCode, FaRandom } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
+import VisualizerToolbar from "common/components/VisualizerToolbar"
 import useVisualizerControls from "common/hooks/useVisualizerControls"
+import {
+  useVisualizerParams,
+  parseIntParam,
+} from "common/hooks/useVisualizerParams"
+import { useUser } from "common/context/UserContext"
 import "./SortingVisualizer.css"
 
+const TOPIC_ID = "algo/Sorting"
+
+type AlgoKey = "bubble" | "quick" | "merge"
+
 const SortingVisualizer = () => {
-  const [array, setArray] = useState([])
-  const [arraySize, setArraySize] = useState(40)
+  const { markComplete } = useUser()
+  const [params, setParams] = useVisualizerParams({ size: "40" })
+  const arraySize = parseIntParam(params.size, 40, 10, 100)
+  const [array, setArray] = useState<number[]>([])
   const [showPseudocode, setShowPseudocode] = useState(false)
-  const [activeAlgo, setActiveAlgo] = useState(null)
+  const [activeAlgo, setActiveAlgo] = useState<AlgoKey | null>(null)
 
   const {
     isRunning,
@@ -26,7 +38,14 @@ const SortingVisualizer = () => {
     wait,
   } = useVisualizerControls(60)
 
-  const algoData = {
+  const algoData: Record<
+    AlgoKey,
+    {
+      title: string
+      complexity: string
+      pseudocode: { text: string; indent: number }[]
+    }
+  > = {
     bubble: {
       title: "Bubble Sort",
       complexity: "O(n²)",
@@ -76,7 +95,11 @@ const SortingVisualizer = () => {
     generateRandomArray(arraySize)
   }, [arraySize])
 
-  const generateRandomArray = (size) => {
+  const setArraySize = (size: number) => {
+    setParams({ size: String(size) })
+  }
+
+  const generateRandomArray = (size: number) => {
     if (isRunning) return
     const newArray = Array.from(
       { length: size },
@@ -106,9 +129,10 @@ const SortingVisualizer = () => {
         }
       }
     } catch (e) {
-      if (e.message !== "ALGORITHM_STOPPED") throw e
+      if ((e as Error).message !== "ALGORITHM_STOPPED") throw e
     }
     stop()
+    markComplete(TOPIC_ID)
   }
 
   const handleQuickSort = async () => {
@@ -118,12 +142,13 @@ const SortingVisualizer = () => {
     try {
       await quickSortInternal(arr, 0, arr.length - 1)
     } catch (e) {
-      if (e.message !== "ALGORITHM_STOPPED") throw e
+      if ((e as Error).message !== "ALGORITHM_STOPPED") throw e
     }
     stop()
+    markComplete(TOPIC_ID)
   }
 
-  const quickSortInternal = async (arr, low, high) => {
+  const quickSortInternal = async (arr: number[], low: number, high: number) => {
     if (low < high) {
       setHighlightedLine(1)
       const pi = await partition(arr, low, high)
@@ -134,7 +159,7 @@ const SortingVisualizer = () => {
     }
   }
 
-  const partition = async (arr, low, high) => {
+  const partition = async (arr: number[], low: number, high: number) => {
     const pivot = arr[high]
     let i = low - 1
     for (let j = low; j < high; j++) {
@@ -154,7 +179,7 @@ const SortingVisualizer = () => {
   return (
     <div className="sorting-visualizer container py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className="visualization-title mb-0">Sorting Visualizer 📊</h1>
+        <h2 className="visualization-title mb-0">Sorting Visualizer 📊</h2>
         <div className="d-flex gap-3 align-items-center">
           {activeAlgo && (
             <span className="badge bg-primary fs-6">
@@ -164,32 +189,42 @@ const SortingVisualizer = () => {
         </div>
       </div>
 
-      <div className="controls card p-3 shadow-sm mb-4">
-        <div className="d-flex flex-wrap gap-3 align-items-center justify-content-center">
-          <button
-            className="btn btn-outline-info d-flex align-items-center gap-2"
-            onClick={() => {
-              if (isRunning) {
-                setShowPseudocode(true)
-              } else {
+      <VisualizerToolbar
+        isRunning={isRunning}
+        isPaused={isPaused}
+        speed={speed}
+        onSpeedChange={setSpeed}
+        onPause={pause}
+        onResume={resume}
+        onStop={stop}
+        onStep={step}
+        onReset={() => generateRandomArray(arraySize)}
+        leftActions={
+          <>
+            <button
+              type="button"
+              className="btn btn-outline-info d-flex align-items-center gap-2"
+              onClick={() => {
                 if (!activeAlgo) setActiveAlgo("bubble")
                 setShowPseudocode(true)
-              }
-            }}
-          >
-            <FaCode /> Pseudocode
-          </button>
-
-          <button
-            className="btn btn-secondary d-flex align-items-center gap-2"
-            onClick={() => generateRandomArray(arraySize)}
-            disabled={isRunning}
-          >
-            <FaRandom /> Generate
-          </button>
-
+              }}
+            >
+              <FaCode /> Pseudocode
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary d-flex align-items-center gap-2"
+              onClick={() => generateRandomArray(arraySize)}
+              disabled={isRunning}
+            >
+              <FaRandom /> Generate
+            </button>
+          </>
+        }
+        centerActions={
           <div className="btn-group">
             <button
+              type="button"
               className="btn btn-primary"
               onClick={handleBubbleSort}
               disabled={isRunning || isSorted}
@@ -197,6 +232,7 @@ const SortingVisualizer = () => {
               Bubble
             </button>
             <button
+              type="button"
               className="btn btn-primary"
               onClick={handleQuickSort}
               disabled={isRunning || isSorted}
@@ -204,60 +240,25 @@ const SortingVisualizer = () => {
               Quick
             </button>
           </div>
-
-          <div className="d-flex align-items-center gap-2 ms-md-4">
-            {isRunning && (
-              <>
-                <button
-                  className="btn btn-warning btn-sm"
-                  onClick={isPaused ? resume : pause}
-                  title={isPaused ? "Resume" : "Pause"}
-                >
-                  {isPaused ? <FaPlay /> : <FaPause />}
-                </button>
-                {isPaused && (
-                  <button
-                    className="btn btn-info btn-sm"
-                    onClick={step}
-                    title="Next Step"
-                  >
-                    Step
-                  </button>
-                )}
-                <button className="btn btn-danger btn-sm" onClick={stop} title="Stop">
-                  <FaStop />
-                </button>
-              </>
-            )}
+        }
+        rightActions={
+          <div className="range-control">
+            <label className="small fw-bold d-block" htmlFor="array-size">
+              Size: {arraySize}
+            </label>
+            <input
+              id="array-size"
+              type="range"
+              className="form-range"
+              min="10"
+              max="100"
+              value={arraySize}
+              onChange={(e) => setArraySize(Number(e.target.value))}
+              disabled={isRunning}
+            />
           </div>
-
-          <div className="d-flex align-items-center gap-3 ms-md-auto">
-            <div className="range-control">
-              <label className="small fw-bold d-block">Size: {arraySize}</label>
-              <input
-                type="range"
-                className="form-range"
-                min="10"
-                max="100"
-                value={arraySize}
-                onChange={(e) => setArraySize(Number(e.target.value))}
-                disabled={isRunning}
-              />
-            </div>
-            <div className="range-control">
-              <label className="small fw-bold d-block">Speed</label>
-              <input
-                type="range"
-                className="form-range"
-                min="1"
-                max="100"
-                value={speed}
-                onChange={(e) => setSpeed(Number(e.target.value))}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+        }
+      />
 
       <div className="array-container shadow-sm rounded">
         {array.map((value, idx) => (

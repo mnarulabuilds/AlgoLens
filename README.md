@@ -75,8 +75,10 @@ npm start          # http://localhost:3000
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
 | `npm run test` | Run unit tests |
+| `npm run test:coverage` | Run tests with coverage report |
 | `npm run lint` | ESLint |
 | `npm run typecheck:strict` | Strict TypeScript check |
+| `npm run check:bundle-size` | Verify production bundle gzip budgets |
 | `npm run deploy` | Build for GitHub Pages and publish via `gh-pages` |
 
 ## Environment variables

@@ -25,7 +25,6 @@ export default defineConfig({
       output: {
         manualChunks: {
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-charts': ['chart.js', 'react-chartjs-2'],
         },
       },
     },
@@ -34,5 +33,16 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'lcov'],
+      include: ['src/common/**', 'src/routing/base/**'],
+      thresholds: {
+        lines: 45,
+        functions: 15,
+        branches: 35,
+        statements: 45,
+      },
+    },
   },
 });

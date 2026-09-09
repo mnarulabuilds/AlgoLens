@@ -150,7 +150,7 @@ const PrimsMST = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Prim&apos;s Minimum Spanning Tree 🌳</h1>
+      <h2 className={styles.title}>Prim&apos;s Minimum Spanning Tree 🌳</h2>
 
       {/* Legend */}
       <div className={styles.legend}>

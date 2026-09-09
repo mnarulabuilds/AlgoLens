@@ -244,3 +244,44 @@
 .subcategory-card:hover .subcategory-action {
   opacity: 1;
 }
+
+.hero-progress {
+  margin-top: 2rem;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  opacity: 0.95;
+}
+
+.hero-progress-bar {
+  height: 8px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hero-progress-fill {
+  height: 100%;
+  background: #4ecca3;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+[data-theme="light"] .dashboard-root {
+  --dashboard-bg: #f5f5f5;
+  --hero-gradient: linear-gradient(135deg, #3949ab 0%, #2e7d32 100%);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --text-primary: #1a237e;
+  --text-secondary: #4a5568;
+}
+
+[data-theme="light"] .profile-page .stat-card,
+[data-theme="light"] .profile-page .tab-content,
+[data-theme="light"] .profile-page .tabs {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a237e;
+}

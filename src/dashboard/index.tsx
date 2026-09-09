@@ -7,8 +7,10 @@ import {
   categoryDescriptions,
   getCategoryIcon,
 } from "common/helpers/categories"
-import { pages } from "routing/base/routes"
-import { FaArrowRight } from "react-icons/fa"
+import { useUser } from "common/context/UserContext"
+import { pages, siteSuggestions } from "routing/base/routes"
+import { preloadCategory } from "routing/base/preload"
+import { FaArrowRight, FaCheckCircle } from "react-icons/fa"
 import "./Dashboard.css"
 
 const containerVariants = {
@@ -34,6 +36,13 @@ const itemVariants = {
 }
 
 export default function Dashboard() {
+  const { getStats } = useUser()
+  const stats = getStats()
+  const totalVisualizers = siteSuggestions.length
+  const progressPercent = Math.round(
+    (stats.totalCompleted / totalVisualizers) * 100
+  )
+
   return (
     <div className="dashboard-root">
       <motion.section
@@ -66,6 +75,21 @@ export default function Dashboard() {
               Start Exploring <FaArrowRight style={{ marginLeft: "8px" }} />
             </Link>
           </motion.div>
+          {stats.totalCompleted > 0 && (
+            <div className="hero-progress" aria-label="Learning progress">
+              <FaCheckCircle aria-hidden="true" />
+              <span>
+                {stats.totalCompleted} of {totalVisualizers} visualizers
+                completed ({progressPercent}%)
+              </span>
+              <div className="hero-progress-bar">
+                <div
+                  className="hero-progress-fill"
+                  style={{ width: `${progressPercent}%` }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </motion.section>
 
@@ -78,7 +102,11 @@ export default function Dashboard() {
         >
           {pages.map((category) => (
             <motion.div key={category.topic} variants={itemVariants}>
-              <Link to={`/${category.topic}`} className="feature-card">
+              <Link
+                to={`/${category.topic}`}
+                className="feature-card"
+                onMouseEnter={() => preloadCategory(category.topic)}
+              >
                 <div className="feature-icon-wrapper">
                   {categoryIcons[category.topic] ?? getCategoryIcon(category.topic)}
                 </div>

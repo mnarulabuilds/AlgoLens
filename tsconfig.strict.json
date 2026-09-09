@@ -21,6 +21,7 @@
   "include": [
     "src/common/**/*",
     "src/routing/base/**/*",
+    "src/routing/site/algo/components/Sorting/index.tsx",
     "src/vite-env.d.ts"
   ],
   "exclude": ["node_modules", "build"]

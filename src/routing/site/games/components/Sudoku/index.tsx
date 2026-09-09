@@ -369,7 +369,7 @@ export default function SudokuGame() {
     <div className={styles.container}>
       <div className={styles.headerRow}>
         <div>
-          <h1 className={styles.title}>Sudoku</h1>
+          <h2 className={styles.title}>Sudoku</h2>
           <p className={styles.hint}>
             Keys: 1–9 fill • 0/Delete clear • Arrows/WASD move • Enter = Pencil
           </p>

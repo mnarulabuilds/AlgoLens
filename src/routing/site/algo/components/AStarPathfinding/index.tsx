@@ -266,7 +266,7 @@ const AStarPathfinding = () => {
   return (
     <div className={styles.container}>
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1 className={`${styles.title} mb-0`}>A* Pathfinding Algorithm 🎯</h1>
+        <h2 className={`${styles.title} mb-0`}>A* Pathfinding Algorithm 🎯</h2>
         <div className="complexity-badge" title="Time Complexity">
           <span className="badge bg-dark">O(E log V)</span>
         </div>

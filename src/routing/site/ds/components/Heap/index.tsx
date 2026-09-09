@@ -283,9 +283,9 @@ const Heap = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>
+      <h2 className={styles.title}>
         {heapType === "min" ? "Min" : "Max"} Heap Visualization 🏔️
-      </h1>
+      </h2>
 
       {/* Heap Type Toggle */}
       <div className={styles.toggleSection}>

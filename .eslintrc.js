@@ -15,6 +15,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:jsx-a11y/recommended",
     "prettier",
   ],
   parser: "@typescript-eslint/parser",
@@ -25,7 +26,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: ["react", "@typescript-eslint", "prettier"],
+  plugins: ["react", "@typescript-eslint", "jsx-a11y", "prettier"],
   rules: {
     // Formatting should not block CI; Prettier can still run locally / via editor.
     "prettier/prettier": "warn",
@@ -43,6 +44,10 @@ module.exports = {
     ],
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
+    "jsx-a11y/click-events-have-key-events": "warn",
+    "jsx-a11y/no-static-element-interactions": "warn",
+    "jsx-a11y/anchor-is-valid": "warn",
+    "jsx-a11y/label-has-associated-control": "warn",
   },
   ignorePatterns: ["build/", "node_modules/", "public/", "*.config.js"],
 }

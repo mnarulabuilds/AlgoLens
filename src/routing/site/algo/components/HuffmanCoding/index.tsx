@@ -283,7 +283,7 @@ const HuffmanCoding = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Huffman Coding - Data Compression 🗜️</h1>
+      <h2 className={styles.title}>Huffman Coding - Data Compression 🗜️</h2>
 
       {/* Input Section */}
       <div className={styles.inputSection}>

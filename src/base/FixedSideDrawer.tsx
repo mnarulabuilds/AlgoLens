@@ -1,35 +1,12 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useHistory } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { categoryIcons } from "common/helpers/categories"
+import { preloadVisualizer } from "routing/base/preload"
 import { motion, AnimatePresence } from "framer-motion"
 import { pages } from "routing/base/routes"
 import useOutsideClick from "common/hooks/useOutsideClick"
-import {
-  FaCode,
-  FaTree,
-  FaAtom,
-  FaCalculator,
-  FaGamepad,
-  FaChevronRight,
-  FaDesktop,
-  FaNetworkWired,
-  FaBrain,
-  FaShieldAlt,
-  FaMicrochip,
-} from "react-icons/fa"
+import { FaChevronRight } from "react-icons/fa"
 import "./SideDrawer.css"
-
-const iconMap = {
-  algo: <FaCode />,
-  ds: <FaTree />,
-  physics: <FaAtom />,
-  math: <FaCalculator />,
-  games: <FaGamepad />,
-  os: <FaDesktop />,
-  networking: <FaNetworkWired />,
-  ml: <FaBrain />,
-  security: <FaShieldAlt />,
-  logic: <FaMicrochip />,
-}
 
 const cleanLabel = (label) => {
   return label
@@ -41,7 +18,7 @@ const cleanLabel = (label) => {
 }
 
 const SideDrawer = () => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const sideDrawerRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({})
@@ -63,7 +40,7 @@ const SideDrawer = () => {
 
   // Close everything when an item is selected
   const handleItemClick = (category: string, page: string) => {
-    history.push(`/${category}/${page}`)
+    navigate(`/${category}/${page}`)
     setIsOpen(false)
   }
 
@@ -129,7 +106,7 @@ const SideDrawer = () => {
                     >
                       <div className="section-label">
                         <span className="section-icon">
-                          {iconMap[section.topic]}
+                          {categoryIcons[section.topic]}
                         </span>
                         {cleanLabel(section.label)}
                       </div>
@@ -158,9 +135,22 @@ const SideDrawer = () => {
                             >
                               <div
                                 className="route"
+                                role="button"
+                                tabIndex={0}
+                                onMouseEnter={() =>
+                                  preloadVisualizer(
+                                    `/${section.topic}/${subpage.topic}`
+                                  )
+                                }
                                 onClick={() =>
                                   handleItemClick(section.topic, subpage.topic)
                                 }
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault()
+                                    handleItemClick(section.topic, subpage.topic)
+                                  }
+                                }}
                               >
                                 {cleanLabel(subpage.label)}
                               </div>

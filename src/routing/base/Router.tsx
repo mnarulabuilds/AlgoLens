@@ -6,7 +6,7 @@ import React, {
   useEffect,
   useMemo,
 } from "react"
-import { Route, Switch, useLocation } from "react-router-dom"
+import { Route, Routes as AppRoutes, useLocation } from "react-router-dom"
 import { siteSuggestions, SiteSuggestion } from "./routes"
 import VisualizerPage from "common/components/VisualizerPage"
 
@@ -15,7 +15,6 @@ const CategoryPage = lazy(() => import("dashboard/CategoryPage"))
 const ProfilePage = lazy(() => import("dashboard/ProfilePage"))
 const NotFound = lazy(() => import("./NotFound"))
 
-// Vite needs a statically analyzable glob so every visualizer becomes its own chunk.
 const siteModules = import.meta.glob("../site/**/index.tsx")
 
 type AnyComponent = ComponentType<Record<string, unknown>>
@@ -115,29 +114,25 @@ function RouteSection() {
 
   return (
     <main className="content">
-      <Switch>
-        <Route exact path={`/`} render={() => DynamicLoader(Dashboard)} />
+      <AppRoutes>
+        <Route path="/" element={<LazyRouteContent Component={Dashboard} />} />
         <Route
-          exact
-          path={`/profile`}
-          render={() => DynamicLoader(ProfilePage)}
-        />
-        <Route
-          exact
-          path={`/:category`}
-          render={() => DynamicLoader(CategoryPage)}
+          path="/profile"
+          element={<LazyRouteContent Component={ProfilePage} />}
         />
         {siteRoutes.map((site) => (
           <Route
-            path={site.route}
-            render={() => (
-              <SiteRouteRenderer site={site} Component={site.Component} />
-            )}
             key={site.path}
+            path={site.route}
+            element={<SiteRouteRenderer site={site} Component={site.Component} />}
           />
         ))}
-        <Route path="*" render={() => DynamicLoader(NotFound)} />
-      </Switch>
+        <Route
+          path="/:category"
+          element={<LazyRouteContent Component={CategoryPage} />}
+        />
+        <Route path="*" element={<LazyRouteContent Component={NotFound} />} />
+      </AppRoutes>
     </main>
   )
 }
@@ -154,6 +149,4 @@ function useDocumentTitle(pathname: string) {
   }, [pathname])
 }
 
-export default function Routes() {
-  return <RouteSection />
-}
+export default RouteSection

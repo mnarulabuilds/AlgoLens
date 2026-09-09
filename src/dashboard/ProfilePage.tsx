@@ -11,6 +11,7 @@ import {
   FaChartLine,
   FaCalendar,
   FaHeart,
+  FaCheckCircle,
 } from "react-icons/fa"
 import "./ProfilePage.css"
 
@@ -150,6 +151,18 @@ const ProfilePage = () => {
             <div className="stat-content">
               <h3>{stats.categoriesExplored}</h3>
               <p>Categories Explored</p>
+            </div>
+          </motion.div>
+
+          <motion.div
+            className="stat-card"
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: "spring", stiffness: 300 }}
+          >
+            <FaCheckCircle className="stat-icon completed-icon" />
+            <div className="stat-content">
+              <h3>{stats.totalCompleted}</h3>
+              <p>Completed</p>
             </div>
           </motion.div>
         </div>

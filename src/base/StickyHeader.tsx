@@ -1,5 +1,5 @@
 import React, { lazy } from "react"
-import { Link, useHistory, useLocation } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { siteSuggestions } from "routing/base/routes"
 import { DynamicLoader } from "routing/base/Router"
 import { useUser } from "common/context/UserContext"
@@ -14,7 +14,7 @@ const FixedSideDrawer = lazy(() => import(`base/FixedSideDrawer`))
 export default function PrimarySearchAppBar() {
   const { favorites } = useUser()
   const { theme, toggleTheme } = useTheme()
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   const isHome = location.pathname === "/"
 
@@ -28,7 +28,7 @@ export default function PrimarySearchAppBar() {
             id: "sitemapSuggestions",
             searchOps: siteSuggestions,
             updateSelection: (selection: { route: string }) => {
-              history.push(selection.route)
+              navigate(selection.route)
             },
           })}
         </section>

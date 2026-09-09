@@ -20,6 +20,8 @@ function TestConsumer() {
     recentlyViewed,
     addToRecentlyViewed,
     clearRecentlyViewed,
+    markComplete,
+    isComplete,
     getStats,
   } = useUser();
 
@@ -31,6 +33,11 @@ function TestConsumer() {
       <span data-testid="recent-count">{recentlyViewed.length}</span>
       <span data-testid="is-fav">{String(isFavorite(topic.id))}</span>
       <span data-testid="categories-explored">{stats.categoriesExplored}</span>
+      <span data-testid="completed-count">{stats.totalCompleted}</span>
+      <span data-testid="is-complete">{String(isComplete(topic.id))}</span>
+      <button type="button" onClick={() => markComplete(topic.id)}>
+        Mark complete
+      </button>
       <span data-testid="recent-top">{recentlyViewed[0]?.id ?? "none"}</span>
       <button type="button" onClick={() => addFavorite(topic)}>
         Add favorite
@@ -120,6 +127,19 @@ describe('UserContext', () => {
 
     await user.click(screen.getByText('Add favorite'));
     expect(screen.getByTestId('categories-explored')).toHaveTextContent('1');
+  });
+
+  it('tracks completed visualizers', async () => {
+    const user = userEvent.setup();
+    render(
+      <UserProvider>
+        <TestConsumer />
+      </UserProvider>
+    );
+
+    await user.click(screen.getByText('Mark complete'));
+    expect(screen.getByTestId('completed-count')).toHaveTextContent('1');
+    expect(screen.getByTestId('is-complete')).toHaveTextContent('true');
   });
 
   it('ignores duplicate favorite additions', async () => {
