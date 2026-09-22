@@ -7,7 +7,7 @@
     "npm": ">=9.0.0"
   },
   "dependencies": {
-    "@react-three/drei": "^9.106.0",
+    "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^8.16.7",
     "autosuggest-highlight": "^3.1.1",
     "bootstrap": "^5.0.2",
