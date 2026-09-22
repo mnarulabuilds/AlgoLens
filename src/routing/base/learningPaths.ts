@@ -115,6 +115,52 @@ export const LEARNING_PATHS: LearningPath[] = [
       },
     ],
   },
+  {
+    id: "graphics-pipeline",
+    title: "Graphics Pipeline Basics",
+    description: "From pixels and color to transforms used in 2D rendering.",
+    icon: "🖥️",
+    steps: [
+      {
+        topicId: "graphics/RGBColorMixer",
+        route: "/graphics/RGBColorMixer",
+        label: "RGB Color Mixer",
+      },
+      {
+        topicId: "graphics/BresenhamLine",
+        route: "/graphics/BresenhamLine",
+        label: "Bresenham Line",
+      },
+      {
+        topicId: "graphics/AffineTransform2D",
+        route: "/graphics/AffineTransform2D",
+        label: "2D Affine Transforms",
+      },
+    ],
+  },
+  {
+    id: "robotics-intro",
+    title: "Robotics Intro",
+    description: "Plan, move, and control a simple robot arm and grid world.",
+    icon: "🤖",
+    steps: [
+      {
+        topicId: "robotics/ForwardKinematics",
+        route: "/robotics/ForwardKinematics",
+        label: "Forward Kinematics",
+      },
+      {
+        topicId: "robotics/OccupancyGrid",
+        route: "/robotics/OccupancyGrid",
+        label: "Occupancy Grid",
+      },
+      {
+        topicId: "robotics/PIDController",
+        route: "/robotics/PIDController",
+        label: "PID Controller",
+      },
+    ],
+  },
 ]
 
 export function getPathProgress(

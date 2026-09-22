@@ -11,6 +11,18 @@
   flex-wrap: wrap;
 }
 
+.visualizer-page-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.visualizer-prerequisites {
+  margin: -0.5rem 0 0.75rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
 .visualizer-page-title-wrap {
   display: flex;
   align-items: center;

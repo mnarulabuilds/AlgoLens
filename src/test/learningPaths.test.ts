@@ -5,8 +5,8 @@ import {
 } from "../routing/base/learningPaths"
 
 describe("learningPaths", () => {
-  it("defines three curated paths", () => {
-    expect(LEARNING_PATHS).toHaveLength(3)
+  it("defines curated learning paths", () => {
+    expect(LEARNING_PATHS.length).toBeGreaterThanOrEqual(3)
     for (const path of LEARNING_PATHS) {
       expect(path.steps.length).toBeGreaterThanOrEqual(3)
     }

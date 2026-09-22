@@ -40,6 +40,8 @@
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "check:bundle-size": "node scripts/check-bundle-size.mjs",
+    "validate:routes": "node scripts/validate-routes.mjs",
+    "test:e2e": "playwright test",
     "serve": "serve -s build -l 3000",
     "deploy": "GITHUB_PAGES=true npm run build && gh-pages -d build",
     "prepare": "husky install"
@@ -71,6 +73,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.1",

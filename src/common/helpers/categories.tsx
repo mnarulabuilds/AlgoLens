@@ -13,6 +13,12 @@ import {
   FaDatabase,
   FaChartBar,
   FaCloud,
+  FaPaintBrush,
+  FaCircleNotch,
+  FaWaveSquare,
+  FaChartLine,
+  FaMousePointer,
+  FaRobot,
 } from "react-icons/fa"
 import { pages } from "routing/base/routes"
 
@@ -31,6 +37,12 @@ export const categoryIcons: Record<string, React.ReactNode> = {
   statistics: <FaChartBar />,
   distributed: <FaCloud />,
   compilers: <FaCode />,
+  graphics: <FaPaintBrush />,
+  quantum: <FaCircleNotch />,
+  signals: <FaWaveSquare />,
+  economics: <FaChartLine />,
+  hci: <FaMousePointer />,
+  robotics: <FaRobot />,
 }
 
 export const categoryDescriptions: Record<string, string> = {
@@ -62,6 +74,18 @@ export const categoryDescriptions: Record<string, string> = {
     "Visualize consensus, hashing, and large-scale data processing patterns used in modern cloud systems.",
   compilers:
     "See how source code becomes tokens and parse trees in the front-end of a compiler pipeline.",
+  graphics:
+    "Rasterization, color models, and 2D transforms — foundations of rendering pipelines.",
+  quantum:
+    "Build intuition for qubits, gates, and superposition before diving into quantum algorithms.",
+  signals:
+    "Sampling, convolution, and filtering — core ideas behind audio, images, and communications.",
+  economics:
+    "Interactive models for markets, compounding, and strategic decision making.",
+  hci:
+    "Laws and principles that predict how long tasks take and how users perceive UI layout.",
+  robotics:
+    "Kinematics, control, and grid-based planning for autonomous systems.",
 }
 
 export function getCategoryLabel(categoryTopic: string): string | undefined {

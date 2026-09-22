@@ -78,6 +78,36 @@ const DEFAULT_BY_CATEGORY: Record<string, LearnContent> = {
       "Compiler front-end demos show how source code becomes tokens and parse trees before execution.",
     useCases: ["Language implementation", "Parsing interview questions"],
   },
+  graphics: {
+    summary:
+      "Computer graphics connects math to pixels — lines, color, and transforms on screen.",
+    useCases: ["Game engines", "GPU pipeline intuition"],
+  },
+  quantum: {
+    summary:
+      "Quantum computing uses amplitudes and linear operators instead of classical bits alone.",
+    useCases: ["Quantum literacy", "Advanced physics courses"],
+  },
+  signals: {
+    summary:
+      "Signals are functions over time or space; sampling and filters shape how we capture them.",
+    useCases: ["DSP courses", "Audio/image processing"],
+  },
+  economics: {
+    summary:
+      "Economic models describe how agents respond to prices, incentives, and uncertainty.",
+    useCases: ["Finance basics", "Policy intuition"],
+  },
+  hci: {
+    summary:
+      "Human–computer interaction quantifies how layout and choice count affect speed and accuracy.",
+    useCases: ["UX design", "Accessibility planning"],
+  },
+  robotics: {
+    summary:
+      "Robotics combines geometry, control theory, and search to move agents in the world.",
+    useCases: ["Automation", "Autonomous vehicles intro"],
+  },
 }
 
 const TOPIC_CONTENT: Record<string, LearnContent> = {

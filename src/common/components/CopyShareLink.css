@@ -1,0 +1,16 @@
+.copy-share-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  border: 1px solid var(--border-subtle, #ccc);
+  background: var(--surface-elevated, #fff);
+  color: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.copy-share-link:hover {
+  border-color: var(--primary-main, #162788);
+}

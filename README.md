@@ -43,7 +43,13 @@ Caesar cipher, RSA, hashing; logic gates, SR latch, MUX, 7-segment display, full
 - **Favorites & profile** — star any visualizer; track recently viewed pages
 - **Dark / light mode** — toggle in the header (respects system preference by default)
 - **Search** — jump to any of 100+ visualizers from the header
+- **Share links** — copy URL including visualizer query parameters (HashRouter: links include `#/…`)
+- **Learning paths** — curated sequences with completion tracking
 - **Bug reports** — optional Web3Forms integration
+
+### Newer categories
+
+Computer **Graphics**, **Quantum** computing, **Signal** processing, **Economics**, **HCI**, and **Robotics** — each with interactive starter visualizers.
 
 ## Tech stack
 
@@ -79,6 +85,8 @@ npm start          # http://localhost:3000
 | `npm run lint` | ESLint |
 | `npm run typecheck:strict` | Strict TypeScript check |
 | `npm run check:bundle-size` | Verify production bundle gzip budgets |
+| `npm run validate:routes` | Ensure every registered route has a module on disk |
+| `npm run test:e2e` | Playwright smoke tests (starts dev server) |
 | `npm run deploy` | Build for GitHub Pages and publish via `gh-pages` |
 
 ## Environment variables

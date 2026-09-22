@@ -6,6 +6,11 @@ import React, {
   useCallback,
   useMemo,
 } from "react"
+import {
+  LocalStorageStore,
+  readStoredJson,
+  writeStoredJson,
+} from "common/storage/localStorageStore"
 
 export interface User {
   name: string
@@ -66,21 +71,7 @@ const STORAGE_KEYS = {
   completed: "algolens_completed",
 } as const
 
-function readStoredJson<T>(key: string): T | null {
-  try {
-    const raw = localStorage.getItem(key)
-    if (!raw) return null
-    return JSON.parse(raw) as T
-  } catch (error) {
-    console.warn(`[AlgoLens] Ignoring corrupt localStorage key "${key}"`, error)
-    try {
-      localStorage.removeItem(key)
-    } catch {
-      // ignore quota / private-mode failures
-    }
-    return null
-  }
-}
+const userDataStore = new LocalStorageStore()
 
 const UserContext = createContext<UserContextType | undefined>(undefined)
 
@@ -107,10 +98,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   const [completedTopics, setCompletedTopics] = useState<string[]>([])
 
   useEffect(() => {
-    const savedUser = readStoredJson<User>(STORAGE_KEYS.user)
-    const savedFavorites = readStoredJson<Favorite[]>(STORAGE_KEYS.favorites)
-    const savedRecent = readStoredJson<RecentlyViewed[]>(STORAGE_KEYS.recent)
-    const savedCompleted = readStoredJson<string[]>(STORAGE_KEYS.completed)
+    const savedUser = readStoredJson<User>(userDataStore, STORAGE_KEYS.user)
+    const savedFavorites = readStoredJson<Favorite[]>(
+      userDataStore,
+      STORAGE_KEYS.favorites
+    )
+    const savedRecent = readStoredJson<RecentlyViewed[]>(
+      userDataStore,
+      STORAGE_KEYS.recent
+    )
+    const savedCompleted = readStoredJson<string[]>(
+      userDataStore,
+      STORAGE_KEYS.completed
+    )
 
     if (savedUser) setUser(savedUser)
     if (savedFavorites) setFavorites(savedFavorites)
@@ -119,41 +119,19 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
   }, [])
 
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.user, JSON.stringify(user))
-    } catch (error) {
-      console.warn("[AlgoLens] Failed to persist user", error)
-    }
+    writeStoredJson(userDataStore, STORAGE_KEYS.user, user)
   }, [user])
 
   useEffect(() => {
-    try {
-      localStorage.setItem(STORAGE_KEYS.favorites, JSON.stringify(favorites))
-    } catch (error) {
-      console.warn("[AlgoLens] Failed to persist favorites", error)
-    }
+    writeStoredJson(userDataStore, STORAGE_KEYS.favorites, favorites)
   }, [favorites])
 
   useEffect(() => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEYS.recent,
-        JSON.stringify(recentlyViewed)
-      )
-    } catch (error) {
-      console.warn("[AlgoLens] Failed to persist recently viewed", error)
-    }
+    writeStoredJson(userDataStore, STORAGE_KEYS.recent, recentlyViewed)
   }, [recentlyViewed])
 
   useEffect(() => {
-    try {
-      localStorage.setItem(
-        STORAGE_KEYS.completed,
-        JSON.stringify(completedTopics)
-      )
-    } catch (error) {
-      console.warn("[AlgoLens] Failed to persist completed topics", error)
-    }
+    writeStoredJson(userDataStore, STORAGE_KEYS.completed, completedTopics)
   }, [completedTopics])
 
   const updateUser = useCallback((userData: Partial<User>) => {

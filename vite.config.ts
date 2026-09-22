@@ -62,8 +62,20 @@ export default defineConfig({
     outDir: 'build',
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+        manualChunks(id) {
+          if (!id.includes('node_modules')) return;
+          if (id.includes('/three/') || id.includes('@react-three')) {
+            return 'vendor-three';
+          }
+          if (id.includes('chart.js') || id.includes('react-chartjs-2')) {
+            return 'vendor-charts';
+          }
+          if (id.includes('/mathjs/')) {
+            return 'vendor-math';
+          }
+          if (/node_modules\/(react-dom|react-router-dom|react)\//.test(id)) {
+            return 'vendor-react';
+          }
         },
       },
     },
@@ -72,14 +84,24 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    exclude: ['**/node_modules/**', '**/e2e/**'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov'],
-      include: ['src/common/**', 'src/routing/base/**'],
-      exclude: ['src/routing/base/__strict_shims__/**'],
+      include: [
+        'src/common/**',
+        'src/routing/base/**',
+        'src/dashboard/**',
+      ],
+      exclude: [
+        'src/routing/base/__strict_shims__/**',
+        'src/routing/site/**',
+        'src/routing/base/routeTypes.ts',
+        'src/base/**',
+      ],
       thresholds: {
-        lines: 80,
-        statements: 80,
+        lines: 85,
+        statements: 85,
         branches: 85,
         functions: 85,
       },

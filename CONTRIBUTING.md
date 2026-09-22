@@ -25,9 +25,18 @@ Pre-commit hooks (via Husky) run ESLint and Prettier on staged files.
 ## Adding a visualizer
 
 1. Create a component under `src/routing/site/<category>/components/<Name>/index.tsx`.
-2. Register it in `src/routing/base/routes.ts`.
-3. Favorites, recently viewed, and page titles are applied automatically via `VisualizerPage`.
-4. Optionally add pseudocode using `PseudocodeViewer` inside your component.
+2. Register the page in `src/routing/base/routes.ts` (or `categories/extendedCategories.ts` for new categories).
+3. Run `npm run validate:routes` — every route must resolve to a lazy `index.tsx` module.
+4. Favorites, recently viewed, share links, and page titles are applied automatically via `VisualizerPage`.
+5. Prefer `SimWorkbench`, `useVisualizerParams` (shareable URL state), and `useMarkComplete` after meaningful interaction.
+6. Wrap heavy canvases with `DeferredMount` so WebGL/canvas work starts only when visible.
+7. Optionally add pseudocode using `PseudocodeViewer` and step announcements via `VisualizerAnnouncer`.
+
+### Architecture notes
+
+- **Registry pattern**: `buildSiteRegistry()` in `siteRegistry.ts` derives `siteSuggestions` from category metadata.
+- **Repository pattern**: user persistence goes through `common/storage/localStorageStore.ts`.
+- **SOLID**: keep visualizer UI thin; extract pure logic (e.g. convolutions, pathfinding steps) into testable helpers under `src/common/helpers/`.
 
 ## Code style
 

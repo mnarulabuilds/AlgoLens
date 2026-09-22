@@ -1,24 +1,16 @@
-export type PageTopic = {
-  topic: string
-  label: string
-}
+import { EXTENDED_CATEGORIES } from "./categories/extendedCategories"
+import { buildSiteRegistry } from "./siteRegistry"
 
-export type Category = {
-  topic: string
-  label: string
-  pages: PageTopic[]
-}
+export type {
+  PageTopic,
+  Category,
+  SiteSuggestion,
+  TopicDifficulty,
+} from "./routeTypes"
 
-export type SiteSuggestion = {
-  route: string
-  title: string
-  path: string
-  topicId: string
-  topicLabel: string
-  categoryLabel: string
-}
+import type { Category } from "./routeTypes"
 
-const pages: Category[] = [
+const BASE_CATEGORIES: Category[] = [
   {
     topic: "algo",
     label: "Algorithms 🧠",
@@ -535,47 +527,8 @@ const pages: Category[] = [
   },
 ]
 
-const dynamicRoute = (categoryTopic: string, subjectTopic: string) => {
-  return `${categoryTopic}/${subjectTopic}`
-}
+const pages: Category[] = [...BASE_CATEGORIES, ...EXTENDED_CATEGORIES]
 
-const dynamicPath = (categoryTopic: string, subjectTopic: string) => {
-  return `site/${categoryTopic}/components/${subjectTopic}`
-}
-
-const siteSuggestions: SiteSuggestion[] = []
-const topicByRoute: Record<
-  string,
-  { id: string; label: string; category: string; route: string }
-> = {}
-
-pages.forEach((category) => {
-  category.pages.forEach((subject) => {
-    const path = `${dynamicPath(category.topic, subject.topic)}`
-    const route = `/${dynamicRoute(category.topic, subject.topic)}`
-    const title = `${category.label} : ${subject.label}`
-    const topicId = `${category.topic}/${subject.topic}`
-
-    siteSuggestions.push({
-      route,
-      title,
-      path,
-      topicId,
-      topicLabel: subject.label,
-      categoryLabel: category.label,
-    })
-
-    topicByRoute[route] = {
-      id: topicId,
-      label: subject.label,
-      category: category.label,
-      route,
-    }
-  })
-})
-
-function getTopicFromRoute(route: string) {
-  return topicByRoute[route]
-}
+const { siteSuggestions, getTopicFromRoute } = buildSiteRegistry(pages)
 
 export { siteSuggestions, pages, getTopicFromRoute }

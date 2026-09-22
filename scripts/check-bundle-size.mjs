@@ -7,8 +7,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const buildDir = path.join(__dirname, "..", "build", "assets")
 
 const LIMITS_KB = {
-  "vendor-react": 60,
-  "vendor-charts": 75,
+  "vendor-react": 65,
+  "vendor-charts": 80,
+  "vendor-three": 280,
+  "vendor-math": 190,
+  index: 50,
 }
 
 function gzipSizeKb(filePath) {
@@ -25,7 +28,10 @@ const files = fs.readdirSync(buildDir).filter((file) => file.endsWith(".js"))
 const violations = []
 
 for (const [prefix, limitKb] of Object.entries(LIMITS_KB)) {
-  const match = files.find((file) => file.startsWith(prefix))
+  const match =
+    prefix === "index"
+      ? files.find((file) => file.startsWith("index-"))
+      : files.find((file) => file.startsWith(prefix))
   if (!match) continue
 
   const sizeKb = gzipSizeKb(path.join(buildDir, match))

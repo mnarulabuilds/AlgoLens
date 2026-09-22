@@ -1,11 +1,14 @@
-import React, { useEffect, ReactNode } from "react"
+import React, { ReactNode } from "react"
 import FavoriteButton from "common/components/FavoriteButton"
+import CopyShareLink from "common/components/CopyShareLink"
 import LearnPanel from "common/components/LearnPanel"
 import useTrackView from "common/hooks/useTrackView"
+import { usePageMeta } from "common/hooks/usePageMeta"
 import { TopicRef } from "common/context/UserContext"
 import { VisualizerTopicProvider } from "common/context/VisualizerTopicContext"
 import { isGoldVisualizer } from "common/config/goldVisualizers"
 import { getLearnContent } from "routing/base/learnContent"
+import { siteSuggestions } from "routing/base/routes"
 import "./VisualizerPage.css"
 
 type VisualizerPageProps = {
@@ -23,13 +26,13 @@ const VisualizerPage = ({
 }: VisualizerPageProps) => {
   useTrackView(topic)
   const learnContent = getLearnContent(topic.id)
+  const siteMeta = siteSuggestions.find((s) => s.topicId === topic.id)
 
-  useEffect(() => {
-    document.title = `${pageTitle} | AlgoLens`
-    return () => {
-      document.title = "AlgoLens"
-    }
-  }, [pageTitle])
+  usePageMeta({
+    title: `${pageTitle} | AlgoLens`,
+    description: learnContent.summary,
+    path: topic.route,
+  })
 
   const gold = isGoldVisualizer(topic.id)
 
@@ -45,8 +48,17 @@ const VisualizerPage = ({
               </span>
             )}
           </div>
-          <FavoriteButton topic={topic} />
+          <div className="visualizer-page-actions">
+            <CopyShareLink />
+            <FavoriteButton topic={topic} />
+          </div>
         </div>
+        {siteMeta && siteMeta.prerequisites.length > 0 && (
+          <p className="visualizer-prerequisites">
+            Recommended first:{" "}
+            {siteMeta.prerequisites.map((id) => id.split("/")[1]).join(", ")}
+          </p>
+        )}
         {showLearnPanel && <LearnPanel content={learnContent} />}
         <div className="visualizer-page-content">{children}</div>
       </div>
