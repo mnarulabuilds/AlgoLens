@@ -64,6 +64,40 @@ describe("sendBugReport", () => {
     expect(body.email).toBe("dev@example.com")
   })
 
+  it("includes attachment metadata when a file is provided", async () => {
+    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
+    vi.mocked(fetch).mockResolvedValue({
+      ok: true,
+      json: async () => ({ success: true }),
+    } as Response)
+
+    const file = new File(["bytes"], "screenshot.png", { type: "image/png" })
+    await sendBugReportEmail({
+      title: "UI glitch",
+      description: "See attachment",
+      file,
+    })
+
+    const [, requestInit] = vi.mocked(fetch).mock.calls[0]
+    const body = JSON.parse(String(requestInit?.body))
+    expect(body.attachment_name).toBe("screenshot.png")
+    expect(body.attachment_type).toBe("image/png")
+  })
+
+  it("throws a generic error when the API body is not JSON", async () => {
+    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
+    vi.mocked(fetch).mockResolvedValue({
+      ok: false,
+      json: async () => {
+        throw new Error("not json")
+      },
+    } as Response)
+
+    await expect(
+      sendBugReportEmail({ title: "Bug", description: "Details", file: null })
+    ).rejects.toThrow("Failed to send bug report")
+  })
+
   it("throws when the API returns an error", async () => {
     import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
     vi.mocked(fetch).mockResolvedValue({

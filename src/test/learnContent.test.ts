@@ -1,5 +1,8 @@
 import { describe, it, expect } from "vitest"
-import { getLearnContent } from "../routing/base/learnContent"
+import {
+  getAllLearnTopicIds,
+  getLearnContent,
+} from "../routing/base/learnContent"
 
 describe("learnContent", () => {
   it("returns topic-specific content when available", () => {
@@ -19,6 +22,12 @@ describe("learnContent", () => {
     expect(db.summary).toContain("LRU")
     const stats = getLearnContent("statistics/BayesTheorem")
     expect(stats.summary).toBeTruthy()
+  })
+
+  it("lists every learn topic id", () => {
+    const ids = getAllLearnTopicIds()
+    expect(ids).toContain("algo/Sorting")
+    expect(ids.length).toBeGreaterThan(100)
   })
 
   it("returns a generic fallback for unknown topics", () => {

@@ -53,6 +53,21 @@ describe("useVisualizerControls", () => {
     await expect(result.current.wait()).rejects.toThrow("ALGORITHM_STOPPED")
   })
 
+  it("resolves wait when step is invoked while paused", async () => {
+    const { result } = renderHook(() => useVisualizerControls(50))
+
+    act(() => result.current.start())
+    act(() => result.current.pause())
+
+    let waitPromise: Promise<void>
+    act(() => {
+      waitPromise = result.current.wait(10)
+    })
+
+    act(() => result.current.step())
+    await expect(waitPromise!).resolves.toBeUndefined()
+  })
+
   it("waits for the configured delay while running", async () => {
     const { result } = renderHook(() => useVisualizerControls(100))
 

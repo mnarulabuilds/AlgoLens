@@ -13,6 +13,16 @@ function renderAt(path: string) {
 }
 
 describe("Breadcrumbs", () => {
+  it("renders nothing on the home route", () => {
+    const { container } = renderAt("/")
+    expect(container.firstChild).toBeNull()
+  })
+
+  it("formats unknown category slugs", () => {
+    renderAt("/customTopic")
+    expect(screen.getByText("Custom Topic")).toBeInTheDocument()
+  })
+
   it("shows category label from the route registry", () => {
     renderAt("/algo")
     expect(screen.getByText("Algorithms 🧠")).toBeInTheDocument()

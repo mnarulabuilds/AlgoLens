@@ -5,42 +5,36 @@ import React, {
   ReactNode,
   useEffect,
   useMemo,
+  useState,
 } from "react"
-import { Route, Routes as AppRoutes, useLocation } from "react-router-dom"
+import {
+  Route,
+  Routes as AppRoutes,
+  useLocation,
+  useParams,
+} from "react-router-dom"
 import { siteSuggestions, SiteSuggestion } from "./routes"
+import { loadSiteModule, siteModuleImportPath, siteModules } from "./siteModules"
 import VisualizerPage from "common/components/VisualizerPage"
+import NotFoundPage from "./NotFound"
 
 const Dashboard = lazy(() => import("dashboard/index"))
 const CategoryPage = lazy(() => import("dashboard/CategoryPage"))
 const ProfilePage = lazy(() => import("dashboard/ProfilePage"))
 const NotFound = lazy(() => import("./NotFound"))
 
-const siteModules = import.meta.glob("../site/**/index.tsx")
-
 type AnyComponent = ComponentType<Record<string, unknown>>
 
-type SiteRoute = SiteSuggestion & {
-  Component: React.LazyExoticComponent<AnyComponent>
-}
+const siteByRoute = new Map<string, SiteSuggestion>(
+  siteSuggestions.map((site) => [site.route, site])
+)
 
-const siteRoutes: SiteRoute[] = siteSuggestions.map((site) => {
-  const importPath = `../${site.path}/index.tsx`
-  const loader = siteModules[importPath]
-
-  if (!loader) {
+siteSuggestions.forEach((site) => {
+  const importPath = siteModuleImportPath(site.path)
+  if (!siteModules[importPath]) {
     console.error(
       `[AlgoLens] Missing module for route ${site.route}: expected ${importPath}`
     )
-  }
-
-  const fallbackLoader = () => import("./NotFound")
-
-  return {
-    ...site,
-    Component: lazy(
-      (loader as (() => Promise<{ default: AnyComponent }>) | undefined) ??
-        fallbackLoader
-    ),
   }
 })
 
@@ -83,26 +77,69 @@ export function DynamicLoader(
   return <LazyRouteContent Component={LazyComponent} {...props} />
 }
 
-function SiteRouteRenderer({
-  site,
-  Component,
-}: {
-  site: SiteRoute
-  Component: SiteRoute["Component"]
-}) {
-  const topic = useMemo(
-    () => ({
-      id: site.topicId,
-      label: site.topicLabel,
-      category: site.categoryLabel,
-      route: site.route,
-    }),
-    [site.topicId, site.topicLabel, site.categoryLabel, site.route]
+function AsyncSiteModule({ sitePath }: { sitePath: string }) {
+  const [Component, setComponent] = useState<AnyComponent | null>(null)
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    let mounted = true
+    setComponent(null)
+    setFailed(false)
+
+    loadSiteModule(sitePath)
+      .then((mod) => {
+        if (mounted) {
+          setComponent(() => mod.default)
+        }
+      })
+      .catch(() => {
+        if (mounted) {
+          setFailed(true)
+        }
+      })
+
+    return () => {
+      mounted = false
+    }
+  }, [sitePath])
+
+  if (failed) {
+    return <NotFoundPage />
+  }
+
+  if (!Component) {
+    return suspenseFallback
+  }
+
+  return <Component />
+}
+
+function DynamicSitePage() {
+  const { category, topic } = useParams()
+  const route =
+    category && topic ? `/${category}/${topic}` : ""
+  const site = route ? siteByRoute.get(route) : undefined
+
+  const topicRef = useMemo(
+    () =>
+      site
+        ? {
+            id: site.topicId,
+            label: site.topicLabel,
+            category: site.categoryLabel,
+            route: site.route,
+          }
+        : null,
+    [site]
   )
 
+  if (!site || !topicRef) {
+    return <LazyRouteContent Component={NotFound} />
+  }
+
   return (
-    <VisualizerPage topic={topic} pageTitle={site.title}>
-      <LazyRouteContent Component={Component} />
+    <VisualizerPage topic={topicRef} pageTitle={site.title}>
+      <AsyncSiteModule sitePath={site.path} />
     </VisualizerPage>
   )
 }
@@ -120,13 +157,7 @@ function RouteSection() {
           path="/profile"
           element={<LazyRouteContent Component={ProfilePage} />}
         />
-        {siteRoutes.map((site) => (
-          <Route
-            key={site.path}
-            path={site.route}
-            element={<SiteRouteRenderer site={site} Component={site.Component} />}
-          />
-        ))}
+        <Route path="/:category/:topic" element={<DynamicSitePage />} />
         <Route
           path="/:category"
           element={<LazyRouteContent Component={CategoryPage} />}
@@ -139,11 +170,14 @@ function RouteSection() {
 
 function useDocumentTitle(pathname: string) {
   useEffect(() => {
+    const isCategoryLanding =
+      /^\/[^/]+$/.test(pathname) && pathname !== "/profile"
+
     if (pathname === "/") {
       document.title = "AlgoLens – Interactive CS Visualizations"
     } else if (pathname === "/profile") {
       document.title = "My Profile | AlgoLens"
-    } else if (!siteRoutes.some((s) => pathname.startsWith(s.route))) {
+    } else if (!siteByRoute.has(pathname) && !isCategoryLanding) {
       document.title = "Page Not Found | AlgoLens"
     }
   }, [pathname])

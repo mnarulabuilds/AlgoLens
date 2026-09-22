@@ -1,12 +1,11 @@
 import { siteSuggestions } from "./routes"
-
-const siteModules = import.meta.glob("../site/**/index.tsx")
+import { siteModuleImportPath, siteModules } from "./siteModules"
 
 export function preloadVisualizer(route: string): void {
   const site = siteSuggestions.find((entry) => entry.route === route)
   if (!site) return
 
-  const importPath = `../${site.path}/index.tsx`
+  const importPath = siteModuleImportPath(site.path)
   const loader = siteModules[importPath] as (() => Promise<unknown>) | undefined
   if (loader) {
     void loader()

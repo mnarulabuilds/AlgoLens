@@ -34,6 +34,23 @@ describe("SearchSuggestions", () => {
     )
   })
 
+  it("wraps active index with ArrowUp", async () => {
+    const user = userEvent.setup()
+    const onSelect = vi.fn()
+
+    render(
+      <SearchSuggestions searchOps={searchOps} updateSelection={onSelect} />
+    )
+
+    const input = screen.getByRole("combobox", { name: "Search visualizers" })
+    await user.type(input, "sort")
+    await user.keyboard("{ArrowUp}{Enter}")
+
+    expect(onSelect).toHaveBeenCalledWith(
+      expect.objectContaining({ route: "/algo/Sorting" })
+    )
+  })
+
   it("closes the listbox on Escape", async () => {
     const user = userEvent.setup()
 
