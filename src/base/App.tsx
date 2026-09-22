@@ -12,44 +12,16 @@ import ErrorBoundary from "common/components/ErrorBoundary"
 
 const Breadcrumbs = lazy(() => import(`common/components/Breadcrumbs`))
 
-const theme = {
-  palette: {
-    primary: {
-      light: "#757ce8",
-      main: "#162788",
-      dark: "#002884",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#ff7961",
-      main: "#0D681C",
-      dark: "#ba000d",
-      contrastText: "#000",
-    },
-  },
-}
-
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider>
         <UserProvider>
           <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <div
-              className="App"
-              style={
-                {
-                  "--primary-light": theme.palette.primary.light,
-                  "--primary-main": theme.palette.primary.main,
-                  "--primary-dark": theme.palette.primary.dark,
-                  "--primary-contrastText": theme.palette.primary.contrastText,
-                  "--secondary-light": theme.palette.secondary.light,
-                  "--secondary-main": theme.palette.secondary.main,
-                  "--secondary-dark": theme.palette.secondary.dark,
-                  "--secondary-contrastText": theme.palette.secondary.contrastText,
-                } as any
-              }
-            >
+            <div className="App">
+              <a className="skip-link" href="#main-content">
+                Skip to main content
+              </a>
               <SiteHeader />
               <div style={{ marginTop: 70 }}>
                 {DynamicLoader(Breadcrumbs)}

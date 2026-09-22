@@ -2,24 +2,69 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("algolens_theme");
+          var theme =
+            stored === "light" || stored === "dark"
+              ? stored
+              : window.matchMedia("(prefers-color-scheme: dark)").matches
+                ? "dark"
+                : "light";
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.style.colorScheme = theme;
+        } catch (e) {
+          document.documentElement.setAttribute("data-theme", "light");
+        }
+      })();
+    </script>
     <link rel="shortcut icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#162788" />
+    <meta name="theme-color" content="#3949ab" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta
       name="description"
-      content="AlgoLens - Interactive visualizations for Algorithms, Data Structures, Physics, Mathematics, Games, OS, Networking, ML, Security, and Digital Logic."
+      content="AlgoLens — 100+ interactive visualizers for algorithms, data structures, physics, mathematics, machine learning, games, and computer science."
     />
+    <meta name="author" content="AlgoLens" />
+    <link rel="canonical" href="https://mnarulabuilds.github.io/AlgoLens/" />
     <meta property="og:title" content="AlgoLens – Interactive CS Visualizations" />
     <meta
       property="og:description"
       content="Explore 100+ interactive visualizers for algorithms, data structures, physics, math, games, and more."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="AlgoLens" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content="https://mnarulabuilds.github.io/AlgoLens/" />
+    <meta property="og:image" content="https://mnarulabuilds.github.io/AlgoLens/logo512.png" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="AlgoLens – Interactive CS Visualizations" />
+    <meta
+      name="twitter:description"
+      content="Explore 100+ interactive visualizers for algorithms, data structures, physics, math, games, and more."
+    />
+    <meta name="twitter:image" content="https://mnarulabuilds.github.io/AlgoLens/logo512.png" />
     <link rel="apple-touch-icon" href="/logo192.png" />
     <link rel="manifest" href="/manifest.json" />
-    <title>AlgoLens</title>
+    <title>AlgoLens – Interactive CS Visualizations</title>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "AlgoLens",
+        "url": "https://mnarulabuilds.github.io/AlgoLens/",
+        "description": "Interactive visualizations for computer science, mathematics, physics, and more.",
+        "inLanguage": "en",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://mnarulabuilds.github.io/AlgoLens/#/?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

@@ -1,8 +1,8 @@
 .breadcrumbs-container {
     width: 100%;
-    background: rgba(18, 18, 18, 0.8);
+    background: var(--surface-elevated);
     backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid var(--border-subtle);
     padding: 12px 24px;
     margin-bottom: 16px;
     display: flex;
@@ -48,8 +48,8 @@
 }
 
 .breadcrumb-link:hover {
-    color: var(--accent-color, #4ecca3);
-    background: rgba(78, 204, 163, 0.1);
+    color: var(--link-accent);
+    background: color-mix(in srgb, var(--link-accent) 12%, transparent);
 }
 
 .breadcrumb-link.home {
@@ -58,12 +58,11 @@
 }
 
 .breadcrumb-current {
-    color: var(--accent-color, #4ecca3);
+    color: var(--accent-text, var(--link-accent));
     font-weight: 600;
     padding: 4px 8px;
-    background: rgba(78, 204, 163, 0.05);
+    background: color-mix(in srgb, var(--link-accent) 8%, transparent);
     border-radius: 6px;
-    box-shadow: 0 0 15px rgba(78, 204, 163, 0.1);
 }
 
 .separator {

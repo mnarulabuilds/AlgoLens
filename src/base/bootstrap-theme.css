@@ -1,0 +1,57 @@
+/**
+ * Bootstrap 5 overrides — align components with semantic a11y tokens (WCAG AA).
+ */
+[data-theme="dark"] {
+  --bs-body-color: var(--text-primary);
+  --bs-body-bg: var(--content-bg);
+  --bs-secondary-color: var(--text-muted);
+  --bs-secondary-bg: var(--surface-elevated);
+  --bs-tertiary-color: var(--text-muted);
+  --bs-border-color: var(--border-subtle);
+  --bs-link-color: var(--link-accent);
+  --bs-link-hover-color: var(--link-accent-hover);
+  --bs-heading-color: var(--text-primary);
+}
+
+[data-theme="light"] {
+  --bs-body-color: var(--text-primary);
+  --bs-body-bg: var(--content-bg);
+  --bs-secondary-color: var(--text-muted);
+  --bs-link-color: var(--link-accent);
+  --bs-link-hover-color: var(--link-accent-hover);
+  --bs-heading-color: var(--text-primary);
+}
+
+[data-theme="dark"] .table {
+  --bs-table-color: var(--text-primary);
+  --bs-table-bg: transparent;
+  --bs-table-border-color: var(--border-subtle);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: var(--input-bg);
+  border-color: var(--border-subtle);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+  border-color: var(--focus-ring-color);
+  box-shadow: 0 0 0 0.2rem var(--focus-ring-shadow);
+}
+
+[data-theme="dark"] .btn-primary {
+  --bs-btn-bg: var(--btn-primary-bg);
+  --bs-btn-border-color: var(--btn-primary-bg);
+  --bs-btn-color: var(--btn-primary-fg);
+  --bs-btn-hover-bg: var(--btn-primary-hover);
+  --bs-btn-hover-border-color: var(--btn-primary-hover);
+}
+
+[data-theme="dark"] .btn-outline-secondary {
+  --bs-btn-color: var(--text-primary);
+  --bs-btn-border-color: var(--border-subtle);
+  --bs-btn-hover-bg: var(--surface-elevated);
+  --bs-btn-hover-color: var(--text-primary);
+}

@@ -17,6 +17,7 @@ import { siteSuggestions, SiteSuggestion } from "./routes"
 import { loadSiteModule, siteModuleImportPath, siteModules } from "./siteModules"
 import VisualizerPage from "common/components/VisualizerPage"
 import NotFoundPage from "./NotFound"
+import { useRouteSeo } from "common/hooks/useRouteSeo"
 
 const Dashboard = lazy(() => import("dashboard/index"))
 const CategoryPage = lazy(() => import("dashboard/CategoryPage"))
@@ -148,9 +149,10 @@ function RouteSection() {
   const location = useLocation()
 
   useDocumentTitle(location.pathname)
+  useRouteSeo(location.pathname)
 
   return (
-    <main className="content">
+    <main id="main-content" className="content" tabIndex={-1}>
       <AppRoutes>
         <Route path="/" element={<LazyRouteContent Component={Dashboard} />} />
         <Route

@@ -21,5 +21,11 @@ describe("usePageMeta", () => {
     expect(document.querySelector('meta[property="og:title"]')?.getAttribute("content")).toBe(
       "Test Title"
     )
+    expect(document.querySelector('link[rel="canonical"]')?.getAttribute("href")).toContain(
+      "#/algo/Sorting"
+    )
+    expect(document.querySelector('meta[name="twitter:card"]')?.getAttribute("content")).toBe(
+      "summary_large_image"
+    )
   })
 })

@@ -27,8 +27,8 @@ function contrastRatio(foreground: string, background: string): number {
   return Math.max(l1, l2) / Math.min(l1, l2)
 }
 
-function extractToken(css: string, name: string): string | undefined {
-  const match = css.match(new RegExp(`${name}:\\s*(#[0-9a-fA-F]{3,8})`))
+function extractToken(block: string, name: string): string | undefined {
+  const match = block.match(new RegExp(`${name}:\\s*(#[0-9a-fA-F]{3,8})`))
   return match?.[1]
 }
 
@@ -36,11 +36,10 @@ describe("a11y contrast tokens", () => {
   const tokensPath = path.join(process.cwd(), "src/base/a11y-tokens.css")
   const css = fs.readFileSync(tokensPath, "utf8")
 
-  const darkBlock = css.slice(
-    css.indexOf('[data-theme="dark"]'),
-    css.indexOf('[data-theme="light"]')
-  )
-  const lightBlock = css.slice(css.indexOf('[data-theme="light"]'))
+  const darkBlock =
+    css.match(/\[data-theme="dark"\]\s*\{([\s\S]*?)\n\}/)?.[1] ?? ""
+  const lightBlock =
+    css.match(/:root,\s*\[data-theme="light"\]\s*\{([\s\S]*?)\n\}/)?.[1] ?? ""
 
   it("meets AA for dark theme text on content background", () => {
     const text = extractToken(darkBlock, "--text-primary")!
@@ -54,6 +53,12 @@ describe("a11y contrast tokens", () => {
     expect(contrastRatio(text, bg)).toBeGreaterThanOrEqual(4.5)
   })
 
+  it("meets AA for dark theme links on content background", () => {
+    const link = extractToken(darkBlock, "--link-accent")!
+    const bg = extractToken(darkBlock, "--content-bg")!
+    expect(contrastRatio(link, bg)).toBeGreaterThanOrEqual(4.5)
+  })
+
   it("meets AA for light theme text on content background", () => {
     const text = extractToken(lightBlock, "--text-primary")!
     const bg = extractToken(lightBlock, "--content-bg")!
@@ -61,13 +66,13 @@ describe("a11y contrast tokens", () => {
   })
 
   it("meets AA for light theme accent text on white surfaces", () => {
-    const accent = extractToken(lightBlock, "--accent-color")!
+    const accent = extractToken(lightBlock, "--accent-text")!
     expect(contrastRatio(accent, "#ffffff")).toBeGreaterThanOrEqual(4.5)
   })
 
-  it("meets AA for success button foreground on background", () => {
-    const fg = extractToken(lightBlock, "--success-fg")!
-    const bg = extractToken(lightBlock, "--success-bg")!
+  it("meets AA for primary button on dark theme", () => {
+    const fg = extractToken(darkBlock, "--btn-primary-fg")!
+    const bg = extractToken(darkBlock, "--btn-primary-bg")!
     expect(contrastRatio(fg, bg)).toBeGreaterThanOrEqual(4.5)
   })
 

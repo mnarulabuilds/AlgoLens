@@ -1,0 +1,33 @@
+/* Shared visualizer chrome — readable in light and dark themes */
+
+.visualizer-page-title {
+  color: var(--text-primary);
+}
+
+.visualization-title,
+.sim-workbench-title {
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .content .visualizer-page-content {
+  color: var(--viz-text);
+}
+
+[data-theme="dark"] .content .visualizer-page-content label,
+[data-theme="dark"] .content .visualizer-page-content p,
+[data-theme="dark"] .content .visualizer-page-content h2,
+[data-theme="dark"] .content .visualizer-page-content h3 {
+  color: var(--viz-text);
+}
+
+[data-theme="dark"] .content input:not([type="checkbox"]):not([type="radio"]),
+[data-theme="dark"] .content select,
+[data-theme="dark"] .content textarea {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+}
+
+[data-theme="light"] .sim-workbench-hint {
+  color: var(--text-muted);
+}

@@ -1,83 +1,131 @@
 /**
- * WCAG 2.1 AA contrast tokens (4.5:1 normal text, 3:1 large text / UI).
- * Use semantic tokens instead of hard-coded accent/muted colors in shell UI.
+ * WCAG 2.1 AA semantic color tokens (4.5:1 normal text on surfaces).
+ * Use these instead of hard-coded hex in shell UI and shared visualizer chrome.
  */
 
-:root,
-[data-theme="dark"] {
-  --text-primary: #ffffff;
-  --text-secondary: #cbd5e1;
-  /* ~4.6:1 on --content-bg (#1a3099) */
-  --text-muted: #b0b8db;
-  --text-on-accent: #ffffff;
-
-  --surface-bg: #162788;
-  --content-bg: #1a3099;
-  --header-bg: #3f51b5;
-  --footer-bg: #111111;
-  --footer-text: #ffffff;
-
-  /* Bright accent for dark surfaces & decorative use */
-  --accent-color: #4ecca3;
-  --accent-hover: #3baf87;
-  --link-accent: #25d4eb;
-
-  --success-bg: #0f766e;
-  --success-fg: #ffffff;
-  --btn-disabled-bg: #334155;
-  --btn-disabled-fg: #94a3b8;
-
-  --card-bg: rgba(255, 255, 255, 0.08);
-  --card-border: 1px solid rgba(255, 255, 255, 0.15);
-  --learn-bg: rgba(255, 255, 255, 0.05);
-
-  --primary-main: #162788;
-  --primary-contrastText: #ffffff;
-
-  /* Visualizers with dark-themed local palettes */
-  --viz-text: #e0e0e0;
-  --viz-text-muted: #b0b8db;
+:root {
+  color-scheme: light dark;
 }
 
+/* Light theme (default until boot script / ThemeProvider runs) */
+:root,
 [data-theme="light"] {
-  --text-primary: #1a237e;
-  --text-secondary: #475569;
-  /* ~7.1:1 on white / #f5f5f5 */
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
   --text-muted: #475569;
   --text-on-accent: #ffffff;
 
-  --surface-bg: #f5f5f5;
+  --surface-bg: #f1f5f9;
+  --surface-elevated: #ffffff;
   --content-bg: #ffffff;
   --header-bg: #3949ab;
-  --footer-bg: #e8eaf6;
-  --footer-text: #1a237e;
+  --footer-bg: #e2e8f0;
+  --footer-text: #0f172a;
 
-  /* Teal accent — 4.5:1+ on white for normal text */
+  --border-subtle: #cbd5e1;
+  --input-bg: #ffffff;
+
   --accent-color: #0f766e;
   --accent-hover: #0d635c;
-  --link-accent: #1565c0;
+  --accent-text: #0f766e;
+  --link-accent: #1d4ed8;
+  --link-accent-hover: #1e40af;
 
   --success-bg: #0f766e;
   --success-fg: #ffffff;
+  --btn-primary-bg: #3949ab;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-hover: #303f9f;
   --btn-disabled-bg: #e2e8f0;
   --btn-disabled-fg: #64748b;
 
-  --card-bg: rgba(255, 255, 255, 0.95);
+  --focus-ring-color: #2563eb;
+  --focus-ring-shadow: rgba(37, 99, 235, 0.35);
+
+  --card-bg: #ffffff;
   --card-border: 1px solid #e2e8f0;
-  --learn-bg: #ffffff;
+  --card-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  --learn-bg: #f8fafc;
 
   --primary-main: #3949ab;
-  --primary-contrastText: #1a237e;
+  --primary-contrastText: #ffffff;
+
+  --sim-panel-bg: #f8fafc;
+  --sim-stage-bg: #eef2ff;
+  --sim-border: #cbd5e1;
+  --sim-btn-secondary: #e2e8f0;
 
   --viz-text: var(--text-primary);
   --viz-text-muted: var(--text-muted);
 }
 
-/* Light surfaces: never use bright mint as foreground text */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --text-primary: #f1f5f9;
+  --text-secondary: #cbd5e1;
+  /* ≥4.5:1 on --content-bg */
+  --text-muted: #94a3b8;
+  --text-on-accent: #0f172a;
+
+  --surface-bg: #020617;
+  --surface-elevated: #1e293b;
+  --content-bg: #0f172a;
+  --header-bg: #1e3a8a;
+  --footer-bg: #020617;
+  --footer-text: #e2e8f0;
+
+  --border-subtle: #334155;
+  --input-bg: #1e293b;
+
+  /* Decorative / icons — not for long body copy on blue */
+  --accent-color: #2dd4bf;
+  --accent-hover: #14b8a6;
+  /* Readable accent text on dark surfaces */
+  --accent-text: #5eead4;
+  --link-accent: #7dd3fc;
+  --link-accent-hover: #bae6fd;
+
+  --success-bg: #115e59;
+  --success-fg: #ecfdf5;
+  --btn-primary-bg: #2563eb;
+  --btn-primary-fg: #ffffff;
+  --btn-primary-hover: #1d4ed8;
+  --btn-disabled-bg: #334155;
+  --btn-disabled-fg: #94a3b8;
+
+  --focus-ring-color: #38bdf8;
+  --focus-ring-shadow: rgba(56, 189, 248, 0.45);
+
+  --card-bg: #1e293b;
+  --card-border: 1px solid #334155;
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --learn-bg: #1e293b;
+
+  --primary-main: #2563eb;
+  --primary-contrastText: #ffffff;
+
+  --sim-panel-bg: #1e293b;
+  --sim-stage-bg: #020617;
+  --sim-border: #334155;
+  --sim-btn-secondary: #334155;
+
+  --viz-text: #f1f5f9;
+  --viz-text-muted: #94a3b8;
+}
+
 [data-theme="light"] .feature-card,
 [data-theme="light"] .learning-path-card,
 [data-theme="light"] .stat-card,
 [data-theme="light"] .search-dropdown,
 [data-theme="light"] .search-dropdown-item {
   --accent-color: #0f766e;
+}
+
+[data-theme="dark"] a:not(.btn):not(.feature-card):not(.subcategory-card) {
+  color: var(--link-accent);
+}
+
+[data-theme="dark"] a:not(.btn):hover {
+  color: var(--link-accent-hover);
 }

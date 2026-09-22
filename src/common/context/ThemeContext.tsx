@@ -42,6 +42,7 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme)
+    document.documentElement.style.colorScheme = theme
     localStorage.setItem(STORAGE_KEY, theme)
   }, [theme])
 

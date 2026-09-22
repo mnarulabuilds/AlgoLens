@@ -1,4 +1,7 @@
 @import "./a11y-tokens.css";
+@import "./bootstrap-theme.css";
+@import "./focus-a11y.css";
+@import "./visualizer-shell.css";
 
 :root,
 [data-theme="dark"] {
