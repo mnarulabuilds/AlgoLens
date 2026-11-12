@@ -26,7 +26,7 @@
     "react-window": "^1.8.10",
     "reactstrap": "^8.9.0",
     "serve": "^14.2.0",
-    "styled-components": "^6.1.11",
+    "styled-components": "^6.5.3",
     "three": "^0.165.0"
   },
   "scripts": {
