@@ -13,9 +13,6 @@ export const SEO = {
 }
 
 export function seoImageUrl(): string {
-  if (typeof window !== "undefined") {
-    return new URL(SEO.ogImagePath, window.location.origin).href
-  }
   return `${SEO.siteUrl.replace(/\/$/, "")}${SEO.ogImagePath}`
 }
 

@@ -32,6 +32,7 @@
     "dev": "next dev",
     "start": "serve out -l 3000",
     "build": "next build",
+    "postbuild": "node -e \"require('node:fs').writeFileSync('out/.nojekyll', '')\"",
     "preview": "npm run start",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\" \"app/**/*.{js,jsx,ts,tsx}\" --quiet",
     "typecheck:strict": "tsc -p tsconfig.strict.json --noEmit",
