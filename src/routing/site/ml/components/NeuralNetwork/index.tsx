@@ -3,7 +3,7 @@ import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import "./NeuralNetwork.css"
+import "./NeuralNetwork.module.scss"
 
 const NeuralNetwork = () => {
   const canvasRef = useRef(null)

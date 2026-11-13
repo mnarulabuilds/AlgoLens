@@ -1,9 +1,10 @@
 import React from "react"
-import { useLocation, Link } from "react-router-dom"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { FaChevronRight, FaHome } from "react-icons/fa"
 import { getCategoryLabel } from "common/helpers/categories"
 import { getTopicFromRoute } from "routing/base/routes"
-import "./Breadcrumbs.css"
+import "./Breadcrumbs.module.scss"
 
 function formatSlug(slug: string): string {
   return slug
@@ -14,8 +15,7 @@ function formatSlug(slug: string): string {
 }
 
 const Breadcrumbs = () => {
-  const location = useLocation()
-  const pathname = location?.pathname || ""
+  const pathname = usePathname() || ""
   const pathnames = pathname.split("/").filter((x) => x)
 
   if (pathnames.length === 0) return null
@@ -46,7 +46,7 @@ const Breadcrumbs = () => {
       <nav className="breadcrumbs" aria-label="breadcrumb">
         <ol className="breadcrumb-list">
           <li className="breadcrumb-item">
-            <Link to="/" className="breadcrumb-link home" title="Home">
+            <Link href="/" className="breadcrumb-link home" title="Home">
               <FaHome />
               <span className="visually-hidden">Home</span>
             </Link>
@@ -61,7 +61,7 @@ const Breadcrumbs = () => {
                   {crumb.label}
                 </span>
               ) : (
-                <Link to={crumb.to} className="breadcrumb-link">
+                <Link href={crumb.to} className="breadcrumb-link">
                   {crumb.label}
                 </Link>
               )}

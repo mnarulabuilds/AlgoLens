@@ -1,5 +1,5 @@
 import React, { lazy, useState } from "react"
-import { Container, Row, Col } from "reactstrap"
+import { Container, Row, Col } from "common/components/Ui"
 import Insert from "./Insert"
 import Delete from "./Delete"
 import Update from "./Update"
@@ -102,7 +102,7 @@ const KnuthShuffle = () => {
   }
 
   return (
-    <Container fluid>
+    <Container>
       <Row>
         <Col xs={6} className="p-2">
           <Insert parent={{ state, insert }} />

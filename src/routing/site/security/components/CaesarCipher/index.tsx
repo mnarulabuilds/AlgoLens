@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./CaesarCipher.css"
+import "./CaesarCipher.module.scss"
 
 const CaesarCipher = () => {
   const [text, setText] = useState("HELLOWORLD")

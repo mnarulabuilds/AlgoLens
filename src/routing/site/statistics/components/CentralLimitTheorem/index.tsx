@@ -36,16 +36,13 @@ const CentralLimitTheorem = () => {
 
   const { bins, maxCount, mean } = useMemo(() => {
     const min = 5
-    const max = 30
     const bucketCount = 26
     const counts = Array(bucketCount).fill(0)
     sums.forEach((s) => {
       const idx = Math.min(Math.max(s - min, 0), bucketCount - 1)
       counts[idx]++
     })
-    const m = sums.length
-      ? sums.reduce((a, b) => a + b, 0) / sums.length
-      : 17.5
+    const m = sums.length ? sums.reduce((a, b) => a + b, 0) / sums.length : 17.5
     return {
       bins: counts.map((c, i) => ({ value: min + i, count: c })),
       maxCount: Math.max(...counts, 1),
@@ -80,14 +77,22 @@ const CentralLimitTheorem = () => {
           <button type="button" className="sim-btn" onClick={rollBatch}>
             Roll {sampleSize} sums
           </button>
-          <button type="button" className="sim-btn sim-btn-secondary" onClick={reset}>
+          <button
+            type="button"
+            className="sim-btn sim-btn-secondary"
+            onClick={reset}
+          >
             Reset
           </button>
         </>
       }
     >
       <div style={{ padding: "1rem" }}>
-        <svg width="100%" viewBox={`0 0 ${W} ${H}`} style={{ display: "block" }}>
+        <svg
+          width="100%"
+          viewBox={`0 0 ${W} ${H}`}
+          style={{ display: "block" }}
+        >
           {bins.map((b, i) => {
             const barW = (W - 2 * pad) / bins.length - 2
             const x = pad + i * ((W - 2 * pad) / bins.length)
@@ -114,11 +119,16 @@ const CentralLimitTheorem = () => {
             strokeWidth={2}
             strokeDasharray="4 3"
           />
-          <text x={pad} y={H - 8} fontSize={11} fill="currentColor">5</text>
-          <text x={W - pad - 20} y={H - 8} fontSize={11} fill="currentColor">30</text>
+          <text x={pad} y={H - 8} fontSize={11} fill="currentColor">
+            5
+          </text>
+          <text x={W - pad - 20} y={H - 8} fontSize={11} fill="currentColor">
+            30
+          </text>
         </svg>
         <p style={{ margin: "0.5rem 0 0", fontSize: "0.9rem" }}>
-          Total samples: {sums.length} | Mean sum: {mean.toFixed(2)} | Yellow line = sample mean
+          Total samples: {sums.length} | Mean sum: {mean.toFixed(2)} | Yellow
+          line = sample mean
         </p>
       </div>
     </SimWorkbench>

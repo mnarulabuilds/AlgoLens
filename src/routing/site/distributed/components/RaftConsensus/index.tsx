@@ -28,7 +28,6 @@ const RaftConsensus = () => {
   }
 
   const runElection = () => {
-    const leaderId = 2
     setNodes([
       { id: 1, state: "follower", log: [], term: 1 },
       { id: 2, state: "leader", log: [], term: 1 },
@@ -72,7 +71,11 @@ const RaftConsensus = () => {
           >
             Replicate log entry
           </button>
-          <button type="button" className="sim-btn sim-btn-secondary" onClick={reset}>
+          <button
+            type="button"
+            className="sim-btn sim-btn-secondary"
+            onClick={reset}
+          >
             Reset
           </button>
         </>
@@ -80,7 +83,14 @@ const RaftConsensus = () => {
     >
       <div style={{ padding: "1.25rem" }}>
         <p style={{ margin: "0 0 1rem", fontSize: "0.9rem" }}>{message}</p>
-        <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            justifyContent: "center",
+            flexWrap: "wrap",
+          }}
+        >
           {nodes.map((node) => (
             <div
               key={node.id}

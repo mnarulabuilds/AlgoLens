@@ -1,5 +1,11 @@
 import React, { useState } from "react"
-import { Card, CardBody, CardHeader, CardTitle, Button } from "reactstrap"
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  CardTitle,
+  Button,
+} from "common/components/Ui"
 
 const Shuffle = ({ parent }) => {
   const [shuffle, setShuffle] = useState(false)

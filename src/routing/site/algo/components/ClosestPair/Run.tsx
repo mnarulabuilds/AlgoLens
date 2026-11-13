@@ -1,16 +1,22 @@
 import React, { useEffect, useRef, useState } from "react"
-import "./Run.css"
+import "./Run.module.scss"
 
-const Run = (props) => {
-  const inputLabel = useRef([])
+interface RunProps {
+  find: (speed: string) => void
+}
+
+const Run = ({ find }: RunProps) => {
+  const inputLabel = useRef<HTMLLabelElement>(null)
   const [speed, setSpeed] = useState("Slow")
   const [, setLabelWidth] = useState(0)
 
   useEffect(() => {
-    setLabelWidth(inputLabel.current.offsetWidth)
+    if (inputLabel.current) {
+      setLabelWidth(inputLabel.current.offsetWidth)
+    }
   }, [])
 
-  const selectSpeed = (event) => {
+  const selectSpeed = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSpeed(event.target.value)
   }
 
@@ -38,7 +44,7 @@ const Run = (props) => {
         <button
           className="run-button"
           onClick={() => {
-            props.find(speed)
+            find(speed)
           }}
         >
           Run

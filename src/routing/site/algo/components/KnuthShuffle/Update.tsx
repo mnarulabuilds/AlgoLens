@@ -9,7 +9,7 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap"
+} from "common/components/Ui"
 
 const Update = ({ parent }) => {
   const [data, setData] = useState(null)
@@ -21,7 +21,7 @@ const Update = ({ parent }) => {
       <CardBody className="text-center">
         <CardTitle>Value at Position</CardTitle>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Position</InputGroupText>
           </InputGroupAddon>
           <Input
@@ -34,7 +34,7 @@ const Update = ({ parent }) => {
         </InputGroup>
         <br />
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Value</InputGroupText>
           </InputGroupAddon>
           <Input

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react"
 import Board from "common/components/Board"
-import { Container, Row, Col } from "reactstrap"
+import { Container, Row, Col } from "common/components/Ui"
 import Input from "./Input"
 
 const NQueens = () => {

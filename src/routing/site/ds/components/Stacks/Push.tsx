@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./Push.css"
+import "./Push.module.scss"
 
 export default function Push(props) {
   const [data, setData] = useState("")

@@ -11,7 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap"
+} from "common/components/Ui"
 
 const Insert = ({ parent }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
@@ -33,7 +33,6 @@ const Insert = ({ parent }) => {
             value={data || ""}
           />
           <InputGroupButtonDropdown
-            addonType="append"
             isOpen={dropdownOpen}
             toggle={toggleDropDown}
           >

@@ -7,7 +7,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Alert,
-} from "reactstrap"
+} from "common/components/Ui"
 import { MdExpandMore } from "react-icons/md"
 
 const Insert = ({ array, updateState, alertId }) => {
@@ -75,7 +75,6 @@ const Insert = ({ array, updateState, alertId }) => {
                 value={data ?? ""}
               />
               <InputGroupButtonDropdown
-                addonType="append"
                 isOpen={dropdownOpen}
                 toggle={toggleDropDown}
               >

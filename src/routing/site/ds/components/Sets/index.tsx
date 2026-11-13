@@ -6,7 +6,7 @@ import Search from "./Search"
 import SortedSet from "js-sorted-set"
 
 export default function Sets() {
-  const [radioVal, setRadioVal] = useState(false)
+  const [radioVal, setRadioVal] = useState("")
   const [isGreat, setIsGreat] = useState("")
   const [data, setData] = useState(null)
   const [set, setSet] = useState(new SortedSet())
@@ -101,7 +101,7 @@ export default function Sets() {
       set.map((element, key) => (
         <Fragment key={`${key}-${element}`}>
           <Element
-            data={{ value: Number(element) }}
+            data={{ value: Number(element), index: Number(key) }}
             type="sets"
             next={true}
             highlight={

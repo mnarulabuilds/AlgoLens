@@ -1,14 +1,10 @@
 import { describe, expect, it } from "vitest"
-import {
-  SEO,
-  buildCanonicalUrl,
-  buildWebSiteJsonLd,
-} from "common/config/seo"
+import { SEO, buildCanonicalUrl, buildWebSiteJsonLd } from "common/config/seo"
 
 describe("seo config", () => {
-  it("builds hash-router canonical URLs", () => {
+  it("builds path-based canonical URLs", () => {
     expect(buildCanonicalUrl("/algo/Sorting")).toBe(
-      "https://mnarulabuilds.github.io/AlgoLens/#/algo/Sorting"
+      "https://mnarulabuilds.github.io/AlgoLens/algo/Sorting/"
     )
   })
 

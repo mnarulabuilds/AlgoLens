@@ -9,9 +9,13 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap"
+} from "common/components/Ui"
 
-const Update = React.memo(({ update }) => {
+interface UpdateProps {
+  update: (position: number, value: number) => void
+}
+
+const Update = React.memo(({ update }: UpdateProps) => {
   const [data, setData] = useState("")
   const [position, setPosition] = useState("")
 
@@ -27,7 +31,7 @@ const Update = React.memo(({ update }) => {
       <CardBody className="text-center">
         <CardTitle>Value at Position</CardTitle>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Position</InputGroupText>
           </InputGroupAddon>
           <Input
@@ -39,7 +43,7 @@ const Update = React.memo(({ update }) => {
         </InputGroup>
         <br />
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Value</InputGroupText>
           </InputGroupAddon>
           <Input

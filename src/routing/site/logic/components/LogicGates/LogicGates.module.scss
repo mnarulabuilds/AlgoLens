@@ -1,0 +1,101 @@
+:global(.logic-gates-container) {
+  max-width: 1200px;
+}
+:global(.logic-visualizer) {
+  min-height: 500px;
+  background: radial-gradient(circle at center, #ffffff 0%, #f8f9fa 100%);
+  position: relative;
+}
+:global(.node-toggle),
+:global(.node-display) {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 4px solid #dee2e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: white;
+  user-select: none;
+}
+:global(.node-toggle:hover) {
+  transform: scale(1.1);
+  border-color: #adb5bd;
+}
+:global(.node-toggle.active),
+:global(.node-display.active) {
+  background: #0d6efd;
+  color: white;
+  border-color: #004dc5;
+  box-shadow: 0 0 15px rgba(13, 110, 253, 0.5);
+}
+:global(.node-display.active.glowing) {
+  box-shadow: 0 0 25px rgba(13, 110, 253, 0.8);
+}
+:global(.gate-symbol-wrapper) {
+  width: 140px;
+  height: 140px;
+  background: #333;
+  color: white;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 5px solid #222;
+}
+:global(.gate-body .symbol) {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+:global(.gate-body .gate-label) {
+  display: block;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  color: #adb5bd;
+  text-align: center;
+}
+:global(.connector-lines) {
+  width: 100px;
+  height: 100px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+:global(.line) {
+  height: 6px;
+  background: #dee2e6;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+:global(.line.glowing) {
+  background: #0d6efd;
+  box-shadow: 0 0 10px #0d6efd;
+}
+:global(.line-a),
+:global(.line-b) {
+  width: 100%;
+}
+:global(.line-a) {
+  margin-bottom: 40px;
+}
+:global(.line-out) {
+  width: 100%;
+}
+@media (max-width: 992px) {
+  :global(.gate-display) {
+    flex-direction: column;
+    gap: 2rem !important;
+  }
+  :global(.connector-lines) {
+    display: none;
+  }
+}

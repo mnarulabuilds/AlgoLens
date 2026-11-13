@@ -1,19 +1,21 @@
 import React, { useState, lazy, useEffect } from "react"
 import { FaEquals, FaTimes } from "react-icons/fa"
 import Input from "routing/site/algo/components/Factorial/Input"
-import "./Factorial.css"
+import "./Factorial.module.scss"
 
 const Element = lazy(() => import("common/components/Element"))
 
 const Factorial = () => {
-  const [input, setInput] = useState(null)
-  const [result, setResult] = useState(null)
-  const [processed, setProcessed] = useState(null)
-  const [rest, setRest] = useState(null)
+  const [input, setInput] = useState<number | null>(null)
+  const [result, setResult] = useState<string | null>(null)
+  const [processed, setProcessed] = useState<string | null>(null)
+  const [rest, setRest] = useState<number | null>(null)
   const [disabled, setDisabled] = useState(false)
-  const [alert, setAlert] = useState(null)
+  const [alert, setAlert] = useState<{ text: string; type: string } | null>(
+    null
+  )
 
-  const computeFactorial = (currentValue) => {
+  const computeFactorial = (currentValue: number) => {
     if (currentValue <= 0) {
       setTimeout(() => {
         setDisabled(false)
@@ -42,7 +44,7 @@ const Factorial = () => {
     }, 500)
   }
 
-  const fact = (input) => {
+  const fact = (input: number) => {
     if (input >= 0 && input <= 1) {
       setAlert({
         text: "Factorial is 1",
@@ -99,12 +101,12 @@ const Factorial = () => {
         </div>
       </div>
 
-      {parseInt(input) >= 0 && (
+      {parseInt(String(input)) >= 0 && (
         <div className="factorial-row text-center factorial-computation">
           <div className="factorial-col-2">
             <Element
               highlight={true}
-              data={{ value: `${input}!` }}
+              data={{ value: `${input}!`, index: -1 }}
               type="array"
             />
           </div>
@@ -112,22 +114,30 @@ const Factorial = () => {
             <FaEquals style={{ margin: "auto 5px" }} />
           </div>
           <div className="factorial-col-3">
-            <Element data={{ value: processed }} type="array" />
+            <Element
+              data={{ value: processed ?? "", index: -1 }}
+              type="array"
+              highlight={false}
+            />
           </div>
           <div className="factorial-col-2 factorial-icon">
             <FaTimes style={{ margin: "auto 5px" }} />
           </div>
           <div className="factorial-col-3">
-            <Element data={{ value: `${rest}!` }} type="array" />
+            <Element
+              data={{ value: `${rest}!`, index: -1 }}
+              type="array"
+              highlight={false}
+            />
           </div>
         </div>
       )}
-      {parseInt(result) >= 0 && (
+      {parseInt(String(result)) >= 0 && (
         <div className="factorial-row text-center factorial-result">
           <div className="factorial-col-full">
             <Element
               highlight={true}
-              data={{ value: `${result}` }}
+              data={{ value: `${result}`, index: -1 }}
               type="array"
             />
           </div>

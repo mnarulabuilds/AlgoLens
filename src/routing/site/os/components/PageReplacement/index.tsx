@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
-import "./PageReplacement.css"
+import "./PageReplacement.module.scss"
 
 const PageReplacement = () => {
   const [pageString, setPageString] = useState("7,0,1,2,0,3,0,4,2,3,0,3,2")

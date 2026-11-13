@@ -1,0 +1,26 @@
+:global(.square) {
+  width: 100px;
+  height: 100px;
+  background: #f4bc06;
+  border: 2px solid #000;
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease-in-out;
+}
+:global(.square:hover) {
+  background-color: #f3df0e;
+}
+:global(.square:focus) {
+  outline: none;
+  background-color: #ea700d;
+}
+:global(.square > span[value="X"]) {
+  color: rgba(17, 47, 241, 0.957);
+}
+:global(.square > span[value="O"]) {
+  color: rgb(11, 196, 11);
+}

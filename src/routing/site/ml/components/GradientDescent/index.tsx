@@ -3,7 +3,7 @@ import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import "./GradientDescent.css"
+import "./GradientDescent.module.scss"
 
 const GradientDescent = () => {
   const canvasRef = useRef(null)

@@ -1,0 +1,265 @@
+:global(.maze-game-container) {
+  min-height: 100vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  color: #e0e0e0;
+}
+:global(.maze-game-header) {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+:global(.maze-game-header h1) {
+  color: #4ecca3;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(78, 204, 163, 0.3);
+}
+:global(.maze-game-header p) {
+  color: #b0b0b0;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+:global(.header-buttons) {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+:global(.maze-game-content) {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+:global(.game-controls) {
+  background: rgba(78, 204, 163, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  border: 2px solid rgba(78, 204, 163, 0.2);
+}
+:global(.control-group) {
+  margin-bottom: 1.5rem;
+}
+:global(.control-group label) {
+  display: block;
+  color: #4ecca3;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+:global(.button-group) {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+:global(.control-btn) {
+  padding: 0.75rem 1.5rem;
+  background: rgba(78, 204, 163, 0.1);
+  color: #4ecca3;
+  border: 2px solid #4ecca3;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+:global(.control-btn:hover:not(:disabled)) {
+  background: rgba(78, 204, 163, 0.2);
+  transform: translateY(-2px);
+}
+:global(.control-btn.active) {
+  background: #4ecca3;
+  color: #0f2027;
+}
+:global(.control-btn:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+:global(.action-buttons) {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+:global(.action-btn) {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+:global(.solve-btn) {
+  background: linear-gradient(135deg, #4ecca3 0%, #3baf87 100%);
+  color: white;
+}
+:global(.solve-btn:hover:not(:disabled)) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(78, 204, 163, 0.4);
+}
+:global(.generate-btn) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+:global(.generate-btn:hover:not(:disabled)) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+}
+:global(.action-btn:disabled) {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+:global(.stats-panel) {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: rgba(78, 204, 163, 0.1);
+  border-radius: 8px;
+  border: 2px solid #4ecca3;
+}
+:global(.stat-item) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+:global(.stat-label) {
+  font-size: 0.9rem;
+  color: #b0b0b0;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+:global(.stat-value) {
+  font-size: 1.8rem;
+  color: #4ecca3;
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+:global(.canvas-wrapper) {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  overflow: auto;
+}
+:global(.maze-canvas) {
+  border: 2px solid #2c3e50;
+  border-radius: 8px;
+  display: block;
+}
+:global(.legend) {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+:global(.legend-item) {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #e0e0e0;
+  font-weight: 600;
+}
+:global(.legend-color) {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+:global(.legend-color.start) {
+  background: #2ecc71;
+}
+:global(.legend-color.end) {
+  background: #e74c3c;
+}
+:global(.legend-color.visited) {
+  background: #3498db;
+}
+:global(.legend-color.path) {
+  background: #f39c12;
+}
+:global(.legend-color.wall) {
+  background: #2c3e50;
+}
+:global(.instructions) {
+  background: rgba(78, 204, 163, 0.05);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 2px solid rgba(78, 204, 163, 0.2);
+}
+:global(.instructions h3) {
+  color: #4ecca3;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+:global(.instructions ul) {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+:global(.instructions li) {
+  padding: 0.75rem 0;
+  color: #e0e0e0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+:global(.instructions strong) {
+  color: #4ecca3;
+  font-weight: 600;
+}
+@media (max-width: 1024px) {
+  :global(.button-group) {
+    flex-direction: column;
+  }
+  :global(.control-btn) {
+    width: 100%;
+  }
+  :global(.legend) {
+    gap: 1rem;
+  }
+  :global(.legend-item) {
+    flex: 1;
+    min-width: 120px;
+  }
+}
+@media (max-width: 768px) {
+  :global(.maze-game-container) {
+    padding: 1rem;
+  }
+  :global(.maze-game-header h1) {
+    font-size: 2rem;
+  }
+  :global(.game-controls) {
+    padding: 1rem;
+  }
+  :global(.action-buttons) {
+    flex-direction: column;
+  }
+  :global(.stats-panel) {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  :global(.canvas-wrapper) {
+    padding: 0.5rem;
+    overflow-x: auto;
+  }
+  :global(.legend) {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  :global(.legend-item) {
+    width: 100%;
+  }
+}

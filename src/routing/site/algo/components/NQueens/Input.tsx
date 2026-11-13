@@ -9,9 +9,13 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap"
+} from "common/components/Ui"
 
-const QueensInput = React.memo(({ onQueens }) => {
+interface QueensInputProps {
+  onQueens: (size: number) => void
+}
+
+const QueensInput = React.memo(({ onQueens }: QueensInputProps) => {
   const [input, setInput] = useState(null)
 
   const handleSubmit = () => {
@@ -25,7 +29,7 @@ const QueensInput = React.memo(({ onQueens }) => {
       <CardBody className="text-center">
         <CardTitle>Number of rows or columns of square board N X N</CardTitle>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Input Value</InputGroupText>
           </InputGroupAddon>
           <Input

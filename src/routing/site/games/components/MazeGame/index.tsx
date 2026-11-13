@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import { FaPlay, FaMapMarkedAlt } from "react-icons/fa"
-import "./MazeGame.css"
+import "./MazeGame.module.scss"
 
 const CELL_SIZE = 20
 const SIZES = {
@@ -14,18 +14,36 @@ const ALGORITHMS = {
   bfs: "Breadth-First Search",
   astar: "A* Algorithm",
 }
+type MazeSize = keyof typeof SIZES
+type Algorithm = keyof typeof ALGORITHMS
+type Coordinate = [number, number]
+type MazeNeighbor = [number, number, number, number]
+type SearchNode = [number, number, Coordinate[]]
+type AStarNode = {
+  row: number
+  col: number
+  path: Coordinate[]
+  g: number
+  f: number
+}
+const mazeSizes: MazeSize[] = ["small", "medium", "large"]
+const algorithmOptions: Array<[Algorithm, string]> = [
+  ["dfs", ALGORITHMS.dfs],
+  ["bfs", ALGORITHMS.bfs],
+  ["astar", ALGORITHMS.astar],
+]
 
 const MazeGame = () => {
-  const [size, setSize] = useState("small")
-  const [maze, setMaze] = useState([])
-  const [start, setStart] = useState(null)
-  const [end, setEnd] = useState(null)
-  const [path, setPath] = useState([])
-  const [visited, setVisited] = useState([])
-  const [algorithm, setAlgorithm] = useState("astar")
+  const [size, setSize] = useState<MazeSize>("small")
+  const [maze, setMaze] = useState<number[][]>([])
+  const [start, setStart] = useState<Coordinate | null>(null)
+  const [end, setEnd] = useState<Coordinate | null>(null)
+  const [path, setPath] = useState<Coordinate[]>([])
+  const [visited, setVisited] = useState<Coordinate[]>([])
+  const [algorithm, setAlgorithm] = useState<Algorithm>("astar")
   const [isSolving, setIsSolving] = useState(false)
   const [stats, setStats] = useState({ pathLength: 0, nodesVisited: 0 })
-  const canvasRef = useRef(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
 
   useEffect(() => {
     generateMaze()
@@ -39,12 +57,12 @@ const MazeGame = () => {
 
   const generateMaze = () => {
     const { rows, cols } = SIZES[size]
-    const newMaze = Array(rows)
-      .fill()
-      .map(() => Array(cols).fill(1)) // 1 = wall, 0 = path
+    const newMaze = Array.from({ length: rows }, () =>
+      Array<number>(cols).fill(1)
+    ) // 1 = wall, 0 = path
 
     // Recursive backtracking maze generation
-    const stack = []
+    const stack: Coordinate[] = []
     const startRow = 1
     const startCol = 1
     newMaze[startRow][startCol] = 0
@@ -59,7 +77,7 @@ const MazeGame = () => {
 
     while (stack.length > 0) {
       const [row, col] = stack[stack.length - 1]
-      const neighbors = []
+      const neighbors: MazeNeighbor[] = []
 
       for (const [dr, dc] of directions) {
         const newRow = row + dr
@@ -158,7 +176,7 @@ const MazeGame = () => {
     const { rows, cols } = SIZES[size]
     const visitedSet = new Set()
     const visitedArr = []
-    const stack = [[start[0], start[1], [[start[0], start[1]]]]]
+    const stack: SearchNode[] = [[start[0], start[1], [[start[0], start[1]]]]]
 
     const directions = [
       [-1, 0],
@@ -217,7 +235,7 @@ const MazeGame = () => {
     const { rows, cols } = SIZES[size]
     const visitedSet = new Set()
     const visitedArr = []
-    const queue = [[start[0], start[1], [[start[0], start[1]]]]]
+    const queue: SearchNode[] = [[start[0], start[1], [[start[0], start[1]]]]]
     visitedSet.add(`${start[0]},${start[1]}`)
 
     const directions = [
@@ -274,7 +292,7 @@ const MazeGame = () => {
 
     const heuristic = (r, c) => Math.abs(r - end[0]) + Math.abs(c - end[1])
 
-    const openSet = [
+    const openSet: AStarNode[] = [
       {
         row: start[0],
         col: start[1],
@@ -368,7 +386,7 @@ const MazeGame = () => {
       <div className="maze-game-header">
         <h1>Maze Generator & Solver 🌀</h1>
         <p>Watch algorithms find the path!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="maze-game-content">
@@ -376,7 +394,7 @@ const MazeGame = () => {
           <div className="control-group">
             <label>Maze Size:</label>
             <div className="button-group">
-              {Object.keys(SIZES).map((s) => (
+              {mazeSizes.map((s) => (
                 <button
                   key={s}
                   className={`control-btn ${size === s ? "active" : ""}`}
@@ -392,7 +410,7 @@ const MazeGame = () => {
           <div className="control-group">
             <label>Algorithm:</label>
             <div className="button-group">
-              {Object.entries(ALGORITHMS).map(([key, name]) => (
+              {algorithmOptions.map(([key, name]) => (
                 <button
                   key={key}
                   className={`control-btn ${algorithm === key ? "active" : ""}`}

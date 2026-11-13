@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import "./MagneticField.css"
+import "./MagneticField.module.scss"
 
 const MagneticField = () => {
   const [velocity, setVelocity] = useState(5)
@@ -7,10 +7,10 @@ const MagneticField = () => {
   const [bField, setBField] = useState(0.05) // Magnetic field strength
   const [isSimulating, setIsSimulating] = useState(false)
 
-  const canvasRef = useRef(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const particleRef = useRef({ x: 50, y: 250, vx: 5, vy: 0 })
-  const trailRef = useRef([])
-  const requestRef = useRef()
+  const trailRef = useRef<Array<{ x: number; y: number }>>([])
+  const requestRef = useRef<number | null>(null)
 
   const canvasWidth = 800
   const canvasHeight = 500
@@ -120,14 +120,20 @@ const MagneticField = () => {
 
   useEffect(() => {
     draw()
-    return () => cancelAnimationFrame(requestRef.current)
+    return () => {
+      if (requestRef.current !== null) {
+        cancelAnimationFrame(requestRef.current)
+      }
+    }
   }, [])
 
   useEffect(() => {
     if (isSimulating) {
       requestRef.current = requestAnimationFrame(step)
     } else {
-      cancelAnimationFrame(requestRef.current)
+      if (requestRef.current !== null) {
+        cancelAnimationFrame(requestRef.current)
+      }
     }
   }, [isSimulating])
 

@@ -72,15 +72,15 @@ const ButtonRow = styled.div`
   margin-bottom: 12px;
 `
 
-const Button = styled.button`
+const Button = styled.button<{ $primary?: boolean }>`
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: ${(p) =>
-    p.primary
+    p.$primary
       ? "linear-gradient(180deg, #7fe7ff, #2dd4ff)"
       : "rgba(255, 255, 255, 0.06)"};
-  color: ${(p) => (p.primary ? "#041014" : "rgba(255, 255, 255, 0.9)")};
+  color: ${(p) => (p.$primary ? "#041014" : "rgba(255, 255, 255, 0.9)")};
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease;
@@ -128,8 +128,8 @@ function colorMap(v) {
 }
 
 export default function WaveInterference() {
-  const canvasRef = useRef(null)
-  const wrapRef = useRef(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const wrapRef = useRef<HTMLDivElement | null>(null)
   const rafRef = useRef(0)
   const timeRef = useRef(0)
 
@@ -279,7 +279,7 @@ export default function WaveInterference() {
 
       <ControlsCard>
         <ButtonRow>
-          <Button primary onClick={() => setRunning((v) => !v)}>
+          <Button $primary onClick={() => setRunning((v) => !v)}>
             {running ? "Pause" : "Play"}
           </Button>
           <Button

@@ -1,7 +1,7 @@
 import React, { lazy, useState } from "react"
 import { AiOutlineCheck, AiOutlineClose, AiOutlinePlus } from "react-icons/ai"
 import { DynamicLoader } from "routing/base/Router"
-import { Alert } from "reactstrap"
+import { Alert } from "common/components/Ui"
 
 const Table = lazy(() => import(`common/components/Table`))
 

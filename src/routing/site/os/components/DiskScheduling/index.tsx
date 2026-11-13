@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./DiskScheduling.css"
+import "./DiskScheduling.module.scss"
 
 const DiskScheduling = () => {
   const [requestString, setRequestString] = useState(

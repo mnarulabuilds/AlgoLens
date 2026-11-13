@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react"
-import styles from "./AStarPathfinding.module.css"
+import styles from "./AStarPathfinding.module.scss"
 import Cell from "./Cell"
 import VisualizerToolbar from "common/components/VisualizerToolbar"
 import useVisualizerControls from "common/hooks/useVisualizerControls"
@@ -260,8 +260,8 @@ const AStarPathfinding = () => {
         ...cell,
         type:
           Math.random() < 0.3 &&
-            !(cell.row === start.row && cell.col === start.col) &&
-            !(cell.row === end.row && cell.col === end.col)
+          !(cell.row === start.row && cell.col === start.col) &&
+          !(cell.row === end.row && cell.col === end.col)
             ? CELL_TYPE.WALL
             : CELL_TYPE.EMPTY,
       }))

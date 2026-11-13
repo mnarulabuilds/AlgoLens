@@ -1,0 +1,49 @@
+:global(.card) {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+:global(.card-header) {
+  margin-bottom: 16px;
+}
+:global(.card-title) {
+  font-size: 18px;
+  margin: 0;
+  color: #403d4a;
+}
+:global(.card-subheader) {
+  font-size: 14px;
+  margin: 0;
+  color: var(--text-muted, #475569);
+}
+:global(.card-actions) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+:global(.form-control) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+:global(.select) {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+:global(.run-button) {
+  background-color: #403d4a;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+:global(.run-button:hover) {
+  background-color: #5a5766;
+}

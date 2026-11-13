@@ -1,0 +1,19 @@
+:global(.game-rock-paper-scissors) {
+  text-align: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+:global(h1) {
+  font-size: 36px;
+}
+:global(.choices) {
+  margin-top: 20px;
+}
+:global(.choices-display) {
+  margin-top: 20px;
+  font-size: 18px;
+}
+:global(.emoji) {
+  font-size: 24px;
+  margin-right: 8px;
+}

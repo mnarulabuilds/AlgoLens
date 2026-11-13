@@ -1,8 +1,21 @@
 import React, { useState, useRef, useEffect } from "react"
-import styles from "./HuffmanCoding.module.css"
+import styles from "./HuffmanCoding.module.scss"
+
+type FrequencyMap = Record<string, number>
+type CodeMap = Record<string, string>
 
 class HuffmanNode {
-  constructor(char, freq, left = null, right = null) {
+  char: string | null
+  freq: number
+  left: HuffmanNode | null
+  right: HuffmanNode | null
+
+  constructor(
+    char: string | null,
+    freq: number,
+    left: HuffmanNode | null = null,
+    right: HuffmanNode | null = null
+  ) {
     this.char = char
     this.freq = freq
     this.left = left
@@ -10,29 +23,41 @@ class HuffmanNode {
   }
 }
 
+type BuildStep =
+  | { action: "initial"; nodes: HuffmanNode[] }
+  | {
+      action: "merge"
+      left: HuffmanNode
+      right: HuffmanNode
+      parent: HuffmanNode
+      nodes: HuffmanNode[]
+    }
+
 const HuffmanCoding = () => {
   const [inputText, setInputText] = useState("HUFFMAN CODING")
-  const [frequencies, setFrequencies] = useState({})
-  const [huffmanTree, setHuffmanTree] = useState(null)
-  const [codes, setCodes] = useState({})
+  const [frequencies, setFrequencies] = useState<FrequencyMap>({})
+  const [huffmanTree, setHuffmanTree] = useState<HuffmanNode | null>(null)
+  const [codes, setCodes] = useState<CodeMap>({})
   const [encodedText, setEncodedText] = useState("")
   const [decodedText, setDecodedText] = useState("")
-  const [buildingSteps, setBuildingSteps] = useState([])
+  const [buildingSteps, setBuildingSteps] = useState<BuildStep[]>([])
   const [currentStep, setCurrentStep] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
-  const [compressionRatio, setCompressionRatio] = useState(0)
-  const animationRef = useRef(null)
+  const [compressionRatio, setCompressionRatio] = useState("0")
+  const animationRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const calculateFrequencies = (text) => {
-    const freq = {}
+  const calculateFrequencies = (text: string): FrequencyMap => {
+    const freq: FrequencyMap = {}
     for (const char of text) {
-      freq[char] = (freq[char] || 0) + 1
+      freq[char] = (freq[char] ?? 0) + 1
     }
     return freq
   }
 
-  const buildHuffmanTree = (frequencies) => {
-    const steps = []
+  const buildHuffmanTree = (
+    frequencies: FrequencyMap
+  ): { tree: HuffmanNode | null; steps: BuildStep[] } => {
+    const steps: BuildStep[] = []
     const nodes = Object.entries(frequencies).map(
       ([char, freq]) => new HuffmanNode(char, freq)
     )
@@ -45,6 +70,7 @@ const HuffmanCoding = () => {
       // Take two nodes with smallest frequencies
       const left = nodes.shift()
       const right = nodes.shift()
+      if (!left || !right) break
 
       // Create internal node
       const parent = new HuffmanNode(null, left.freq + right.freq, left, right)
@@ -71,10 +97,14 @@ const HuffmanCoding = () => {
       })
     }
 
-    return { tree: nodes[0], steps }
+    return { tree: nodes[0] ?? null, steps }
   }
 
-  const generateCodes = (node, code = "", codesMap = {}) => {
+  const generateCodes = (
+    node: HuffmanNode | null,
+    code = "",
+    codesMap: CodeMap = {}
+  ): CodeMap => {
     if (!node) return codesMap
 
     // Leaf node
@@ -90,21 +120,23 @@ const HuffmanCoding = () => {
     return codesMap
   }
 
-  const encodeText = (text, codes) => {
+  const encodeText = (text: string, codes: CodeMap): string => {
     return text
       .split("")
       .map((char) => codes[char] || "")
       .join("")
   }
 
-  const decodeText = (encoded, tree) => {
+  const decodeText = (encoded: string, tree: HuffmanNode | null): string => {
     if (!tree || !encoded) return ""
 
     let decoded = ""
     let current = tree
 
     for (const bit of encoded) {
-      current = bit === "0" ? current.left : current.right
+      const next = bit === "0" ? current.left : current.right
+      if (!next) return decoded
+      current = next
 
       if (current.char !== null) {
         decoded += current.char
@@ -169,14 +201,20 @@ const HuffmanCoding = () => {
     setIsAnimating(true)
   }
 
-  const renderTreeNode = (node, x, y, level, horizontalSpacing) => {
-    if (!node) return null
+  const renderTreeNode = (
+    node: HuffmanNode | null,
+    x: number,
+    y: number,
+    level: number,
+    horizontalSpacing: number
+  ): React.ReactNode[] => {
+    if (!node) return []
 
     const nodeRadius = 30
     const verticalSpacing = 80
     const offset = horizontalSpacing / Math.pow(2, level + 1)
 
-    const elements = []
+    const elements: React.ReactNode[] = []
 
     // Draw connections to children
     if (node.left) {
@@ -270,6 +308,7 @@ const HuffmanCoding = () => {
   const getCurrentStepInfo = () => {
     if (currentStep === 0 || currentStep > buildingSteps.length) return null
     const step = buildingSteps[currentStep - 1]
+    if (!step) return null
 
     if (step.action === "initial") {
       return "Initial priority queue sorted by frequency"

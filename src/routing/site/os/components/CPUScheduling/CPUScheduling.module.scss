@@ -1,0 +1,43 @@
+:global(.os-visualizer) {
+  color: #333;
+}
+:global(.gantt-chart) {
+  height: 60px;
+  border: 1px solid #ddd;
+  background: #f9f9f9;
+  border-radius: 8px;
+  position: relative;
+  overflow: visible;
+}
+:global(.gantt-block) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+:global(.time-label) {
+  position: absolute;
+  bottom: -25px;
+  color: var(--text-muted, #475569);
+  font-size: 0.8rem;
+  font-weight: normal;
+}
+:global(.time-label.start) {
+  left: 0;
+}
+:global(.time-label.end) {
+  right: 0;
+}
+:global(.badge) {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.9rem;
+}
+:global(.stats-card h5) {
+  color: #162788;
+}
+:global(.gantt-container h5) {
+  color: #162788;
+}

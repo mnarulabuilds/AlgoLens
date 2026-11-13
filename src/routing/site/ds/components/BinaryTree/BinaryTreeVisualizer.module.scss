@@ -1,0 +1,43 @@
+:global(.binary-tree-visualizer) {
+  text-align: center;
+  padding: 20px;
+}
+:global(.input-container) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+:global(.input-container input) {
+  padding: 10px;
+  border: 2px solid #4caf50;
+  border-radius: 5px;
+  font-size: 16px;
+}
+:global(.input-container button) {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 10px;
+  transition: background-color 0.3s ease;
+}
+:global(.input-container button:hover) {
+  background-color: #45a049;
+}
+:global(.tree-container) {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+:global(canvas) {
+  max-width: 100%;
+  height: auto;
+}
+:global(h4) {
+  text-align: center;
+  color: hsla(251, 58%, 38%, 0.575);
+}

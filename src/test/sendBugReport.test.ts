@@ -5,36 +5,40 @@ import {
 } from "../common/helpers/sendBugReport"
 
 describe("sendBugReport", () => {
-  const originalKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY
+  const originalKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY
 
   beforeEach(() => {
     vi.stubGlobal("fetch", vi.fn())
   })
 
   afterEach(() => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = originalKey
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = originalKey
     vi.unstubAllGlobals()
   })
 
   it("reports whether bug reporting is configured", () => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = ""
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = ""
     expect(isBugReportConfigured()).toBe(false)
 
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = "test-key"
     expect(isBugReportConfigured()).toBe(true)
   })
 
   it("throws when the access key is missing", async () => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = ""
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = ""
 
     await expect(
-      sendBugReportEmail({ title: "Broken sort", description: "Steps...", file: null })
+      sendBugReportEmail({
+        title: "Broken sort",
+        description: "Steps...",
+        file: null,
+      })
     ).rejects.toThrow("Bug reporting is not configured")
     expect(fetch).not.toHaveBeenCalled()
   })
 
   it("submits a bug report when configured", async () => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = "test-key"
     vi.mocked(fetch).mockResolvedValue({
       ok: true,
       json: async () => ({ success: true }),
@@ -65,7 +69,7 @@ describe("sendBugReport", () => {
   })
 
   it("includes attachment metadata when a file is provided", async () => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = "test-key"
     vi.mocked(fetch).mockResolvedValue({
       ok: true,
       json: async () => ({ success: true }),
@@ -85,13 +89,10 @@ describe("sendBugReport", () => {
   })
 
   it("throws a generic error when the API body is not JSON", async () => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
-    vi.mocked(fetch).mockResolvedValue({
-      ok: false,
-      json: async () => {
-        throw new Error("not json")
-      },
-    } as Response)
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = "test-key"
+    vi.mocked(fetch).mockResolvedValue(
+      new Response("not json", { status: 500 })
+    )
 
     await expect(
       sendBugReportEmail({ title: "Bug", description: "Details", file: null })
@@ -99,11 +100,13 @@ describe("sendBugReport", () => {
   })
 
   it("throws when the API returns an error", async () => {
-    import.meta.env.VITE_WEB3FORMS_ACCESS_KEY = "test-key"
-    vi.mocked(fetch).mockResolvedValue({
-      ok: false,
-      json: async () => ({ success: false, message: "Invalid access key" }),
-    } as Response)
+    process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY = "test-key"
+    vi.mocked(fetch).mockResolvedValue(
+      new Response(
+        JSON.stringify({ success: false, message: "Invalid access key" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      )
+    )
 
     await expect(
       sendBugReportEmail({ title: "Bug", description: "Details", file: null })

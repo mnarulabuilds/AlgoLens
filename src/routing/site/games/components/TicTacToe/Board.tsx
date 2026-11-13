@@ -1,8 +1,14 @@
 import React from "react"
 import Square from "./Square"
-import "./Board.css"
+import "./Board.module.scss"
 
-const Board = React.memo(({ squares, onClick }) => {
+type SquareValue = "X" | "O" | null
+type BoardProps = {
+  squares: SquareValue[]
+  onClick: (index: number) => void
+}
+
+const Board = React.memo(({ squares, onClick }: BoardProps) => {
   return (
     <div className="board">
       {squares.map((square, index) => (

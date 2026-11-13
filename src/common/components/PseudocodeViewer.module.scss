@@ -1,0 +1,100 @@
+:global(.pseudocode-viewer) {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+:global(.pseudocode-header) {
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid #4ecca3;
+}
+:global(.pseudocode-header h3) {
+  margin: 0;
+  color: #4ecca3;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+:global(.pseudocode-content) {
+  background: #1a1a2e;
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+:global(.pseudocode-block) {
+  margin: 0;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+:global(.pseudocode-line) {
+  display: flex;
+  align-items: flex-start;
+  padding: 0.25rem 0;
+  transition: background 0.2s ease;
+}
+:global(.pseudocode-line:hover) {
+  background: rgba(78, 204, 163, 0.1);
+}
+:global(.pseudocode-line.highlighted) {
+  background: rgba(251, 191, 36, 0.25);
+  border-left: 4px solid #fbbf24;
+  padding-left: calc(0.25rem - 4px);
+}
+:global(.line-number) {
+  display: inline-block;
+  min-width: 40px;
+  text-align: right;
+  padding-right: 1rem;
+  color: #888;
+  user-select: none;
+  font-weight: 600;
+}
+:global(.line-code) {
+  flex: 1;
+  color: #e0e0e0;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+:global(.pseudocode-content::-webkit-scrollbar) {
+  width: 8px;
+}
+:global(.pseudocode-content::-webkit-scrollbar-track) {
+  background: #0f0f1e;
+  border-radius: 4px;
+}
+:global(.pseudocode-content::-webkit-scrollbar-thumb) {
+  background: #4ecca3;
+  border-radius: 4px;
+}
+:global(.pseudocode-content::-webkit-scrollbar-thumb:hover) {
+  background: #3baf87;
+}
+
+:global(.dialog-backdrop .dialog) {
+  background: #16213e;
+  color: #e0e0e0;
+  max-width: 900px;
+}
+:global(.dialog-backdrop .dialog-header) {
+  border-bottom: 1px solid #4ecca3;
+}
+:global(.dialog-backdrop .dialog-title) {
+  color: #4ecca3;
+}
+:global(.dialog-backdrop .dialog-close-button) {
+  color: #4ecca3;
+  font-size: 2rem;
+  font-weight: 300;
+}
+:global(.dialog-backdrop .dialog-close-button:hover) {
+  color: #3baf87;
+}
+:global(.dialog-backdrop .dialog-content) {
+  padding: 1.5rem;
+  background: #16213e;
+}
+:global(.dialog-backdrop .dialog-actions) {
+  border-top: 1px solid #4ecca3;
+}

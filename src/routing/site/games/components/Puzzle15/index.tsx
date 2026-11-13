@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import "./Puzzle15.css"
+import "./Puzzle15.module.scss"
 
 const GRID_SIZE = 4
 const TILE_COUNT = GRID_SIZE * GRID_SIZE
@@ -143,7 +143,7 @@ const Puzzle15 = () => {
       <div className="puzzle15-header">
         <h1>15-Puzzle Slider 🧩</h1>
         <p>Arrange the tiles in order!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="puzzle15-content">

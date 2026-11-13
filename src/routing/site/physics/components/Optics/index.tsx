@@ -9,7 +9,7 @@ import {
   MirrorElement,
   LensElement,
 } from "./opticsPhysics"
-import "./Optics.css"
+import "./Optics.module.scss"
 
 type PresetKey = "mirror" | "lens" | "combined" | "blank"
 
@@ -75,10 +75,7 @@ const PRESETS: Record<PresetKey, Preset> = {
   },
 }
 
-type DragTarget =
-  | { kind: "source" }
-  | { kind: "element"; id: string }
-  | null
+type DragTarget = { kind: "source" } | { kind: "element"; id: string } | null
 
 function scalePreset(
   preset: Preset,
@@ -108,7 +105,9 @@ const OpticsSimulation = () => {
   const stageRef = useRef<SVGSVGElement>(null)
   const [size, setSize] = useState({ width: 640, height: 420 })
   const [source, setSource] = useState<LightSource>(PRESETS.mirror.source)
-  const [elements, setElements] = useState<SceneElement[]>(PRESETS.mirror.elements)
+  const [elements, setElements] = useState<SceneElement[]>(
+    PRESETS.mirror.elements
+  )
   const [selectedId, setSelectedId] = useState<string | null>(null)
   const [activePreset, setActivePreset] = useState<PresetKey>("mirror")
   const [showBeam, setShowBeam] = useState(true)
@@ -164,10 +163,7 @@ const OpticsSimulation = () => {
     return { x: local.x, y: local.y }
   }, [])
 
-  const handlePointerDown = (
-    event: React.PointerEvent,
-    target: DragTarget
-  ) => {
+  const handlePointerDown = (event: React.PointerEvent, target: DragTarget) => {
     event.preventDefault()
     dragRef.current = target
     ;(event.currentTarget as Element).setPointerCapture(event.pointerId)
@@ -407,7 +403,9 @@ const OpticsSimulation = () => {
 
           <g
             className="optics-source"
-            onPointerDown={(event) => handlePointerDown(event, { kind: "source" })}
+            onPointerDown={(event) =>
+              handlePointerDown(event, { kind: "source" })
+            }
           >
             <circle
               className="optics-source-core"
@@ -435,7 +433,9 @@ const OpticsSimulation = () => {
 
       <div className="optics-controls">
         <div className="optics-control-card">
-          <label htmlFor="beam-angle">Beam angle ({source.angleDeg.toFixed(0)}°)</label>
+          <label htmlFor="beam-angle">
+            Beam angle ({source.angleDeg.toFixed(0)}°)
+          </label>
           <input
             id="beam-angle"
             type="range"

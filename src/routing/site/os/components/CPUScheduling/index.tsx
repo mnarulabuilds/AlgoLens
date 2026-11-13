@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
-import "./CPUScheduling.css"
+import "./CPUScheduling.module.scss"
 
 const CPUScheduling = () => {
   const [processes] = useState([
@@ -10,10 +10,24 @@ const CPUScheduling = () => {
     { id: 4, arrival: 3, burst: 2, color: "#96CEB4" },
   ])
 
-  const [ganttChart, setGanttChart] = useState([])
+  const [ganttChart, setGanttChart] = useState<
+    Array<{
+      id: number
+      arrival: number
+      burst: number
+      color: string
+      start: number
+      end: number
+      waiting: number
+      turnaround: number
+    }>
+  >([])
   const [currentTime, setCurrentTime] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
-  const [stats, setStats] = useState({ avgWaiting: 0, avgTurnaround: 0 })
+  const [stats, setStats] = useState({
+    avgWaiting: "0.00",
+    avgTurnaround: "0.00",
+  })
   const markComplete = useMarkComplete()
 
   useEffect(() => {

@@ -1,6 +1,11 @@
 import React, { useState } from "react"
 
-const Input = React.memo(({ disabled, generateSequence }) => {
+interface InputProps {
+  disabled: boolean
+  generateSequence: (length: number) => void
+}
+
+const Input = React.memo(({ disabled, generateSequence }: InputProps) => {
   const [input, setInput] = useState("")
 
   const handleSubmit = (e) => {

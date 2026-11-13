@@ -1,9 +1,17 @@
 import React, { useState, useEffect, useRef } from "react"
 
-export default function Get(props) {
+type GetProps = {
+  open: boolean
+  modifyWhere: (position: string) => void
+  result1: string | null
+  array1: string[]
+  get: () => void
+}
+
+export default function Get(props: GetProps) {
   const [position, setPosition] = useState("")
   const [, setLabelWidth] = useState(0)
-  const inputLabel = useRef()
+  const inputLabel = useRef<HTMLLabelElement>(null)
 
   useEffect(() => {
     if (inputLabel.current) {
@@ -11,7 +19,7 @@ export default function Get(props) {
     }
   }, [])
 
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     props.modifyWhere(event.target.value)
     setPosition(event.target.value)
   }

@@ -1,11 +1,11 @@
 import React from "react"
-import { motion } from "framer-motion"
-import { useParams, Link } from "react-router-dom"
+import { motion, Variants } from "framer-motion"
+import Link from "next/link"
 import { getCategoryIcon } from "common/helpers/categories"
 import { pages } from "routing/base/routes"
 import { preloadVisualizer } from "routing/base/preload"
 import { FaArrowLeft, FaExternalLinkAlt } from "react-icons/fa"
-import "./Dashboard.css"
+import "./Dashboard.module.scss"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -17,7 +17,7 @@ const containerVariants = {
   },
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { scale: 0.9, opacity: 0 },
   visible: {
     scale: 1,
@@ -29,15 +29,18 @@ const itemVariants = {
   },
 }
 
-export default function CategoryPage() {
-  const { category: categoryTopic } = useParams()
+export default function CategoryPage({
+  categoryTopic,
+}: {
+  categoryTopic: string
+}) {
   const category = pages.find((p) => p.topic === categoryTopic)
 
   if (!category) {
     return (
       <div className="container text-center mt-5">
         <h2>Category not found</h2>
-        <Link to="/" className="btn btn-primary mt-3">
+        <Link href="/" className="btn btn-primary mt-3">
           Go Home
         </Link>
       </div>
@@ -48,7 +51,7 @@ export default function CategoryPage() {
     <div className="dashboard-root">
       <div className="category-hero">
         <div className="container">
-          <Link to="/" className="back-link">
+          <Link href="/" className="back-link">
             <FaArrowLeft /> Back to Home
           </Link>
           <motion.div
@@ -80,7 +83,7 @@ export default function CategoryPage() {
           {category.pages.map((page) => (
             <motion.div key={page.topic} variants={itemVariants}>
               <Link
-                to={`/${category.topic}/${page.topic}`}
+                href={`/${category.topic}/${page.topic}`}
                 className="subcategory-card"
                 onMouseEnter={() =>
                   preloadVisualizer(`/${category.topic}/${page.topic}`)

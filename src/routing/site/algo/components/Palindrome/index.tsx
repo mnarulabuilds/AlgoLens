@@ -1,17 +1,21 @@
 import React, { Suspense, lazy, useCallback, useState } from "react"
 import Input from "./Input"
-import { FixedSizeList as List } from "react-window"
+import HorizontalVirtualList from "common/components/HorizontalVirtualList"
 import useWindowDimensions from "common/helpers/dimensions"
-import "./Palindrome.css"
+import "./Palindrome.module.scss"
 
 const LazyElement = lazy(() => import("common/components/Element"))
 
 const Palindrome = () => {
-  const [characters, setCharacters] = useState([])
-  const [alert, setAlert] = useState(null)
+  const [characters, setCharacters] = useState<
+    { char: string; highlight: boolean }[]
+  >([])
+  const [alert, setAlert] = useState<{ text: string; type: string } | null>(
+    null
+  )
   const [disabled, setDisabled] = useState(false)
 
-  const updateCharacters = (start, end, delay) => {
+  const updateCharacters = (start: number, end: number, delay: number) => {
     setTimeout(() => {
       setCharacters((prevCharacters) => {
         return prevCharacters.map(({ char, highlight }, idx) => {
@@ -30,7 +34,7 @@ const Palindrome = () => {
     }, delay)
   }
 
-  const checkPalindrome = useCallback((input) => {
+  const checkPalindrome = useCallback((input: string) => {
     let start = 0,
       end = input.length - 1,
       isPalindrome = true,
@@ -100,19 +104,21 @@ const Palindrome = () => {
   )
 }
 
-const LazyList = ({ characters }) => {
+const LazyList = ({
+  characters,
+}: {
+  characters: { char: string; highlight: boolean }[]
+}) => {
   const { width: innerWidth } = useWindowDimensions()
 
   return (
-    <List
+    <HorizontalVirtualList
       height={120}
       itemCount={characters.length}
       itemSize={200}
       width={innerWidth || 800}
-      direction="horizontal"
-    >
-      {({ index, style }) => (
-        <div className="palindrome-char-item" style={style}>
+      renderItem={(index) => (
+        <div className="palindrome-char-item">
           <LazyElement
             highlight={characters[index].highlight}
             data={{ value: characters[index].char, index }}
@@ -120,7 +126,7 @@ const LazyList = ({ characters }) => {
           />
         </div>
       )}
-    </List>
+    />
   )
 }
 

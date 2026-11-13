@@ -40,18 +40,18 @@ const Controls = styled.div`
   flex-wrap: wrap;
 `
 
-const Button = styled.button`
+const Button = styled.button<{ $active?: boolean }>`
   padding: 10px 20px;
   border-radius: 8px;
   border: none;
-  background: ${(props) => (props.active ? "#3b82f6" : "#f1f5f9")};
-  color: ${(props) => (props.active ? "white" : "#475569")};
+  background: ${(props) => (props.$active ? "#3b82f6" : "#f1f5f9")};
+  color: ${(props) => (props.$active ? "white" : "#475569")};
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 
   &:hover {
-    background: ${(props) => (props.active ? "#2563eb" : "#e2e8f0")};
+    background: ${(props) => (props.$active ? "#2563eb" : "#e2e8f0")};
   }
 `
 

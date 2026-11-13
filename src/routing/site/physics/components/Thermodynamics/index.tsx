@@ -1,20 +1,22 @@
 import React, { useState, useEffect, useRef } from "react"
-import "./Thermodynamics.css"
+import "./Thermodynamics.module.scss"
+
+type Particle = { x: number; y: number; vx: number; vy: number }
 
 const Thermodynamics = () => {
   const [temperature, setTemperature] = useState(300) // Kelvin
   const [volume, setVolume] = useState(400) // Width of box
   const [particleCount, setParticleCount] = useState(20)
-  const canvasRef = useRef(null)
-  const [particles, setParticles] = useState([])
-  const requestRef = useRef()
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const [particles, setParticles] = useState<Particle[]>([])
+  const requestRef = useRef<number | null>(null)
 
   const boxHeight = 400
   const particleRadius = 5
 
   // Initialize particles
   useEffect(() => {
-    const newParticles = []
+    const newParticles: Particle[] = []
     for (let i = 0; i < particleCount; i++) {
       newParticles.push({
         x: Math.random() * (volume - 2 * particleRadius) + particleRadius,
@@ -73,12 +75,18 @@ const Thermodynamics = () => {
 
   useEffect(() => {
     requestRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(requestRef.current)
+    return () => {
+      if (requestRef.current !== null) {
+        cancelAnimationFrame(requestRef.current)
+      }
+    }
   }, [volume]) // Restart when volume/boundaries change significantly
 
   useEffect(() => {
     const canvas = canvasRef.current
+    if (!canvas) return
     const ctx = canvas.getContext("2d")
+    if (!ctx) return
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     // Draw Box

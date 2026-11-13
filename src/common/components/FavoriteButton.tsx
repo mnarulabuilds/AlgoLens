@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { FaStar, FaRegStar } from "react-icons/fa"
 import { useUser, TopicRef } from "common/context/UserContext"
-import "./FavoriteButton.css"
+import "./FavoriteButton.module.scss"
 
 type FavoriteButtonProps = {
   topic: TopicRef

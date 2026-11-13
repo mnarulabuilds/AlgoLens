@@ -1,22 +1,17 @@
 import { describe, it, expect, beforeEach } from "vitest"
 import { render, screen, waitFor } from "@testing-library/react"
 import React, { Suspense } from "react"
-import { HashRouter, MemoryRouter } from "react-router-dom"
 import { UserProvider } from "../common/context/UserContext"
 import { ThemeProvider } from "../common/context/ThemeContext"
 import RouteSection, { DynamicLoader } from "../routing/base/Router"
 
 function RouterShell({ initialPath }: { initialPath: string }) {
-  window.location.hash = initialPath === "/" ? "#/" : `#${initialPath}`
-
   return (
     <ThemeProvider>
       <UserProvider>
-        <HashRouter>
-          <Suspense fallback={<div>Loading…</div>}>
-            <RouteSection />
-          </Suspense>
-        </HashRouter>
+        <Suspense fallback={<div>Loading…</div>}>
+          <RouteSection pathname={initialPath} />
+        </Suspense>
       </UserProvider>
     </ThemeProvider>
   )
@@ -62,11 +57,7 @@ describe("Router", () => {
     }))
 
     render(
-      <MemoryRouter>
-        <Suspense fallback={<div>wait</div>}>
-          {DynamicLoader(LazyChild)}
-        </Suspense>
-      </MemoryRouter>
+      <Suspense fallback={<div>wait</div>}>{DynamicLoader(LazyChild)}</Suspense>
     )
 
     expect(await screen.findByText("Lazy child")).toBeInTheDocument()

@@ -1,38 +1,56 @@
 import React, { useCallback } from "react"
 
-const CanvasImage = ({ fill }) => {
-  const captureMousePixel = useCallback((event) => {
-    const image = document.getElementById("cusImage")
-    const details = document.getElementById("detailsPane")
-    const ctx = image.getContext("2d")
-    const imageData = ctx.getImageData(
-      event.nativeEvent.offsetX,
-      event.nativeEvent.offsetY,
-      1,
-      1
-    )
-    const pixelData = imageData.data
-    details.innerHTML = `R: ${pixelData[0]}<br>G: ${pixelData[1]}<br>B: ${pixelData[2]}<br>A: ${pixelData[3]}`
-  }, [])
+interface CanvasImageProps {
+  fill: string
+}
 
-  const hexToRgb = useCallback((hex) => {
-    return hex
-      .replace(
-        /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
-        (m, r, g, b) => "#" + r + r + g + g + b + b
+const CanvasImage = ({ fill }: CanvasImageProps) => {
+  const captureMousePixel = useCallback(
+    (event: React.MouseEvent<HTMLCanvasElement>) => {
+      const image = document.getElementById("cusImage")
+      const details = document.getElementById("detailsPane")
+      if (!(image instanceof HTMLCanvasElement) || !details) return
+      const ctx = image.getContext("2d")
+      if (!ctx) return
+      const imageData = ctx.getImageData(
+        event.nativeEvent.offsetX,
+        event.nativeEvent.offsetY,
+        1,
+        1
       )
-      .substring(1)
-      .match(/.{2}/g)
-      .map((x) => parseInt(x, 16))
+      const pixelData = imageData.data
+      details.innerHTML = `R: ${pixelData[0]}<br>G: ${pixelData[1]}<br>B: ${pixelData[2]}<br>A: ${pixelData[3]}`
+    },
+    []
+  )
+
+  const hexToRgb = useCallback((hex: string): number[] => {
+    return (
+      hex
+        .replace(
+          /^#?([a-f\d])([a-f\d])([a-f\d])$/i,
+          (m, r, g, b) => "#" + r + r + g + g + b + b
+        )
+        .substring(1)
+        .match(/.{2}/g)
+        ?.map((x) => parseInt(x, 16)) ?? [0, 0, 0]
+    )
   }, [])
 
   const fillPixel = useCallback(
-    (fillColor, xPos, yPos, firstRgb, image) => {
+    (
+      fillColor: string,
+      xPos: number,
+      yPos: number,
+      firstRgb: Uint8ClampedArray,
+      image: HTMLCanvasElement
+    ) => {
       if (xPos < 0 || xPos >= image.width || yPos < 0 || yPos >= image.height) {
         return
       }
 
       const ctx = image.getContext("2d")
+      if (!ctx) return
       const imageData = ctx.getImageData(xPos, yPos, 1, 1)
       const pixelData = imageData.data
 
@@ -91,12 +109,14 @@ const CanvasImage = ({ fill }) => {
   )
 
   const handleCanvasClick = useCallback(
-    (event) => {
+    (event: React.MouseEvent<HTMLCanvasElement>) => {
       const xPos = event.nativeEvent.offsetX
       const yPos = event.nativeEvent.offsetY
 
       const image = document.getElementById("cusImage")
+      if (!(image instanceof HTMLCanvasElement)) return
       const ctx = image.getContext("2d")
+      if (!ctx) return
       const imageData = ctx.getImageData(xPos, yPos, 1, 1)
       const originalRgb = imageData.data
 

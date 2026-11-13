@@ -1,18 +1,20 @@
 import React, { useCallback, useState } from "react"
-import { Alert } from "reactstrap"
-import "./Game.css"
+import { Alert } from "common/components/Ui"
+import "./Game.module.scss"
 
 const Choice = {
   C: "HELP",
   D: "BETRAY",
 }
+type PrisonerChoice = typeof Choice[keyof typeof Choice]
+type AlertState = { text: string; type: "danger" } | null
 
 const Game = () => {
   const [numPrisoners, setNumPrisoners] = useState(2)
-  const [grid, setGrid] = useState(
-    Array.from({ length: 2 }, () => Array(2).fill(Choice.C))
+  const [grid, setGrid] = useState<PrisonerChoice[][]>(
+    Array.from({ length: 2 }, () => Array<PrisonerChoice>(2).fill(Choice.C))
   )
-  const [alert, setAlert] = useState(null)
+  const [alert, setAlert] = useState<AlertState>(null)
   const payoffs = grid.map((row) =>
     row.map((cell, x) => {
       let payoff = 0
@@ -27,18 +29,25 @@ const Game = () => {
     })
   )
 
-  const handleNumPrisonersChange = useCallback((e) => {
-    const value = parseInt(e.target.value)
-    if (value < 2 || value > 8) {
-      setAlert({
-        text: "Number of prisoners must be between 2 and 8",
-        type: "danger",
-      })
-      return
-    }
-    setNumPrisoners(value)
-    setGrid(Array.from({ length: value }, () => Array(value).fill(Choice.C)))
-  }, [])
+  const handleNumPrisonersChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = parseInt(e.target.value)
+      if (value < 2 || value > 8) {
+        setAlert({
+          text: "Number of prisoners must be between 2 and 8",
+          type: "danger",
+        })
+        return
+      }
+      setNumPrisoners(value)
+      setGrid(
+        Array.from({ length: value }, () =>
+          Array<PrisonerChoice>(value).fill(Choice.C)
+        )
+      )
+    },
+    []
+  )
 
   const toggleCell = useCallback(
     (x, y) => {
@@ -90,7 +99,7 @@ const Game = () => {
       </div>
       {alert && (
         <Alert
-          type={alert.type}
+          color={alert.type}
           isOpen={!!alert.text}
           toggle={() => setAlert(null)}
         >

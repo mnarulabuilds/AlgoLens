@@ -9,7 +9,7 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap"
+} from "common/components/Ui"
 
 const Delete = ({ parent }) => {
   const [data, setData] = useState(null)
@@ -21,7 +21,7 @@ const Delete = ({ parent }) => {
       <CardBody className="text-center">
         <CardTitle>Position or Value</CardTitle>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Position</InputGroupText>
           </InputGroupAddon>
           <Input
@@ -38,7 +38,7 @@ const Delete = ({ parent }) => {
         <span>Or</span>
         <br />
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Value</InputGroupText>
           </InputGroupAddon>
           <Input

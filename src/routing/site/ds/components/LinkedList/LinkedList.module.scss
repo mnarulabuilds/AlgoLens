@@ -1,0 +1,10 @@
+:global(.linked-list-root) {
+  flex-grow: 1;
+}
+:global(.linked-list-paper) {
+  width: 100%;
+  padding: 16px;
+  margin: 16px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+}

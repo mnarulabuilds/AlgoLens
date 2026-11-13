@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import styles from "./DFSGraph.module.css"
+import styles from "./DFSGraph.module.scss"
 
 const graph = {
   A: ["B", "C"],

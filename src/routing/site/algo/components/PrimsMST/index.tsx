@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import styles from "./PrimsMST.module.css"
+import styles from "./PrimsMST.module.scss"
 
 const PrimsMST = () => {
   const nodes = [

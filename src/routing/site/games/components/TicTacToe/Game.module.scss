@@ -1,0 +1,20 @@
+:global(.game-tic-tac-toe) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(249, 66, 16);
+}
+:global(.game-info) {
+  margin-top: 20px;
+  color: white;
+  text-align: center;
+}
+:global(.game-info > div) {
+  padding: 20px;
+}
+:global(.game-info > div > span) {
+  color: rgb(59, 13, 243);
+}
+:global(.game-info button) {
+  margin-bottom: 5px;
+}

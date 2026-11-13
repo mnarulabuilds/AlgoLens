@@ -9,7 +9,7 @@ import { VisualizerTopicProvider } from "common/context/VisualizerTopicContext"
 import { isGoldVisualizer } from "common/config/goldVisualizers"
 import { getLearnContent } from "routing/base/learnContent"
 import { siteSuggestions } from "routing/base/routes"
-import "./VisualizerPage.css"
+import "./VisualizerPage.module.scss"
 
 type VisualizerPageProps = {
   topic: TopicRef
@@ -43,7 +43,10 @@ const VisualizerPage = ({
           <div className="visualizer-page-title-wrap">
             <h1 className="visualizer-page-title">{pageTitle}</h1>
             {gold && (
-              <span className="visualizer-gold-badge" title="Gold-tier visualizer">
+              <span
+                className="visualizer-gold-badge"
+                title="Gold-tier visualizer"
+              >
                 Gold
               </span>
             )}

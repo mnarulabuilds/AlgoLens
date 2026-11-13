@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
-import styles from "./DijkstraGraph.module.css"
+import styles from "./DijkstraGraph.module.scss"
 
 const Dijkstra = () => {
   const nodes = [

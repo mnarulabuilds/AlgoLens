@@ -1,7 +1,11 @@
 import React, { useState } from "react"
-import styles from "./BTree.module.css"
+import styles from "./BTree.module.scss"
 
 class BTreeNode {
+  keys: number[]
+  children: BTreeNode[]
+  isLeaf: boolean
+
   constructor(isLeaf = true) {
     this.keys = []
     this.children = []
@@ -10,6 +14,11 @@ class BTreeNode {
 }
 
 class BTree {
+  root: BTreeNode
+  order: number
+  minKeys: number
+  maxKeys: number
+
   constructor(order = 3) {
     this.root = new BTreeNode(true)
     this.order = order // Maximum number of children
@@ -17,7 +26,7 @@ class BTree {
     this.maxKeys = order - 1
   }
 
-  search(node, key) {
+  search(node: BTreeNode, key: number): boolean {
     let i = 0
     while (i < node.keys.length && key > node.keys[i]) {
       i++
@@ -34,7 +43,7 @@ class BTree {
     return this.search(node.children[i], key)
   }
 
-  insert(key) {
+  insert(key: number): void {
     const root = this.root
 
     if (root.keys.length === this.maxKeys) {
@@ -48,7 +57,7 @@ class BTree {
     this.insertNonFull(this.root, key)
   }
 
-  insertNonFull(node, key) {
+  insertNonFull(node: BTreeNode, key: number): void {
     let i = node.keys.length - 1
 
     if (node.isLeaf) {
@@ -75,7 +84,7 @@ class BTree {
     }
   }
 
-  splitChild(parent, index) {
+  splitChild(parent: BTreeNode, index: number): void {
     const fullChild = parent.children[index]
     const newChild = new BTreeNode(fullChild.isLeaf)
 
@@ -96,7 +105,7 @@ class BTree {
     parent.children.splice(index + 1, 0, newChild)
   }
 
-  getHeight(node = this.root) {
+  getHeight(node: BTreeNode = this.root): number {
     if (node.isLeaf) return 1
     return 1 + this.getHeight(node.children[0])
   }
@@ -107,7 +116,7 @@ class BTree {
     return newTree
   }
 
-  cloneNode(node) {
+  cloneNode(node: BTreeNode): BTreeNode {
     if (!node) return null
     const newNode = new BTreeNode(node.isLeaf)
     newNode.keys = [...node.keys]
@@ -118,10 +127,10 @@ class BTree {
 
 const BTreeVisualizer = () => {
   const [tree, setTree] = useState(new BTree(4))
-  const [order, setOrder] = useState(4)
+  const [order, setOrder] = useState("4")
   const [inputValue, setInputValue] = useState("")
   const [searchValue, setSearchValue] = useState("")
-  const [highlightedNodes, setHighlightedNodes] = useState([])
+  const [highlightedNodes, setHighlightedNodes] = useState<number[]>([])
   const [lastOperation, setLastOperation] = useState("")
 
   const handleInitialize = () => {
@@ -180,10 +189,15 @@ const BTreeVisualizer = () => {
     setHighlightedNodes([])
   }
 
-  const renderNode = (node, x, y, width, level) => {
-    if (!node) return []
+  const renderNode = (
+    node: BTreeNode,
+    x: number,
+    y: number,
+    width: number,
+    level: number
+  ): React.ReactNode[] => {
+    const elements: React.ReactNode[] = []
 
-    const elements = []
     const nodeHeight = 50
     const keyWidth = 50
     const nodeWidth = Math.max(node.keys.length * keyWidth + 10, 60)

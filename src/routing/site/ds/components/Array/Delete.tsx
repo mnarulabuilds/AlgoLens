@@ -9,7 +9,7 @@ import {
   DropdownMenu,
   DropdownItem,
   Alert,
-} from "reactstrap"
+} from "common/components/Ui"
 import { MdExpandMore } from "react-icons/md"
 
 const Delete = ({ array, updateState, alertId }) => {
@@ -89,11 +89,10 @@ const Delete = ({ array, updateState, alertId }) => {
               </Alert>
             )}
             <InputGroup>
-              <InputGroupAddon addonType="prepend">
+              <InputGroupAddon>
                 <InputGroupText>Position</InputGroupText>
               </InputGroupAddon>
               <InputGroupButtonDropdown
-                addonType="append"
                 isOpen={dropdownOpen}
                 toggle={toggleDropDown}
               >
@@ -111,7 +110,7 @@ const Delete = ({ array, updateState, alertId }) => {
             </InputGroup>
             <span className="m-2">Or</span>
             <InputGroup>
-              <InputGroupAddon addonType="prepend">
+              <InputGroupAddon>
                 <InputGroupText>Value</InputGroupText>
               </InputGroupAddon>
               <Input

@@ -22,15 +22,15 @@ const PendulumWrapper = styled.div`
   height: 300px;
 `
 
-const Rod = styled.div`
+const Rod = styled.div<{ $length: number; $speed: number }>`
   width: 2px;
-  height: ${(props) => props.length}px;
+  height: ${(props) => props.$length}px;
   background: #333;
   position: absolute;
   top: 0;
   left: 50%;
   transform-origin: top;
-  animation: ${swing} ${(props) => props.speed}s infinite ease-in-out;
+  animation: ${swing} ${(props) => props.$speed}s infinite ease-in-out;
 `
 
 const Bob = styled.div`
@@ -52,20 +52,24 @@ const Timer = styled.div`
 
 const Pendulum = ({ speed, length }) => {
   const [timeElapsed, setTimeElapsed] = useState(0)
-  const intervalRef = useRef(null)
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
       setTimeElapsed((prev) => prev + 1)
     }, 1000)
 
-    return () => clearInterval(intervalRef.current)
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current)
+      }
+    }
   }, [])
 
   return (
     <Container>
       <PendulumWrapper>
-        <Rod length={length} speed={speed}>
+        <Rod $length={length} $speed={speed}>
           <Bob />
         </Rod>
       </PendulumWrapper>

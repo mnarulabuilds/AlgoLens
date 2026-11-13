@@ -1,33 +1,25 @@
 import { describe, it, expect } from "vitest"
 import { renderHook, act } from "@testing-library/react"
-import { MemoryRouter } from "react-router-dom"
-import React from "react"
+import { beforeEach } from "vitest"
 import {
   parseIntParam,
   useVisualizerParams,
 } from "../common/hooks/useVisualizerParams"
 
-function wrapper(initialEntries: string[]) {
-  return function Wrapper({ children }: { children: React.ReactNode }) {
-    return (
-      <MemoryRouter initialEntries={initialEntries}>{children}</MemoryRouter>
-    )
-  }
-}
-
 describe("useVisualizerParams", () => {
+  beforeEach(() => {
+    window.history.replaceState(null, "", "/")
+  })
+
   it("merges URL params with defaults", () => {
-    const { result } = renderHook(() => useVisualizerParams({ size: "10" }), {
-      wrapper: wrapper(["/?size=20&mode=fast"]),
-    })
+    window.history.replaceState(null, "", "/?size=20&mode=fast")
+    const { result } = renderHook(() => useVisualizerParams({ size: "10" }), {})
 
     expect(result.current[0]).toEqual({ size: "20", mode: "fast" })
   })
 
   it("sets and clears search params", () => {
-    const { result } = renderHook(() => useVisualizerParams(), {
-      wrapper: wrapper(["/"]),
-    })
+    const { result } = renderHook(() => useVisualizerParams())
 
     act(() => {
       result.current[1]({ foo: "bar", empty: "" })

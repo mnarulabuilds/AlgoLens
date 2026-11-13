@@ -38,24 +38,27 @@ export const useTheme = (): ThemeContextType => {
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [theme, setTheme] = useState<Theme>(getInitialTheme)
+  const [theme, setTheme] = useState<Theme>("dark")
+  const [initialized, setInitialized] = useState(false)
 
   useEffect(() => {
+    setTheme(getInitialTheme())
+    setInitialized(true)
+  }, [])
+
+  useEffect(() => {
+    if (!initialized) return
+
     document.documentElement.setAttribute("data-theme", theme)
     document.documentElement.style.colorScheme = theme
     localStorage.setItem(STORAGE_KEY, theme)
-  }, [theme])
+  }, [initialized, theme])
 
   const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === "dark" ? "light" : "dark"))
   }, [])
 
-  const value = useMemo(
-    () => ({ theme, toggleTheme }),
-    [theme, toggleTheme]
-  )
+  const value = useMemo(() => ({ theme, toggleTheme }), [theme, toggleTheme])
 
-  return (
-    <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
-  )
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

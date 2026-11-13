@@ -4,13 +4,13 @@ import Delete from "./Delete"
 import Update from "./Update"
 import Search from "./Search"
 import Element from "common/components/Element"
-import "./Queues.css"
+import "./Queues.module.scss"
 
 export default function Queues() {
   const [head, setHead] = useState(null)
   const [list, setList] = useState(null)
   const [rendered, setRendered] = useState(false)
-  const [radioVal, setRadioVal] = useState(false)
+  const [radioVal, setRadioVal] = useState("")
 
   const showOperation = (event) => {
     const operation = event.target.value
@@ -196,8 +196,8 @@ export default function Queues() {
               <div className="mt-3">
                 <Insert
                   open={radioVal === "Insert"}
-                  insert={(data, where) => {
-                    insert(data, where)
+                  insert={(data) => {
+                    insert(data)
                   }}
                 />
                 <Search
@@ -208,8 +208,8 @@ export default function Queues() {
                 />
                 <Delete
                   open={radioVal === "Delete"}
-                  del={(where) => {
-                    del(where)
+                  del={() => {
+                    del()
                   }}
                 />
                 <Update

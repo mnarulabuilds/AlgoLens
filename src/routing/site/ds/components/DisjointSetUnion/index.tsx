@@ -1,8 +1,43 @@
 import React, { useState } from "react"
-import styles from "./DisjointSetUnion.module.css"
+import styles from "./DisjointSetUnion.module.scss"
+
+type DSUAnimationStep =
+  | { type: "find-start" | "find-root"; node: number; message: string }
+  | {
+      type: "find-traverse"
+      node: number
+      parent: number
+      message: string
+    }
+  | {
+      type: "path-compression"
+      node: number
+      oldParent: number
+      newParent: number
+      message: string
+    }
+  | { type: "union-start"; nodes: number[]; message: string }
+  | {
+      type: "union-complete"
+      child: number
+      parent: number
+      message: string
+    }
+  | {
+      type: "already-connected"
+      nodes: number[]
+      root: number
+      message: string
+    }
 
 class DSU {
-  constructor(size) {
+  parent: number[]
+  rank: number[]
+  size: number[]
+  n: number
+  animationSteps: DSUAnimationStep[]
+
+  constructor(size: number) {
     this.parent = Array.from({ length: size }, (_, i) => i)
     this.rank = Array(size).fill(0)
     this.size = Array(size).fill(1)
@@ -10,7 +45,7 @@ class DSU {
     this.animationSteps = []
   }
 
-  find(x, trackSteps = true) {
+  find(x: number, trackSteps = true): number {
     if (trackSteps) {
       this.animationSteps.push({
         type: "find-start",
@@ -61,7 +96,7 @@ class DSU {
     return root
   }
 
-  union(x, y) {
+  union(x: number, y: number): boolean {
     this.animationSteps = []
 
     this.animationSteps.push({
@@ -117,12 +152,12 @@ class DSU {
     return true
   }
 
-  connected(x, y) {
+  connected(x: number, y: number): boolean {
     return this.find(x, false) === this.find(y, false)
   }
 
-  getComponents() {
-    const components = {}
+  getComponents(): Record<number, number[]> {
+    const components: Record<number, number[]> = {}
     for (let i = 0; i < this.n; i++) {
       const root = this.find(i, false)
       if (!components[root]) {
@@ -144,14 +179,16 @@ class DSU {
 
 const DisjointSetUnion = () => {
   const [dsu, setDsu] = useState(new DSU(10))
-  const [size, setSize] = useState(10)
+  const [size, setSize] = useState("10")
   const [unionX, setUnionX] = useState("")
   const [unionY, setUnionY] = useState("")
   const [findX, setFindX] = useState("")
-  const [animationSteps, setAnimationSteps] = useState([])
+  const [animationSteps, setAnimationSteps] = useState<DSUAnimationStep[]>([])
   const [currentStepIndex, setCurrentStepIndex] = useState(-1)
-  const [highlightedNodes, setHighlightedNodes] = useState([])
-  const [highlightedEdges, setHighlightedEdges] = useState([])
+  const [highlightedNodes, setHighlightedNodes] = useState<number[]>([])
+  const [highlightedEdges, setHighlightedEdges] = useState<[number, number][]>(
+    []
+  )
   const [lastOperation, setLastOperation] = useState("")
 
   const handleInitialize = () => {
@@ -211,11 +248,11 @@ const DisjointSetUnion = () => {
     highlightStep(newDSU.animationSteps[0])
   }
 
-  const highlightStep = (step) => {
+  const highlightStep = (step?: DSUAnimationStep) => {
     if (!step) return
 
-    const nodes = []
-    const edges = []
+    const nodes: number[] = []
+    const edges: [number, number][] = []
 
     switch (step.type) {
       case "find-start":
@@ -292,7 +329,7 @@ const DisjointSetUnion = () => {
     const componentsList = Object.entries(components)
     const forestWidth = 900
     const componentWidth = forestWidth / componentsList.length
-    const elements = []
+    const elements: React.ReactNode[] = []
 
     componentsList.forEach(([root, nodes], compIndex) => {
       const centerX = (compIndex + 0.5) * componentWidth
@@ -311,14 +348,14 @@ const DisjointSetUnion = () => {
   }
 
   const renderTree = (
-    node,
-    nodesInComponent,
-    x,
-    y,
-    level,
-    horizontalSpacing
-  ) => {
-    const elements = []
+    node: number,
+    nodesInComponent: number[],
+    x: number,
+    y: number,
+    level: number,
+    horizontalSpacing: number
+  ): React.ReactNode[] => {
+    const elements: React.ReactNode[] = []
     const nodeRadius = 25
     const verticalSpacing = 80
 

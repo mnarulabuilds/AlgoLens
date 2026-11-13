@@ -11,50 +11,58 @@ import {
   Input,
   Alert,
   Button,
-} from "reactstrap"
+} from "common/components/Ui"
 import DetailsPane from "./DetailsPane"
 import { SketchPicker } from "react-color"
+import type { ColorResult } from "react-color"
 
 const CanvasImage = lazy(() => import("./CanvasImage"))
 
 const FloodFill = () => {
-  const [alert, setAlert] = useState(null)
+  const [alert, setAlert] = useState<string | null>(null)
   const [background, setBackground] = useState("#fff")
 
-  const handleChangeComplete = useCallback((color) => {
+  const handleChangeComplete = useCallback((color: ColorResult) => {
     setBackground(color.hex)
   }, [])
 
   const getClearedCanvas = useCallback(() => {
     const canvas = document.getElementById("cusImage")
+    if (!(canvas instanceof HTMLCanvasElement)) return null
     const ctx = canvas.getContext("2d")
+    if (!ctx) return null
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     return ctx
   }, [])
 
-  const getCustomImage = useCallback((event) => {
-    const file = event.target.files[0]
+  const getCustomImage = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files[0]
 
-    if (!file.type.startsWith("image/")) {
-      setAlert("Please upload an image")
-      setTimeout(() => setAlert(null), 5000)
-      return
-    }
+      if (!file) return
+      if (!file.type.startsWith("image/")) {
+        setAlert("Please upload an image")
+        setTimeout(() => setAlert(null), 5000)
+        return
+      }
 
-    const img = new Image()
-    const url = URL.createObjectURL(file)
-    img.src = url
+      const img = new Image()
+      const url = URL.createObjectURL(file)
+      img.src = url
 
-    img.onload = () => {
-      const ctx = getClearedCanvas()
-      ctx.drawImage(img, 0, 0, 360, 360)
+      img.onload = () => {
+        const ctx = getClearedCanvas()
+        if (!ctx) return
+        ctx.drawImage(img, 0, 0, 360, 360)
 
-      setAlert(
-        "Click at a position in the image to start flood fill with the color of your choice"
-      )
-      setTimeout(() => setAlert(null), 5000)
-    }
-  }, [])
+        setAlert(
+          "Click at a position in the image to start flood fill with the color of your choice"
+        )
+        setTimeout(() => setAlert(null), 5000)
+      }
+    },
+    []
+  )
 
   return (
     <Container>

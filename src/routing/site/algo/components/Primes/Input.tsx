@@ -1,7 +1,11 @@
 import React, { useState } from "react"
-import "./Input.css"
+import "./Input.module.scss"
 
-const Input = React.memo(({ checkPrime }) => {
+interface InputProps {
+  checkPrime: (number: number) => void
+}
+
+const Input = React.memo(({ checkPrime }: InputProps) => {
   const [input, setInput] = useState("")
 
   const handleSubmit = () => {

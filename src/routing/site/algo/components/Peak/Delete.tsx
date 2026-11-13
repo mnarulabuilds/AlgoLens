@@ -9,9 +9,13 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap"
+} from "common/components/Ui"
 
-const Delete = React.memo(({ deleteData }) => {
+interface DeleteProps {
+  deleteData: (data: number, position: number) => void
+}
+
+const Delete = React.memo(({ deleteData }: DeleteProps) => {
   const [data, setData] = useState("")
   const [position, setPosition] = useState("")
 
@@ -27,7 +31,7 @@ const Delete = React.memo(({ deleteData }) => {
       <CardBody className="text-center">
         <CardTitle>Position or Value</CardTitle>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Position</InputGroupText>
           </InputGroupAddon>
           <Input
@@ -43,7 +47,7 @@ const Delete = React.memo(({ deleteData }) => {
         <span>Or</span>
         <br />
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Value</InputGroupText>
           </InputGroupAddon>
           <Input

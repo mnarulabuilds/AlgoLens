@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react"
 import { BinaryTree } from "./dataTypes"
-import "./BinaryTreeVisualizer.css"
+import "./BinaryTreeVisualizer.module.scss"
 
 const BinaryTreeVisualizer = () => {
   const [tree, setTree] = useState(new BinaryTree())

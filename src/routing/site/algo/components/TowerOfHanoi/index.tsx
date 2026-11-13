@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import styles from "./TowerOfHanoi.module.css"
+import styles from "./TowerOfHanoi.module.scss"
 
 const TowerOfHanoi = () => {
   const [numDisks, setNumDisks] = useState(3)

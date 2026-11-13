@@ -5,7 +5,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Alert,
-} from "reactstrap"
+} from "common/components/Ui"
 import { MdExpandMore } from "react-icons/md"
 
 const Search = ({ array, updateState, alertId }) => {
@@ -63,7 +63,7 @@ const Search = ({ array, updateState, alertId }) => {
               </Alert>
             )}
             <InputGroup>
-              <InputGroupAddon addonType="prepend">
+              <InputGroupAddon>
                 <InputGroupText>Value</InputGroupText>
               </InputGroupAddon>
               <Input

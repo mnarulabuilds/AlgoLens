@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import styles from "./SudokuGame.module.css"
+import styles from "./SudokuGame.module.scss"
 
 // ------------------------------------------------------------
 // SudokuGame (React + CSS Modules, no TypeScript)

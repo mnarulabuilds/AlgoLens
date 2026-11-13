@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from "react"
 import { Trie } from "./dataTypes"
-import "./TrieVisualizer.css"
+import "./TrieVisualizer.module.scss"
 
 const TrieVisualizer = () => {
   const [trie, setTrie] = useState(new Trie())

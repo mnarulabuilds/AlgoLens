@@ -1,0 +1,34 @@
+:global(.game-prisoners-dilemma) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+:global(.grid) {
+  display: grid;
+  grid-gap: 8px;
+  margin: 48px;
+}
+:global(.row) {
+  display: flex;
+}
+:global(.cell) {
+  height: 72px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  color: white;
+  font-size: 0.8rem;
+}
+:global(.cell.C) {
+  background-color: #4caf50; /* Green for cooperation */
+}
+:global(.cell.D) {
+  background-color: #f44336; /* Red for defection */
+}
+:global(.cell:hover) {
+  transform: scale(1.1);
+}

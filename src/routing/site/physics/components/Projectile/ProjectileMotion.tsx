@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from "react"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
 import styled from "styled-components"
-import { Alert } from "reactstrap"
+import { Alert } from "common/components/Ui"
 
 const Container = styled.div`
   display: flex;

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import "./DiningPhilosophers.css"
+import "./DiningPhilosophers.module.scss"
 
 const DiningPhilosophers = () => {
   const [philosophers, setPhilosophers] = useState([

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./LogicGates.css"
+import "./LogicGates.module.scss"
 
 const gates = [
   {

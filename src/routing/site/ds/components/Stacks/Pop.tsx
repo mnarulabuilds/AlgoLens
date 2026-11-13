@@ -1,7 +1,7 @@
 import React from "react"
 
 export default function Pop(props) {
-  const cardStyle = {
+  const cardStyle: React.CSSProperties = {
     border: "1px solid #ccc",
     borderRadius: "4px",
     padding: "16px",
@@ -9,7 +9,7 @@ export default function Pop(props) {
     margin: "16px 0",
   }
 
-  const buttonStyle = {
+  const buttonStyle: React.CSSProperties = {
     display: "inline-block",
     padding: "8px 16px",
     margin: "8px",
@@ -22,7 +22,7 @@ export default function Pop(props) {
     textAlign: "center",
   }
 
-  const formControlStyle = {
+  const formControlStyle: React.CSSProperties = {
     width: "100%",
     paddingBottom: "12px",
     paddingTop: "4px",

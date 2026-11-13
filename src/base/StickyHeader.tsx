@@ -1,12 +1,13 @@
 import React, { lazy } from "react"
-import { Link, useNavigate, useLocation } from "react-router-dom"
+import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import { siteSuggestions } from "routing/base/routes"
 import { DynamicLoader } from "routing/base/Router"
 import { useUser } from "common/context/UserContext"
 import { AiFillHome } from "react-icons/ai"
 import { FaUser, FaStar, FaMoon, FaSun } from "react-icons/fa"
 import { useTheme } from "common/context/ThemeContext"
-import "./Header.css"
+import "./Header.module.scss"
 
 const Search = lazy(() => import(`common/components/SearchSuggestions`))
 const FixedSideDrawer = lazy(() => import(`base/FixedSideDrawer`))
@@ -14,9 +15,9 @@ const FixedSideDrawer = lazy(() => import(`base/FixedSideDrawer`))
 export default function PrimarySearchAppBar() {
   const { favorites } = useUser()
   const { theme, toggleTheme } = useTheme()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const isHome = location.pathname === "/"
+  const router = useRouter()
+  const pathname = usePathname()
+  const isHome = pathname === "/"
 
   return (
     <header className="app-bar">
@@ -28,14 +29,14 @@ export default function PrimarySearchAppBar() {
             id: "sitemapSuggestions",
             searchOps: siteSuggestions,
             updateSelection: (selection: { route: string }) => {
-              navigate(selection.route)
+              router.push(selection.route)
             },
           })}
         </section>
         <div className="icon-sec">
           <Link
             aria-label="home page"
-            to="/"
+            href="/"
             className={`home-button ${isHome ? "disabled" : ""}`}
             title="Home"
             onClick={(e) => {
@@ -57,7 +58,7 @@ export default function PrimarySearchAppBar() {
           </button>
           <Link
             aria-label="profile page"
-            to="/profile"
+            href="/profile"
             className="profile-button"
             title="My Profile"
           >

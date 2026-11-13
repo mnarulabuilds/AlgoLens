@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { FaBomb, FaFlag } from "react-icons/fa"
-import "./Minesweeper.css"
+import "./Minesweeper.module.scss"
 
 const DIFFICULTY = {
   beginner: { rows: 9, cols: 9, mines: 10 },
   intermediate: { rows: 16, cols: 16, mines: 40 },
   expert: { rows: 16, cols: 30, mines: 99 },
 }
+type Difficulty = keyof typeof DIFFICULTY
+const difficulties: Difficulty[] = ["beginner", "intermediate", "expert"]
 
 const Minesweeper = () => {
-  const [difficulty, setDifficulty] = useState("beginner")
-  const [board, setBoard] = useState([])
-  const [revealed, setRevealed] = useState([])
-  const [flagged, setFlagged] = useState([])
+  const [difficulty, setDifficulty] = useState<Difficulty>("beginner")
+  const [board, setBoard] = useState<number[][]>([])
+  const [revealed, setRevealed] = useState<boolean[][]>([])
+  const [flagged, setFlagged] = useState<boolean[][]>([])
   const [gameOver, setGameOver] = useState(false)
   const [won, setWon] = useState(false)
   const [minesLeft, setMinesLeft] = useState(DIFFICULTY.beginner.mines)
@@ -22,7 +24,7 @@ const Minesweeper = () => {
   const [firstClick, setFirstClick] = useState(true)
 
   useEffect(() => {
-    let interval
+    let interval: ReturnType<typeof setInterval> | undefined
     if (isRunning && !gameOver && !won) {
       interval = setInterval(() => setTimer((t) => t + 1), 1000)
     }
@@ -35,19 +37,15 @@ const Minesweeper = () => {
 
   const initializeGame = () => {
     const { rows, cols } = DIFFICULTY[difficulty]
-    const newBoard = Array(rows)
-      .fill()
-      .map(() => Array(cols).fill(0))
+    const newBoard = Array.from({ length: rows }, () =>
+      Array<number>(cols).fill(0)
+    )
     setBoard(newBoard)
     setRevealed(
-      Array(rows)
-        .fill()
-        .map(() => Array(cols).fill(false))
+      Array.from({ length: rows }, () => Array<boolean>(cols).fill(false))
     )
     setFlagged(
-      Array(rows)
-        .fill()
-        .map(() => Array(cols).fill(false))
+      Array.from({ length: rows }, () => Array<boolean>(cols).fill(false))
     )
     setGameOver(false)
     setWon(false)
@@ -57,11 +55,11 @@ const Minesweeper = () => {
     setMinesLeft(DIFFICULTY[difficulty].mines)
   }
 
-  const placeMines = (avoidRow, avoidCol) => {
+  const placeMines = (avoidRow: number, avoidCol: number) => {
     const { rows, cols, mines } = DIFFICULTY[difficulty]
-    const newBoard = Array(rows)
-      .fill()
-      .map(() => Array(cols).fill(0))
+    const newBoard = Array.from({ length: rows }, () =>
+      Array<number>(cols).fill(0)
+    )
     let minesPlaced = 0
 
     while (minesPlaced < mines) {
@@ -107,7 +105,7 @@ const Minesweeper = () => {
     setBoard(newBoard)
   }
 
-  const revealCell = (row, col) => {
+  const revealCell = (row: number, col: number) => {
     if (gameOver || won || revealed[row][col] || flagged[row][col]) return
 
     if (firstClick) {
@@ -157,7 +155,11 @@ const Minesweeper = () => {
     checkWin(newRevealed)
   }
 
-  const toggleFlag = (row, col, e) => {
+  const toggleFlag = (
+    row: number,
+    col: number,
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
     e.preventDefault()
     if (gameOver || won || revealed[row][col] || firstClick) return
 
@@ -181,7 +183,7 @@ const Minesweeper = () => {
     setRevealed(newRevealed)
   }
 
-  const checkWin = (currentRevealed) => {
+  const checkWin = (currentRevealed: boolean[][]) => {
     const { rows, cols, mines } = DIFFICULTY[difficulty]
     const revealedCount = currentRevealed.flat().filter((r) => r).length
     if (revealedCount === rows * cols - mines) {
@@ -190,8 +192,8 @@ const Minesweeper = () => {
     }
   }
 
-  const getCellColor = (value) => {
-    const colors = {
+  const getCellColor = (value: number) => {
+    const colors: Record<number, string> = {
       1: "#0000ff",
       2: "#008000",
       3: "#ff0000",
@@ -209,13 +211,13 @@ const Minesweeper = () => {
       <div className="minesweeper-header">
         <h1>Minesweeper 💣</h1>
         <p>Find all mines without detonating any!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="minesweeper-content">
         <div className="game-controls">
           <div className="difficulty-selector">
-            {Object.keys(DIFFICULTY).map((diff) => (
+            {difficulties.map((diff) => (
               <button
                 key={diff}
                 className={`diff-btn ${difficulty === diff ? "active" : ""}`}

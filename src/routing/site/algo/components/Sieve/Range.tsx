@@ -7,9 +7,13 @@ import {
   FormGroup,
   Label,
   Input,
-} from "reactstrap"
+} from "common/components/Ui"
 
-const Range = React.memo(({ handleRangeSubmit }) => {
+interface RangeProps {
+  handleRangeSubmit: (start: number, end: number) => void
+}
+
+const Range = React.memo(({ handleRangeSubmit }: RangeProps) => {
   const [start, setStart] = useState(null)
   const [end, setEnd] = useState(null)
 

@@ -8,7 +8,7 @@
 
 ### Algorithms
 
-Pathfinding & graphs (A*, Dijkstra, Bellman-Ford, Floyd-Warshall, BFS, DFS, MST), sorting & searching, math utilities (factorial, Fibonacci, primes, sieve), and classics like N-Queens, Tower of Hanoi, and Huffman coding.
+Pathfinding & graphs (A\*, Dijkstra, Bellman-Ford, Floyd-Warshall, BFS, DFS, MST), sorting & searching, math utilities (factorial, Fibonacci, primes, sieve), and classics like N-Queens, Tower of Hanoi, and Huffman coding.
 
 ### Data Structures
 
@@ -43,7 +43,7 @@ Caesar cipher, RSA, hashing; logic gates, SR latch, MUX, 7-segment display, full
 - **Favorites & profile** — star any visualizer; track recently viewed pages
 - **Dark / light mode** — toggle in the header (respects system preference by default)
 - **Search** — jump to any of 100+ visualizers from the header
-- **Share links** — copy URL including visualizer query parameters (HashRouter: links include `#/…`)
+- **Share links** — copy URL including visualizer query parameters
 - **Learning paths** — curated sequences with completion tracking
 - **Bug reports** — optional Web3Forms integration
 
@@ -53,15 +53,15 @@ Computer **Graphics**, **Quantum** computing, **Signal** processing, **Economics
 
 ## Tech stack
 
-- **Frontend**: React 18, TypeScript, Vite 7
-- **Styling**: Bootstrap 5, CSS variables, Styled Components
+- **Frontend**: React 19, Next.js 16 App Router, TypeScript
+- **Styling**: SCSS modules and CSS variables
 - **Visualization**: Three.js, Chart.js, Math.js, Chess.js
-- **Routing**: React Router (HashRouter for GitHub Pages)
+- **Routing**: Next.js App Router with static export for GitHub Pages
 - **Testing**: Vitest, Testing Library
 
 ## Prerequisites
 
-- **Node.js** 18 or later
+- **Node.js** 20.9 or later
 - **npm** 9 or later
 
 ## Installation & usage
@@ -75,33 +75,34 @@ npm start          # http://localhost:3000
 
 ## Scripts
 
-| Script | Description |
-|--------|-------------|
-| `npm start` / `npm run dev` | Development server |
-| `npm run build` | Production build |
-| `npm run preview` | Preview production build |
-| `npm run test` | Run unit tests |
-| `npm run test:coverage` | Run tests with coverage report |
-| `npm run lint` | ESLint |
-| `npm run typecheck:strict` | Strict TypeScript check |
-| `npm run check:bundle-size` | Verify production bundle gzip budgets |
-| `npm run validate:routes` | Ensure every registered route has a module on disk |
-| `npm run test:e2e` | Playwright smoke tests (starts dev server) |
-| `npm run deploy` | Build for GitHub Pages and publish via `gh-pages` |
+| Script                      | Description                                        |
+| --------------------------- | -------------------------------------------------- |
+| `npm start` / `npm run dev` | Development server                                 |
+| `npm run build`             | Production build                                   |
+| `npm run preview`           | Preview the exported production build              |
+| `npm run test`              | Run unit tests                                     |
+| `npm run test:coverage`     | Run tests with coverage report                     |
+| `npm run lint`              | ESLint                                             |
+| `npm run typecheck:strict`  | Strict TypeScript check                            |
+| `npm run validate:routes`   | Ensure every registered route has a module on disk |
+| `npm run test:e2e`          | Playwright smoke tests (starts dev server)         |
+| `npm run deploy`            | Export for GitHub Pages and publish via `gh-pages` |
 
 ## Environment variables
 
-Copy `.env.example` to `.env` and set `VITE_WEB3FORMS_ACCESS_KEY` to enable in-app bug reports. For GitHub Pages deploys, add the same secret in your repository settings (used by the deploy workflow).
+Copy `.env.example` to `.env` and set `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY` to enable in-app bug reports. For GitHub Pages deploys, add the same secret in your repository settings (used by the deploy workflow).
 
 ## Project structure
 
 ```
+app/
+└── [[...slug]]/    # Next.js App Router and static route entry
 src/
 ├── base/           # App shell, header, footer
 ├── common/         # Shared components, hooks, context
 ├── dashboard/      # Home, category, and profile pages
 └── routing/
-    ├── base/       # Router, routes registry
+    ├── base/       # Route registry and visualizer module map
     └── site/       # Visualizer components by category
 ```
 

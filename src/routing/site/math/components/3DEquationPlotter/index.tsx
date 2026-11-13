@@ -1,5 +1,5 @@
 import React, { Suspense, useState } from "react"
-import "./Plotter.css"
+import "./Plotter.module.scss"
 import EquationInput from "./EquationInput"
 import Plot3D from "./Plot3D"
 

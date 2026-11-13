@@ -1,10 +1,7 @@
 import React, { useMemo } from "react"
 import SimWorkbench from "common/components/SimWorkbench"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
-import {
-  useVisualizerParams,
-  parseIntParam,
-} from "common/hooks/useVisualizerParams"
+import { useVisualizerParams } from "common/hooks/useVisualizerParams"
 
 type Point = { x: number; y: number; label: "A" | "B" }
 
@@ -73,7 +70,13 @@ const DecisionTrees = () => {
     >
       <div style={{ padding: "1rem" }}>
         <svg width="100%" viewBox={`0 0 ${W} ${H}`}>
-          <rect x={pad} y={pad} width={W - 2 * pad} height={H - 2 * pad} fill="rgba(128,128,128,0.08)" />
+          <rect
+            x={pad}
+            y={pad}
+            width={W - 2 * pad}
+            height={H - 2 * pad}
+            fill="rgba(128,128,128,0.08)"
+          />
           {classified && (
             <>
               <rect
@@ -86,7 +89,7 @@ const DecisionTrees = () => {
               <rect
                 x={scale(SPLIT_X, W)}
                 y={pad}
-                width={W - pad - (scale(SPLIT_X, W))}
+                width={W - pad - scale(SPLIT_X, W)}
                 height={scale(SPLIT_Y, H) - pad}
                 fill="rgba(244, 67, 54, 0.12)"
               />
@@ -125,18 +128,34 @@ const DecisionTrees = () => {
               strokeWidth={1}
             />
           ))}
-          <text x={pad} y={H - 8} fontSize={10} fill="currentColor">0</text>
-          <text x={W - pad - 15} y={H - 8} fontSize={10} fill="currentColor">100</text>
+          <text x={pad} y={H - 8} fontSize={10} fill="currentColor">
+            0
+          </text>
+          <text x={W - pad - 15} y={H - 8} fontSize={10} fill="currentColor">
+            100
+          </text>
         </svg>
-        <div style={{ display: "flex", gap: "1.5rem", marginTop: "0.75rem", fontSize: "0.9rem", flexWrap: "wrap" }}>
-          <span><span style={{ color: "#3949ab" }}>●</span> Class A</span>
-          <span><span style={{ color: "#f44336" }}>●</span> Class B</span>
-          {classified && (
-            <span>Training accuracy: {accuracy}%</span>
-          )}
+        <div
+          style={{
+            display: "flex",
+            gap: "1.5rem",
+            marginTop: "0.75rem",
+            fontSize: "0.9rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <span>
+            <span style={{ color: "#3949ab" }}>●</span> Class A
+          </span>
+          <span>
+            <span style={{ color: "#f44336" }}>●</span> Class B
+          </span>
+          {classified && <span>Training accuracy: {accuracy}%</span>}
         </div>
-        <pre style={{ fontSize: "0.8rem", marginTop: "0.75rem", opacity: 0.85 }}>
-{`if x < 60:
+        <pre
+          style={{ fontSize: "0.8rem", marginTop: "0.75rem", opacity: 0.85 }}
+        >
+          {`if x < 60:
   → class A
 else:
   if y < 50: → class B

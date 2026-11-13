@@ -1,7 +1,13 @@
 import React, { useState } from "react"
-import "./Input.css"
+import "./Input.module.scss"
 
-const Input = React.memo(({ disabled, fact, setResult }) => {
+interface InputProps {
+  disabled: boolean
+  fact: (input: number) => void
+  setResult: React.Dispatch<React.SetStateAction<string | null>>
+}
+
+const Input = React.memo(({ disabled, fact, setResult }: InputProps) => {
   const [input, setInput] = useState("")
 
   const handleSubmit = () => {

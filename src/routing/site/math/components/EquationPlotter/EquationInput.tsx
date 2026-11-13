@@ -1,7 +1,9 @@
 import React, { useState } from "react"
 import { evaluate } from "mathjs"
 
-const EquationInput = ({ onEquationChange }) => {
+type EquationInputProps = { onEquationChange: (equation: string) => void }
+
+const EquationInput = ({ onEquationChange }: EquationInputProps) => {
   const [input, setInput] = useState("")
   const [error, setError] = useState("")
 
@@ -12,7 +14,7 @@ const EquationInput = ({ onEquationChange }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     try {
-      evaluate(input.replace("x", 0)) // Try evaluating the equation at x=0
+      evaluate(input.replace("x", "0")) // Try evaluating the equation at x=0
       setError("")
       onEquationChange(input)
     } catch (err) {

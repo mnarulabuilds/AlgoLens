@@ -6,7 +6,7 @@ const Paddle = React.memo(() => {
     (VIEWPORT_WIDTH_FACTOR * window.innerWidth) / 2 - 50
   )
 
-  const handleMouseMove = (event) => {
+  const handleMouseMove = (event: MouseEvent) => {
     const newLeft = event.clientX - 50
     setPosition(
       Math.max(

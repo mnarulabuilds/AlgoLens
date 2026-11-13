@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./BinaryAdder.css"
+import "./BinaryAdder.module.scss"
 
 const BinaryAdder = () => {
   const [a, setA] = useState(0)

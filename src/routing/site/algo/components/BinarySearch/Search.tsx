@@ -6,15 +6,17 @@ import {
   InputGroupText,
   Alert,
   Button,
-} from "reactstrap"
+} from "common/components/Ui"
 import { MdExpandMore } from "react-icons/md"
-import "./BinarySearch.css"
+import "./BinarySearch.module.scss"
 
 interface SearchProps {
   parent: {
     search: (data: string) => void
     alert: { text: string; type: string; alertId: number } | null
-    setAlert: (alert: { text: string; type: string; alertId: number } | null) => void
+    setAlert: (
+      alert: { text: string; type: string; alertId: number } | null
+    ) => void
   }
   alertId: number
 }
@@ -58,7 +60,7 @@ const Search = React.memo(({ parent, alertId }: SearchProps) => {
             </Alert>
           )}
           <InputGroup>
-            <InputGroupAddon addonType="prepend">
+            <InputGroupAddon>
               <InputGroupText>Value</InputGroupText>
             </InputGroupAddon>
             <Input

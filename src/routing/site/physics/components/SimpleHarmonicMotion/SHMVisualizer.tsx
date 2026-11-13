@@ -25,14 +25,14 @@ const BlockAnimation = (amplitude) => keyframes`
   100% { transform: translateX(${amplitude}px); }
 `
 
-const Block = styled.div`
+const Block = styled.div<{ $amplitude: number; $period: number }>`
   width: 50px;
   height: 50px;
   background-color: #3498db;
   border-radius: 5px;
   position: relative;
-  animation: ${({ amplitude }) => BlockAnimation(amplitude)}
-    ${({ period }) => period}s linear infinite;
+  animation: ${({ $amplitude }) => BlockAnimation($amplitude)}
+    ${({ $period }) => $period}s linear infinite;
 `
 
 const Info = styled.div`
@@ -46,7 +46,7 @@ const SHMVisualizer = ({ mass, springLength }) => {
   const [timeElapsed, setTimeElapsed] = useState(0)
   const amplitude = springLength // Amplitude can be the length of the spring
   const period = (2 * Math.PI) / Math.sqrt(SPRING_CONSTANT / mass) // Period of SHM
-  const requestRef = useRef()
+  const requestRef = useRef<number | null>(null)
 
   // Time Elapsed Effect
   useEffect(() => {
@@ -56,12 +56,16 @@ const SHMVisualizer = ({ mass, springLength }) => {
       requestRef.current = requestAnimationFrame(animate)
     }
     requestRef.current = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(requestRef.current)
+    return () => {
+      if (requestRef.current !== null) {
+        cancelAnimationFrame(requestRef.current)
+      }
+    }
   }, [])
 
   return (
     <Container>
-      <Block amplitude={amplitude} period={period} />
+      <Block $amplitude={amplitude} $period={period} />
       <Info>Time Elapsed: {timeElapsed.toFixed(2)}s</Info>
     </Container>
   )

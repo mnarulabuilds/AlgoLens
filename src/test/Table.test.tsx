@@ -9,7 +9,9 @@ const headCells = [
   { id: "score", label: "Score", numeric: true },
 ]
 
-const allRows = [
+type ScoreRow = Record<string, string | number | boolean | null | undefined>
+
+const allRows: ScoreRow[] = [
   { name: "Alice", score: 90 },
   { name: "Bob", score: 75 },
   { name: "Carol", score: 82 },
@@ -23,7 +25,7 @@ function TableHarness({
 }: {
   deleteHandler?: (selected: (string | number)[]) => void
 }) {
-  const [rows, setRows] = useState(allRows)
+  const [rows, setRows] = useState<ScoreRow[]>(allRows)
   return (
     <EnhancedTable
       title="Scores"

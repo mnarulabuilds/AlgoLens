@@ -20,7 +20,12 @@
   },
   "include": [
     "src/common/**/*",
-    "src/routing/base/**/*",
+    "src/routing/base/categories/**/*.ts",
+    "src/routing/base/learnContent.ts",
+    "src/routing/base/learningPaths.ts",
+    "src/routing/base/routes.ts",
+    "src/routing/base/routeTypes.ts",
+    "src/routing/base/siteRegistry.ts",
     "src/routing/site/algo/components/Sorting/index.tsx",
     "src/vite-env.d.ts"
   ],

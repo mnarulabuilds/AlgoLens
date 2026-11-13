@@ -1,13 +1,18 @@
 import React, { useState } from "react"
-import "./Input.css"
+import "./Input.module.scss"
 
-const Input = (props) => {
+interface InputProps {
+  disabled: boolean
+  expo: (base: number, power: number) => void
+}
+
+const Input = ({ disabled, expo }: InputProps) => {
   const [base, setBase] = useState("")
   const [power, setPower] = useState("")
 
   const handleSubmit = () => {
     if (base && power) {
-      props.expo(parseFloat(base), parseInt(power))
+      expo(parseFloat(base), parseInt(power))
       setTimeout(() => {
         setBase("")
         setPower("")
@@ -30,7 +35,7 @@ const Input = (props) => {
             className="expo-input"
             onChange={(event) => setBase(event.target.value)}
             value={base}
-            disabled={props.disabled}
+            disabled={disabled}
             placeholder="Enter base"
           />
         </div>
@@ -44,13 +49,13 @@ const Input = (props) => {
             className="expo-input"
             onChange={(event) => setPower(event.target.value)}
             value={power}
-            disabled={props.disabled}
+            disabled={disabled}
             placeholder="Enter power"
           />
         </div>
         <button
           className="expo-submit-btn"
-          disabled={props.disabled || !base || !power}
+          disabled={disabled || !base || !power}
           onClick={handleSubmit}
         >
           Submit

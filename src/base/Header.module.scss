@@ -1,0 +1,98 @@
+:global(.app-bar) {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background-color: var(--header-bg, #3f51b5);
+  z-index: 1100;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+:global(.toolbar) {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  padding: 0 16px;
+}
+:global(.menu-sec) {
+  width: 5vw;
+}
+@media (max-width: 600px) {
+  :global(.menu-sec) {
+    width: 10vw;
+  }
+}
+:global(.search-sec) {
+  width: 85vw;
+}
+:global(.icon-sec) {
+  padding-left: 30px;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+:global(.home-button),
+:global(.profile-button),
+:global(.theme-toggle-button) {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+}
+:global(.home-button:hover),
+:global(.profile-button:hover),
+:global(.theme-toggle-button:hover) {
+  color: white;
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+:global(.home-button:active),
+:global(.profile-button:active),
+:global(.theme-toggle-button:active) {
+  transform: scale(1.05);
+}
+:global(.home-button.disabled) {
+  pointer-events: none;
+  opacity: 1;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: not-allowed;
+}
+:global(.profile-button) {
+  position: relative;
+}
+:global(.favorites-badge) {
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  animation: pulse 2s ease-in-out infinite;
+}
+:global(.favorites-badge svg) {
+  font-size: 0.6rem;
+}
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}

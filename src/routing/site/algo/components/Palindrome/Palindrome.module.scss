@@ -1,0 +1,62 @@
+:global(.palindrome-container) {
+  width: 100%;
+  max-width: 100%;
+}
+:global(.palindrome-row) {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+:global(.palindrome-col-full) {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+:global(.text-center) {
+  text-align: center;
+}
+:global(.palindrome-chars-container) {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+:global(.palindrome-char-item) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:global(.palindrome-alert) {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+:global(.palindrome-alert-success) {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+:global(.palindrome-alert-danger) {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+:global(.palindrome-alert-close) {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+}
+:global(.palindrome-alert-close:hover) {
+  opacity: 0.75;
+}

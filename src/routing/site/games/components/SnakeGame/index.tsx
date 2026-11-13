@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { motion } from "framer-motion"
-import "./SnakeGame.css"
+import "./SnakeGame.module.scss"
 
 const GRID_SIZE = 20
 const CELL_SIZE = 25
@@ -152,7 +152,7 @@ const SnakeGame = () => {
       <div className="snake-game-header">
         <h1>Snake Game 🐍</h1>
         <p>Use arrow keys to control the snake. Eat food to grow!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="snake-game-content">

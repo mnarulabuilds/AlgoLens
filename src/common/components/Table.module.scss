@@ -1,0 +1,60 @@
+:global(.enhanced-table-root) {
+  width: 100%;
+}
+:global(.table-toolbar) {
+  margin: 8px;
+  padding: 16px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+:global(.table-toolbar.highlight) {
+  background-color: rgba(25, 118, 210, 0.12);
+  flex-direction: row;
+}
+:global(.search-field) {
+  margin: 16px 0;
+  width: 80%;
+}
+:global(.search-columns) {
+  margin: 8px 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+:global(.table-title) {
+  margin: 8px 0;
+}
+:global(.table-head) {
+  background-color: #a2ddff;
+}
+:global(.table-head th) {
+  font-weight: bolder;
+}
+:global(.table-checkbox) {
+  width: 50px;
+  text-align: center;
+}
+:global(.table-note) {
+  text-align: center;
+  font-size: 16px;
+  font-weight: lighter;
+  padding: 15px 0;
+  font-style: italic;
+}
+:global(.table-pagination) {
+  padding: 16px;
+  border-top: 1px solid #dee2e6;
+}
+:global(.visually-hidden) {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  top: 20px;
+  width: 1px;
+}

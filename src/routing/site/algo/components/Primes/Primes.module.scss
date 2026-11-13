@@ -1,0 +1,59 @@
+:global(.primes-container) {
+  width: 100%;
+  max-width: 100%;
+}
+:global(.primes-row) {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+:global(.primes-col-full) {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+:global(.text-center) {
+  text-align: center;
+}
+
+:global(.primes-alert) {
+  position: relative;
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+:global(.primes-alert-success) {
+  color: #155724;
+  background-color: #d4edda;
+  border-color: #c3e6cb;
+}
+:global(.primes-alert-danger) {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+}
+:global(.primes-alert-info) {
+  color: #004085;
+  background-color: #cce5ff;
+  border-color: #b8daff;
+}
+:global(.primes-alert-close) {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 0;
+  margin-left: 1rem;
+}
+:global(.primes-alert-close:hover) {
+  opacity: 0.75;
+}

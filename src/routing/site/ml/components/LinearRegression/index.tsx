@@ -3,7 +3,7 @@ import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import "./LinearRegression.css"
+import "./LinearRegression.module.scss"
 
 const LinearRegression = () => {
   const [points, setPoints] = useState([])
@@ -171,7 +171,8 @@ const LinearRegression = () => {
             title="View Pseudocode"
           >
             <FaCode /> View Pseudocode
-          </button>        </div>
+          </button>{" "}
+        </div>
       </div>
 
       <div className="lr-content">

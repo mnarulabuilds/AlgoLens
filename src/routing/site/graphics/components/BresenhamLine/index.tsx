@@ -17,9 +17,8 @@ function bresenham(x0: number, y0: number, x1: number, y1: number) {
   const sy = y0 < y1 ? 1 : -1
   let err = dx - dy
 
-  while (true) {
+  while (x !== x1 || y !== y1) {
     points.push([x, y])
-    if (x === x1 && y === y1) break
     const e2 = 2 * err
     if (e2 > -dy) {
       err -= dy
@@ -30,6 +29,7 @@ function bresenham(x0: number, y0: number, x1: number, y1: number) {
       y += sy
     }
   }
+  points.push([x1, y1])
   return points
 }
 
@@ -91,7 +91,12 @@ const BresenhamLine = () => {
       }
     >
       <DeferredMount>
-        <canvas ref={canvasRef} width={300} height={200} aria-label="Line plot" />
+        <canvas
+          ref={canvasRef}
+          width={300}
+          height={200}
+          aria-label="Line plot"
+        />
       </DeferredMount>
     </SimWorkbench>
   )

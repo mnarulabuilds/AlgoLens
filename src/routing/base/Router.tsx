@@ -1,20 +1,16 @@
+"use client"
+
 import React, {
-  Suspense,
-  lazy,
   ComponentType,
   ReactNode,
+  Suspense,
+  lazy,
   useEffect,
   useMemo,
   useState,
 } from "react"
-import {
-  Route,
-  Routes as AppRoutes,
-  useLocation,
-  useParams,
-} from "react-router-dom"
 import { siteSuggestions, SiteSuggestion } from "./routes"
-import { loadSiteModule, siteModuleImportPath, siteModules } from "./siteModules"
+import { loadSiteModule, siteModules } from "./siteModules"
 import VisualizerPage from "common/components/VisualizerPage"
 import NotFoundPage from "./NotFound"
 import { useRouteSeo } from "common/hooks/useRouteSeo"
@@ -22,7 +18,6 @@ import { useRouteSeo } from "common/hooks/useRouteSeo"
 const Dashboard = lazy(() => import("dashboard/index"))
 const CategoryPage = lazy(() => import("dashboard/CategoryPage"))
 const ProfilePage = lazy(() => import("dashboard/ProfilePage"))
-const NotFound = lazy(() => import("./NotFound"))
 
 type AnyComponent = ComponentType<Record<string, unknown>>
 
@@ -31,7 +26,7 @@ const siteByRoute = new Map<string, SiteSuggestion>(
 )
 
 siteSuggestions.forEach((site) => {
-  const importPath = siteModuleImportPath(site.path)
+  const importPath = `../${site.path}/index.tsx`
   if (!siteModules[importPath]) {
     console.error(
       `[AlgoLens] Missing module for route ${site.route}: expected ${importPath}`
@@ -44,17 +39,8 @@ type DynamicLoaderProps = Record<string, unknown> & {
 }
 
 const suspenseFallback = (
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      minHeight: "40vh",
-    }}
-  >
-    <div className="spinner-border text-primary" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </div>
+  <div className="route-loading" role="status">
+    <span className="visually-hidden">Loading...</span>
   </div>
 )
 
@@ -104,23 +90,13 @@ function AsyncSiteModule({ sitePath }: { sitePath: string }) {
     }
   }, [sitePath])
 
-  if (failed) {
-    return <NotFoundPage />
-  }
-
-  if (!Component) {
-    return suspenseFallback
-  }
-
+  if (failed) return <NotFoundPage />
+  if (!Component) return suspenseFallback
   return <Component />
 }
 
-function DynamicSitePage() {
-  const { category, topic } = useParams()
-  const route =
-    category && topic ? `/${category}/${topic}` : ""
-  const site = route ? siteByRoute.get(route) : undefined
-
+function DynamicSitePage({ pathname }: { pathname: string }) {
+  const site = siteByRoute.get(pathname)
   const topicRef = useMemo(
     () =>
       site
@@ -134,38 +110,41 @@ function DynamicSitePage() {
     [site]
   )
 
-  if (!site || !topicRef) {
-    return <LazyRouteContent Component={NotFound} />
-  }
+  if (!site || !topicRef) return <NotFoundPage />
 
   return (
     <VisualizerPage topic={topicRef} pageTitle={site.title}>
-      <AsyncSiteModule sitePath={site.path} />
+      <Suspense fallback={suspenseFallback}>
+        <AsyncSiteModule sitePath={site.path} />
+      </Suspense>
     </VisualizerPage>
   )
 }
 
-function RouteSection() {
-  const location = useLocation()
+export default function RouteSection({ pathname }: { pathname: string }) {
+  const segments = pathname.split("/").filter(Boolean)
 
-  useDocumentTitle(location.pathname)
-  useRouteSeo(location.pathname)
+  useDocumentTitle(pathname)
+  useRouteSeo(pathname)
+
+  let page: ReactNode
+  if (pathname === "/") {
+    page = <LazyRouteContent Component={Dashboard} />
+  } else if (pathname === "/profile") {
+    page = <LazyRouteContent Component={ProfilePage} />
+  } else if (segments.length === 2) {
+    page = <DynamicSitePage pathname={pathname} />
+  } else if (segments.length === 1 && segments[0] !== "profile") {
+    page = (
+      <LazyRouteContent Component={CategoryPage} categoryTopic={segments[0]} />
+    )
+  } else {
+    page = <NotFoundPage />
+  }
 
   return (
     <main id="main-content" className="content" tabIndex={-1}>
-      <AppRoutes>
-        <Route path="/" element={<LazyRouteContent Component={Dashboard} />} />
-        <Route
-          path="/profile"
-          element={<LazyRouteContent Component={ProfilePage} />}
-        />
-        <Route path="/:category/:topic" element={<DynamicSitePage />} />
-        <Route
-          path="/:category"
-          element={<LazyRouteContent Component={CategoryPage} />}
-        />
-        <Route path="*" element={<LazyRouteContent Component={NotFound} />} />
-      </AppRoutes>
+      {page}
     </main>
   )
 }
@@ -184,5 +163,3 @@ function useDocumentTitle(pathname: string) {
     }
   }, [pathname])
 }
-
-export default RouteSection

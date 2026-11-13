@@ -69,20 +69,20 @@ const ButtonGroup = styled.div`
   margin-bottom: 20px;
 `
 
-const Button = styled.button`
+const Button = styled.button<{ $primary?: boolean }>`
   padding: 12px 24px;
   border-radius: 8px;
   border: none;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
-  background: ${(props) => (props.primary ? "#3b82f6" : "#e2e8f0")};
-  color: ${(props) => (props.primary ? "white" : "#475569")};
+  background: ${(props) => (props.$primary ? "#3b82f6" : "#e2e8f0")};
+  color: ${(props) => (props.$primary ? "white" : "#475569")};
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-    background: ${(props) => (props.primary ? "#2563eb" : "#cbd5e1")};
+    background: ${(props) => (props.$primary ? "#2563eb" : "#cbd5e1")};
   }
 `
 
@@ -110,7 +110,7 @@ const StatItem = styled.div`
 `
 
 const ElasticCollisions = () => {
-  const canvasRef = useRef(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [m1, setM1] = useState(2)
   const [m2, setM2] = useState(5)
   const [v1Init, setV1Init] = useState(3)
@@ -277,7 +277,7 @@ const ElasticCollisions = () => {
           <Input
             type="number"
             value={m1}
-            onChange={(e) => setM1(e.target.value)}
+            onChange={(e) => setM1(parseFloat(e.target.value))}
           />
         </ControlGroup>
         <ControlGroup>
@@ -285,7 +285,7 @@ const ElasticCollisions = () => {
           <Input
             type="number"
             value={v1Init}
-            onChange={(e) => setV1Init(e.target.value)}
+            onChange={(e) => setV1Init(parseFloat(e.target.value))}
           />
         </ControlGroup>
         <ControlGroup>
@@ -293,7 +293,7 @@ const ElasticCollisions = () => {
           <Input
             type="number"
             value={m2}
-            onChange={(e) => setM2(e.target.value)}
+            onChange={(e) => setM2(parseFloat(e.target.value))}
           />
         </ControlGroup>
         <ControlGroup>
@@ -301,13 +301,13 @@ const ElasticCollisions = () => {
           <Input
             type="number"
             value={v2Init}
-            onChange={(e) => setV2Init(e.target.value)}
+            onChange={(e) => setV2Init(parseFloat(e.target.value))}
           />
         </ControlGroup>
       </Controls>
 
       <ButtonGroup>
-        <Button primary onClick={() => setIsPlaying(!isPlaying)}>
+        <Button $primary onClick={() => setIsPlaying(!isPlaying)}>
           {isPlaying ? "Pause" : "Start Simulation"}
         </Button>
         <Button onClick={reset}>Reset</Button>

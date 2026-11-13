@@ -1,39 +1,37 @@
-import React, { lazy } from "react"
-import { HashRouter as Router } from "react-router-dom"
+"use client"
+
+import React, { Suspense, lazy } from "react"
 import SiteFooter from "./StickyFooter"
 import SiteHeader from "./StickyHeader"
-import RouteSection, { DynamicLoader } from "routing/base/Router"
+import RouteSection from "routing/base/Router"
 import { UserProvider } from "common/context/UserContext"
 import { ThemeProvider } from "common/context/ThemeContext"
-import "./App.css"
-import "./mobile.css"
-import "bootstrap/dist/css/bootstrap.min.css"
 import ErrorBoundary from "common/components/ErrorBoundary"
+import "./App.module.scss"
+import "./mobile.module.scss"
 
-const Breadcrumbs = lazy(() => import(`common/components/Breadcrumbs`))
+const Breadcrumbs = lazy(() => import("common/components/Breadcrumbs"))
 
-function App() {
+export default function App({ pathname }: { pathname: string }) {
   return (
     <ErrorBoundary>
       <ThemeProvider>
         <UserProvider>
-          <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-            <div className="App">
-              <a className="skip-link" href="#main-content">
-                Skip to main content
-              </a>
-              <SiteHeader />
-              <div style={{ marginTop: 70 }}>
-                {DynamicLoader(Breadcrumbs)}
-                <RouteSection />
-              </div>
-              <SiteFooter />
+          <div className="App">
+            <a className="skip-link" href="#main-content">
+              Skip to main content
+            </a>
+            <SiteHeader />
+            <div style={{ marginTop: 70 }}>
+              <Suspense fallback={null}>
+                <Breadcrumbs />
+              </Suspense>
+              <RouteSection pathname={pathname} />
             </div>
-          </Router>
+            <SiteFooter />
+          </div>
         </UserProvider>
       </ThemeProvider>
     </ErrorBoundary>
   )
 }
-
-export default App

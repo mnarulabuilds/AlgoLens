@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo, useCallback } from "react"
 import { AiOutlineSearch } from "react-icons/ai"
 import parse from "autosuggest-highlight/parse"
 import match from "autosuggest-highlight/match"
-import "./SearchSuggestions.css"
+import "./SearchSuggestions.module.scss"
 
 export type SearchOption = {
   title?: string
@@ -53,7 +53,11 @@ export default function SearchSuggestions(props: SearchSuggestionsProps) {
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node | null
-      if (dropdownRef.current && target && !dropdownRef.current.contains(target)) {
+      if (
+        dropdownRef.current &&
+        target &&
+        !dropdownRef.current.contains(target)
+      ) {
         setOpen(false)
         setActiveIndex(-1)
       }
@@ -183,7 +187,9 @@ export default function SearchSuggestions(props: SearchSuggestionsProps) {
                     id={option.optionId}
                     role="option"
                     aria-selected={isActive}
-                    className={`search-dropdown-item${isActive ? " active" : ""}`}
+                    className={`search-dropdown-item${
+                      isActive ? " active" : ""
+                    }`}
                     onMouseEnter={() => setActiveIndex(currentIndex)}
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => handleSelect(option)}
@@ -192,7 +198,9 @@ export default function SearchSuggestions(props: SearchSuggestionsProps) {
                       {parts.map((part, idx) => (
                         <span
                           key={idx}
-                          className={part.highlight ? "search-highlight" : undefined}
+                          className={
+                            part.highlight ? "search-highlight" : undefined
+                          }
                         >
                           {part.text}
                         </span>

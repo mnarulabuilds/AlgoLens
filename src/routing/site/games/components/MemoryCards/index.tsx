@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import "./MemoryCards.css"
+import "./MemoryCards.module.scss"
 
 const CARD_SETS = {
   easy: 8, // 4x4 grid
@@ -144,7 +144,7 @@ const MemoryCards = () => {
       <div className="memory-cards-header">
         <h1>Memory Cards 🃏</h1>
         <p>Match all pairs to win!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="memory-cards-content">

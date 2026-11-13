@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react"
-import "./HashingVisualizer.css"
+import "./HashingVisualizer.module.scss"
 
 const HashingVisualizer = () => {
   const [input, setInput] = useState("AlgoLens")
   const [hash, setHash] = useState("")
-  const [bits, setBits] = useState([])
+  const [bits, setBits] = useState<string[]>([])
 
   const computeHash = async (text) => {
     const encoder = new TextEncoder()
@@ -48,7 +48,7 @@ const HashingVisualizer = () => {
             <div className="card-body">
               <textarea
                 className="form-control mb-3"
-                rows="4"
+                rows={4}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Type something to see its hash..."

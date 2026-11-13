@@ -57,16 +57,24 @@ const Instructions = styled.p`
   text-align: center;
 `
 
+type RippleState = {
+  cols: number
+  rows: number
+  current: Float32Array
+  previous: Float32Array
+  animationId: number | null
+}
+
 const FluidRipple = () => {
-  const canvasRef = useRef(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   const [damping, setDamping] = useState(0.98)
   const [resolution, setResolution] = useState(200)
 
-  const stateRef = useRef({
+  const stateRef = useRef<RippleState>({
     cols: 0,
     rows: 0,
-    current: [],
-    previous: [],
+    current: new Float32Array(0),
+    previous: new Float32Array(0),
     animationId: null,
   })
 
@@ -137,10 +145,14 @@ const FluidRipple = () => {
       stateRef.current.animationId = requestAnimationFrame(animate)
     }
     stateRef.current.animationId = requestAnimationFrame(animate)
-    return () => cancelAnimationFrame(stateRef.current.animationId)
+    return () => {
+      if (stateRef.current.animationId !== null) {
+        cancelAnimationFrame(stateRef.current.animationId)
+      }
+    }
   }, [draw])
 
-  const handleInteraction = (e) => {
+  const handleInteraction = (e: React.MouseEvent<HTMLDivElement>) => {
     const canvas = canvasRef.current
     const rect = canvas.getBoundingClientRect()
     const x = Math.floor(

@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect, lazy } from "react"
-import { Row, Col } from "reactstrap"
+import { Row, Col } from "common/components/Ui"
 import { FaEquals, FaTimes } from "react-icons/fa"
 import Input from "./Input"
 
@@ -75,7 +75,7 @@ const Exponent = () => {
             <>
               <Element
                 highlight={true}
-                data={{ value: `${base} ^ ${power}` }}
+                data={{ value: `${base} ^ ${power}`, index: -1 }}
                 type="array"
               />
               <FaEquals style={{ margin: "auto 5px" }} />
@@ -89,7 +89,7 @@ const Exponent = () => {
                 <Element
                   key={`val_${index}`}
                   highlight={result.length === 1}
-                  data={{ value }}
+                  data={{ value, index: -1 }}
                   type="array"
                 />
               </React.Fragment>
@@ -98,7 +98,7 @@ const Exponent = () => {
             <Element
               key="result"
               highlight={true}
-              data={{ value: ans }}
+              data={{ value: ans, index: -1 }}
               type="array"
             />
           )}

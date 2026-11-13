@@ -1,7 +1,9 @@
 import React from "react"
 import Brick from "./Brick"
 
-const Bricks = ({ bricks }) => {
+type BrickPosition = { x: number; y: number }
+
+const Bricks = ({ bricks }: { bricks: BrickPosition[] }) => {
   return (
     <div className="bricks">
       {bricks.map((brick, index) => (

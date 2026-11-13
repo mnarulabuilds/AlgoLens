@@ -1,6 +1,6 @@
 import React from "react"
-import { Link } from "react-router-dom"
-import "./NotFound.css"
+import Link from "next/link"
+import "./NotFound.module.scss"
 
 const NotFound = () => {
   return (
@@ -15,7 +15,7 @@ const NotFound = () => {
             We&apos;re sorry, but the page you were looking for does not exist.
             It might have been moved or deleted.
           </p>
-          <Link to="/" className="not-found-home-link">
+          <Link href="/" className="not-found-home-link">
             Return Home
           </Link>
         </div>

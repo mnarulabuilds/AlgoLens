@@ -1,6 +1,6 @@
 import React from "react"
-import { motion } from "framer-motion"
-import { Link } from "react-router-dom"
+import { motion, Variants } from "framer-motion"
+import Link from "next/link"
 import constants from "common/helpers/constants"
 import {
   categoryIcons,
@@ -10,12 +10,9 @@ import {
 import { useUser } from "common/context/UserContext"
 import { pages, siteSuggestions } from "routing/base/routes"
 import { preloadCategory } from "routing/base/preload"
-import {
-  LEARNING_PATHS,
-  getPathProgress,
-} from "routing/base/learningPaths"
+import { LEARNING_PATHS, getPathProgress } from "routing/base/learningPaths"
 import { FaArrowRight, FaCheckCircle } from "react-icons/fa"
-import "./Dashboard.css"
+import "./Dashboard.module.scss"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,7 +24,7 @@ const containerVariants = {
   },
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
@@ -75,7 +72,7 @@ export default function Dashboard() {
             demonstrations.
           </motion.p>
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Link to="/algo/Sorting" className="hero-cta">
+            <Link href="/algo/Sorting" className="hero-cta">
               Start Exploring <FaArrowRight style={{ marginLeft: "8px" }} />
             </Link>
           </motion.div>
@@ -119,7 +116,8 @@ export default function Dashboard() {
                   </div>
                   <div className="learning-path-progress">
                     <span>
-                      {progress.done}/{progress.total} complete ({progress.percent}
+                      {progress.done}/{progress.total} complete (
+                      {progress.percent}
                       %)
                     </span>
                     <div className="hero-progress-bar">
@@ -132,9 +130,12 @@ export default function Dashboard() {
                   <ol className="learning-path-steps">
                     {path.steps.map((step) => (
                       <li key={step.topicId}>
-                        <Link to={step.route}>{step.label}</Link>
+                        <Link href={step.route}>{step.label}</Link>
                         {completedTopics.includes(step.topicId) && (
-                          <FaCheckCircle className="step-done" aria-label="Completed" />
+                          <FaCheckCircle
+                            className="step-done"
+                            aria-label="Completed"
+                          />
                         )}
                       </li>
                     ))}
@@ -155,12 +156,13 @@ export default function Dashboard() {
           {pages.map((category) => (
             <motion.div key={category.topic} variants={itemVariants}>
               <Link
-                to={`/${category.topic}`}
+                href={`/${category.topic}`}
                 className="feature-card"
                 onMouseEnter={() => preloadCategory(category.topic)}
               >
                 <div className="feature-icon-wrapper">
-                  {categoryIcons[category.topic] ?? getCategoryIcon(category.topic)}
+                  {categoryIcons[category.topic] ??
+                    getCategoryIcon(category.topic)}
                 </div>
                 <h3 className="feature-title">{category.label}</h3>
                 <p className="feature-desc">

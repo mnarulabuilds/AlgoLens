@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import styles from "./JumpSearch.module.css"
+import styles from "./JumpSearch.module.scss"
 
 const JumpSearch = () => {
   const [arrayInput, setArrayInput] = useState("1,3,5,7,9,11,13,15,17,19")

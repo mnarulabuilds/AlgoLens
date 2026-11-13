@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import styles from "./MatchTiles.module.css"
+import styles from "./MatchTiles.module.scss"
 
 // Utility: generate pairs and shuffle
 const generateTiles = (n) => {

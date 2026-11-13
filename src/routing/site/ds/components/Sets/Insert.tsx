@@ -1,7 +1,7 @@
 import React from "react"
 
 // Basic styling using CSS-in-JS (can be moved to a CSS file)
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   card: {
     border: "1px solid rgba(22,45,167,0.9)",
     borderRadius: "8px",

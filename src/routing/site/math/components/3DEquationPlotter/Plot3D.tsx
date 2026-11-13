@@ -2,21 +2,19 @@ import React, { useState, useEffect, useRef } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls } from "@react-three/drei"
 import * as THREE from "three"
-import MyWorker from "./generatePoints.worker?worker"
 
 const Plot3D = ({ equation, precision = 0.5 }) => {
   const [points, setPoints] = useState([])
-  const meshRef = useRef()
-  const ambientLightRef = useRef()
-  const pointLightRef = useRef()
-  const gridHelperRef = useRef()
-  const axesHelperRef = useRef()
-  const cameraRef = useRef()
-  const sphereMeshRef = useRef()
-  const sphereGeometryRef = useRef()
+  const meshRef = useRef<THREE.Points>(null)
+  const ambientLightRef = useRef<THREE.AmbientLight>(null)
+  const pointLightRef = useRef<THREE.PointLight>(null)
+  const sphereMeshRef = useRef<THREE.Mesh>(null)
 
   useEffect(() => {
-    const worker = new MyWorker()
+    const worker = new Worker(
+      new URL("./generatePoints.worker.ts", import.meta.url),
+      { type: "module" }
+    )
 
     worker.onmessage = (e) => {
       const pointsArray = e.data.map(
@@ -32,12 +30,9 @@ const Plot3D = ({ equation, precision = 0.5 }) => {
 
   useEffect(() => {
     if (meshRef.current && points.length > 0) {
-      ambientLightRef.current.intensity = 0.8
-      pointLightRef.current.position.set(0, 0, 0)
-      gridHelperRef.current.args = [0, 0]
-      axesHelperRef.current.args = [0]
-      sphereMeshRef.current.position.set(0, 0, 0)
-      sphereGeometryRef.current.args = [0, 0, 0]
+      if (ambientLightRef.current) ambientLightRef.current.intensity = 0.8
+      pointLightRef.current?.position.set(0, 0, 0)
+      sphereMeshRef.current?.position.set(0, 0, 0)
       const positions = new Float32Array(points.length * 3)
       points.forEach((point, i) => {
         positions[i * 3] = point.x
@@ -61,11 +56,11 @@ const Plot3D = ({ equation, precision = 0.5 }) => {
         <bufferGeometry />
         <pointsMaterial color="red" size={0.5} />
       </points>
-      <gridHelper ref={gridHelperRef} />
-      <axesHelper ref={axesHelperRef} />
-      <OrbitControls enableZoom={false} enablePan={false} ref={cameraRef} />
+      <gridHelper />
+      <axesHelper />
+      <OrbitControls enableZoom={false} enablePan={false} />
       <mesh ref={sphereMeshRef}>
-        <sphereGeometry ref={sphereGeometryRef} />
+        <sphereGeometry />
         <meshBasicMaterial color="blue" />
       </mesh>
     </Canvas>

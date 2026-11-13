@@ -1,12 +1,12 @@
 import React, { useRef, useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useRouter } from "next/navigation"
 import { categoryIcons } from "common/helpers/categories"
 import { preloadVisualizer } from "routing/base/preload"
 import { motion, AnimatePresence } from "framer-motion"
 import { pages } from "routing/base/routes"
 import useOutsideClick from "common/hooks/useOutsideClick"
 import { FaChevronRight } from "react-icons/fa"
-import "./SideDrawer.css"
+import "./SideDrawer.module.scss"
 
 const cleanLabel = (label) => {
   return label
@@ -18,7 +18,7 @@ const cleanLabel = (label) => {
 }
 
 const SideDrawer = () => {
-  const navigate = useNavigate()
+  const router = useRouter()
   const sideDrawerRef = useRef<HTMLDivElement>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({})
@@ -40,7 +40,7 @@ const SideDrawer = () => {
 
   // Close everything when an item is selected
   const handleItemClick = (category: string, page: string) => {
-    navigate(`/${category}/${page}`)
+    router.push(`/${category}/${page}`)
     setIsOpen(false)
   }
 
@@ -148,7 +148,10 @@ const SideDrawer = () => {
                                 onKeyDown={(e) => {
                                   if (e.key === "Enter" || e.key === " ") {
                                     e.preventDefault()
-                                    handleItemClick(section.topic, subpage.topic)
+                                    handleItemClick(
+                                      section.topic,
+                                      subpage.topic
+                                    )
                                   }
                                 }}
                               >

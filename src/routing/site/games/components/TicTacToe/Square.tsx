@@ -1,10 +1,15 @@
 import React from "react"
-import "./Square.css"
+import "./Square.module.scss"
 
-const Square = React.memo(({ value, onClick }) => {
+type SquareProps = {
+  value: "X" | "O" | null
+  onClick: () => void
+}
+
+const Square = React.memo(({ value, onClick }: SquareProps) => {
   return (
     <button className="square" onClick={onClick}>
-      <span value={value}>{value}</span>
+      <span>{value}</span>
     </button>
   )
 })

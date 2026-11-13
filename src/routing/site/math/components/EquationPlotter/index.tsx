@@ -1,6 +1,6 @@
 import React, { useState, useCallback, lazy, Suspense } from "react"
 import EquationInput from "./EquationInput"
-import "./Plotter.css"
+import "./Plotter.module.scss"
 
 const Plot = lazy(() => import("./Plot"))
 

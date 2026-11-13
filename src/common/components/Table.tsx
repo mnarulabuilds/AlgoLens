@@ -12,7 +12,7 @@ import {
   AiOutlineClose,
 } from "react-icons/ai"
 import { BsArrowDown, BsArrowUp } from "react-icons/bs"
-import "./Table.css"
+import "./Table.module.scss"
 
 type Order = "asc" | "desc"
 

@@ -4,13 +4,13 @@ import Insert from "./Insert"
 import Delete from "./Delete"
 import Update from "./Update"
 import Search from "./Search"
-import "./LinkedList.css"
+import "./LinkedList.module.scss"
 
 export default function LinkedList() {
   const [head, setHead] = useState(null)
   const [list, setList] = useState(null)
   const [rendered, setRendered] = useState(false)
-  const [radioVal, setRadioVal] = useState(false)
+  const [radioVal, setRadioVal] = useState("")
 
   const showOperation = (event) => {
     const operation = event.target.value

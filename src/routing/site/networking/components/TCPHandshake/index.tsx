@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./TCPHandshake.css"
+import "./TCPHandshake.module.scss"
 
 const steps = [
   {

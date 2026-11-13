@@ -1,0 +1,74 @@
+.wrapper {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+  font-family: sans-serif;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.wrapper button {
+  padding: 8px 12px;
+  border: none;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.wrapper button:hover {
+  background: #ddd;
+}
+
+.runBtn {
+  background: #4caf50;
+  color: white;
+}
+
+.runBtn:hover {
+  background: #3a8f3d;
+}
+
+.grid {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.table {
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.table th,
+.table td {
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: center;
+  cursor: pointer;
+  min-width: 35px;
+}
+
+.table td:hover {
+  background: #f0f8ff;
+}
+
+.logBox {
+  background: #f8f8f8;
+  border-radius: 6px;
+  padding: 10px;
+  width: 40%;
+  height: 260px;
+  overflow-y: auto;
+  font-size: 13px;
+  border: 1px solid #ddd;
+}
+
+.logItem {
+  padding: 5px 4px;
+  border-bottom: 1px solid #e0e0e0;
+}

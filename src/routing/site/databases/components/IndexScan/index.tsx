@@ -24,11 +24,13 @@ const IndexScan = () => {
   const useIndex = params.mode === "index"
   const [examined, setExamined] = useState<number[]>([])
   const [result, setResult] = useState<Row[]>([])
-  const [ranBoth, setRanBoth] = useState({ index: false, scan: false })
+  const [, setRanBoth] = useState({ index: false, scan: false })
 
   const runQuery = () => {
     if (useIndex) {
-      const idx = TABLE.map((r, i) => i).filter((i) => TABLE[i].dept === TARGET_DEPT)
+      const idx = TABLE.map((r, i) => i).filter(
+        (i) => TABLE[i].dept === TARGET_DEPT
+      )
       setExamined(idx)
       setResult(idx.map((i) => TABLE[i]))
       setRanBoth((p) => {
@@ -107,8 +109,8 @@ const IndexScan = () => {
                     background: isMatch
                       ? "rgba(76, 175, 80, 0.25)"
                       : isExamined
-                        ? "rgba(255, 193, 7, 0.15)"
-                        : "transparent",
+                      ? "rgba(255, 193, 7, 0.15)"
+                      : "transparent",
                   }}
                 >
                   <td style={tdStyle}>{row.id}</td>
@@ -121,7 +123,8 @@ const IndexScan = () => {
         </table>
         <div style={{ display: "flex", gap: "1.5rem", flexWrap: "wrap" }}>
           <div>
-            <strong>Rows examined:</strong> {examined.length || "—"} / {TABLE.length}
+            <strong>Rows examined:</strong> {examined.length || "—"} /{" "}
+            {TABLE.length}
           </div>
           <div>
             <strong>Rows returned:</strong> {result.length || "—"}

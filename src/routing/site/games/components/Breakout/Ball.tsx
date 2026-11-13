@@ -5,13 +5,22 @@ import {
   VIEWPORT_WIDTH_FACTOR,
 } from "./viewport"
 
+type BrickPosition = { x: number; y: number }
+type BallProps = {
+  paddlePosition: number
+  bricks: BrickPosition[]
+  updateScore: () => void
+  endGame: () => void
+  removeBrick: (index: number) => void
+}
+
 const Ball = ({
   paddlePosition,
   bricks,
   updateScore,
   endGame,
   removeBrick,
-}) => {
+}: BallProps) => {
   const [position, setPosition] = useState({
     x: (VIEWPORT_WIDTH_FACTOR * window.innerWidth) / 2,
     y: (VIEWPORT_HEIGHT_FACTOR * window.innerHeight) / 2,

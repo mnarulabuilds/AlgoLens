@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react"
 import { FaPlay, FaPause, FaStop } from "react-icons/fa"
 import useVisualizerKeyboard from "common/hooks/useVisualizerKeyboard"
-import "./VisualizerToolbar.css"
+import "./VisualizerToolbar.module.scss"
 
 type VisualizerToolbarProps = {
   isRunning: boolean
@@ -118,7 +118,8 @@ const VisualizerToolbar = ({
 
       {showKeyboardHints && isRunning && (
         <p className="visualizer-keyboard-hints mb-0 mt-2">
-          <kbd>Space</kbd> pause/resume · <kbd>→</kbd> step · <kbd>Esc</kbd> stop
+          <kbd>Space</kbd> pause/resume · <kbd>→</kbd> step · <kbd>Esc</kbd>{" "}
+          stop
           {onReset ? (
             <>
               {" "}

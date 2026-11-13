@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from "react"
-import styles from "./TrafficSimulation.module.css"
+import styles from "./TrafficSimulation.module.scss"
 
 const CAR_WIDTH = 40
 const CAR_HEIGHT = 25

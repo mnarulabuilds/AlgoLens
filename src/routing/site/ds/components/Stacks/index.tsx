@@ -5,21 +5,21 @@ import Pop from "./Pop"
 import Get from "./Get"
 
 export default function Stack() {
-  const [array, setArray] = useState([])
-  const [highlights, setHighlights] = useState(null)
+  const [array, setArray] = useState<string[]>([])
+  const [highlights, setHighlights] = useState<number[] | null>(null)
   const [where, setWhere] = useState("Top")
-  const [result, setResult] = useState(null)
+  const [result, setResult] = useState<string | null>(null)
 
-  const [radioVal, setRadioVal] = useState(false)
+  const [radioVal, setRadioVal] = useState("")
 
-  const containerStyle = {
+  const containerStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-end",
     margin: "16px",
   }
 
-  const paperStyle = {
+  const paperStyle: React.CSSProperties = {
     padding: "16px",
     margin: "16px",
     border: "1px solid #ddd",
@@ -27,24 +27,24 @@ export default function Stack() {
     backgroundColor: "#f9f9f9",
   }
 
-  const cardStyle = {
+  const cardStyle: React.CSSProperties = {
     border: "1px solid #ddd",
     borderRadius: "4px",
     marginBottom: "16px",
   }
 
-  const cardHeaderStyle = {
+  const cardHeaderStyle: React.CSSProperties = {
     backgroundColor: "#007bff",
     color: "#fff",
     padding: "8px",
     borderRadius: "4px 4px 0 0",
   }
 
-  const cardContentStyle = {
+  const cardContentStyle: React.CSSProperties = {
     padding: "16px",
   }
 
-  const boxStyle = {
+  const boxStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     padding: "16px",
@@ -53,25 +53,25 @@ export default function Stack() {
     borderTop: "none",
   }
 
-  const radioGroupStyle = {
+  const radioGroupStyle: React.CSSProperties = {
     display: "flex",
     flexDirection: "column",
     gap: "8px",
   }
 
-  const radioLabelStyle = {
+  const radioLabelStyle: React.CSSProperties = {
     display: "flex",
     alignItems: "center",
     cursor: "pointer",
     gap: "8px",
   }
 
-  const showOperation = (event) => {
+  const showOperation = (event: React.ChangeEvent<HTMLInputElement>) => {
     const operation = event.target.value
     setRadioVal(operation)
   }
 
-  const push = (data) => {
+  const push = (data: string) => {
     if (data) {
       const arr = array
       arr.splice(0, 0, data)
@@ -91,7 +91,7 @@ export default function Stack() {
     setResult(null)
   }
 
-  const get = () => {
+  const get = (): void => {
     const arr = array
 
     switch (where.toLowerCase()) {

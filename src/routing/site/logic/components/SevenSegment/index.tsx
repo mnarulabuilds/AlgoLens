@@ -1,8 +1,8 @@
 import React, { useState } from "react"
-import "./SevenSegment.css"
+import "./SevenSegment.module.scss"
 
 // Segments: a, b, c, d, e, f, g
-const digitMap = {
+const digitMap: Record<number, number[]> & { off: number[] } = {
   0: [1, 1, 1, 1, 1, 1, 0],
   1: [0, 1, 1, 0, 0, 0, 0],
   2: [1, 1, 0, 1, 1, 0, 1],
@@ -17,15 +17,15 @@ const digitMap = {
 }
 
 const SevenSegment = () => {
-  const [currentDigit, setCurrentDigit] = useState(0)
+  const [currentDigit, setCurrentDigit] = useState<number | "custom">(0)
   const [manual, setManual] = useState(digitMap[0])
 
-  const setDigit = (d) => {
+  const setDigit = (d: number) => {
     setCurrentDigit(d)
     setManual(digitMap[d])
   }
 
-  const toggleSegment = (idx) => {
+  const toggleSegment = (idx: number) => {
     const next = [...manual]
     next[idx] = next[idx] ? 0 : 1
     setManual(next)

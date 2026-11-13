@@ -1,11 +1,16 @@
 import React, { useState } from "react"
 
-const Input = React.memo(({ disabled, setData }) => {
+interface InputProps {
+  disabled: boolean
+  setData: (data: number) => void
+}
+
+const Input = React.memo(({ disabled, setData }: InputProps) => {
   const [input, setInput] = useState("")
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (input && !isNaN(input)) {
+    if (input && !Number.isNaN(Number(input))) {
       setData(Number(input))
       setInput("")
     }
@@ -54,7 +59,7 @@ const Input = React.memo(({ disabled, setData }) => {
   )
 })
 
-const styles = {
+const styles: Record<string, React.CSSProperties> = {
   card: {
     minWidth: "180px",
     border: "1px solid #e0e0e0",

@@ -1,43 +1,65 @@
-import { afterEach, vi } from 'vitest';
-import { cleanup } from '@testing-library/react';
-import '@testing-library/jest-dom/vitest';
+import { afterEach, vi } from "vitest"
+import { cleanup } from "@testing-library/react"
+import "@testing-library/jest-dom/vitest"
+
+vi.mock("next/navigation", () => ({
+  usePathname: () => window.location.pathname,
+  useRouter: () => ({
+    push: (href: string) => window.history.pushState(null, "", href),
+    replace: (href: string) => window.history.replaceState(null, "", href),
+  }),
+}))
+
+vi.mock("next/link", async () => {
+  const React = await import("react")
+  return {
+    default: ({
+      href,
+      children,
+      ...props
+    }: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+      href: string
+      children: React.ReactNode
+    }) => React.createElement("a", { href, ...props }, children),
+  }
+})
 
 /** Node 22+ may expose a broken global localStorage; jsdom needs a working one. */
 function createLocalStorageMock(): Storage {
-  const store = new Map<string, string>();
+  const store = new Map<string, string>()
   return {
     get length() {
-      return store.size;
+      return store.size
     },
     clear() {
-      store.clear();
+      store.clear()
     },
     getItem(key: string) {
-      return store.has(key) ? store.get(key)! : null;
+      return store.has(key) ? store.get(key)! : null
     },
     key(index: number) {
-      return [...store.keys()][index] ?? null;
+      return [...store.keys()][index] ?? null
     },
     removeItem(key: string) {
-      store.delete(key);
+      store.delete(key)
     },
     setItem(key: string, value: string) {
-      store.set(key, String(value));
+      store.set(key, String(value))
     },
-  };
+  }
 }
 
-const localStorageMock = createLocalStorageMock();
-Object.defineProperty(globalThis, 'localStorage', {
+const localStorageMock = createLocalStorageMock()
+Object.defineProperty(globalThis, "localStorage", {
   value: localStorageMock,
   writable: true,
   configurable: true,
-});
+})
 
-const canvasContextStub = {
-  fillStyle: '',
-  strokeStyle: '',
-  font: '',
+const canvasContextStub = ({
+  fillStyle: "",
+  strokeStyle: "",
+  font: "",
   fillRect: vi.fn(),
   clearRect: vi.fn(),
   beginPath: vi.fn(),
@@ -65,14 +87,19 @@ const canvasContextStub = {
   quadraticCurveTo: vi.fn(),
   bezierCurveTo: vi.fn(),
   canvas: { width: 300, height: 150 },
-} as unknown as CanvasRenderingContext2D;
+} as unknown) as CanvasRenderingContext2D
 
-HTMLCanvasElement.prototype.getContext = vi.fn(() => canvasContextStub);
+Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
+  configurable: true,
+  value: vi.fn((contextId: string) =>
+    contextId === "2d" ? canvasContextStub : null
+  ),
+})
 
-Object.defineProperty(window, 'matchMedia', {
+Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query: string) => ({
-    matches: query.includes('prefers-color-scheme: dark'),
+    matches: query.includes("prefers-color-scheme: dark"),
     media: query,
     onchange: null,
     addListener: vi.fn(),
@@ -81,9 +108,9 @@ Object.defineProperty(window, 'matchMedia', {
     removeEventListener: vi.fn(),
     dispatchEvent: vi.fn(),
   })),
-});
+})
 
 afterEach(() => {
-  cleanup();
-  localStorage.clear();
-});
+  cleanup()
+  localStorage.clear()
+})

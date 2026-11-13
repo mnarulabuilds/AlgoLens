@@ -9,7 +9,7 @@ import {
   parseIntParam,
 } from "common/hooks/useVisualizerParams"
 import { useUser } from "common/context/UserContext"
-import "./SortingVisualizer.css"
+import "./SortingVisualizer.module.scss"
 
 const TOPIC_ID = "algo/Sorting"
 
@@ -121,7 +121,7 @@ const SortingVisualizer = () => {
           setHighlightedLine(3)
           if (arr[j] > arr[j + 1]) {
             setHighlightedLine(4)
-              ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
+            ;[arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]
             setArray([...arr])
             setHighlightedLine(5)
             await wait(undefined)
@@ -148,7 +148,11 @@ const SortingVisualizer = () => {
     markComplete(TOPIC_ID)
   }
 
-  const quickSortInternal = async (arr: number[], low: number, high: number) => {
+  const quickSortInternal = async (
+    arr: number[],
+    low: number,
+    high: number
+  ) => {
     if (low < high) {
       setHighlightedLine(1)
       const pi = await partition(arr, low, high)
@@ -165,7 +169,7 @@ const SortingVisualizer = () => {
     for (let j = low; j < high; j++) {
       if (arr[j] < pivot) {
         i++
-          ;[arr[i], arr[j]] = [arr[j], arr[i]]
+        ;[arr[i], arr[j]] = [arr[j], arr[i]]
         setArray([...arr])
         await wait(undefined)
       }
@@ -271,9 +275,7 @@ const SortingVisualizer = () => {
               transition: array.length > 50 ? "none" : "height 0.2s",
             }}
           >
-            {array.length < 25 && (
-              <span className="bar-value">{value}</span>
-            )}
+            {array.length < 25 && <span className="bar-value">{value}</span>}
           </div>
         ))}
       </div>
@@ -287,7 +289,9 @@ const SortingVisualizer = () => {
           contentJSX: (
             <PseudocodeViewer
               pseudocode={activeAlgo ? algoData[activeAlgo].pseudocode : []}
-              title={activeAlgo ? algoData[activeAlgo].title : "Select an algorithm"}
+              title={
+                activeAlgo ? algoData[activeAlgo].title : "Select an algorithm"
+              }
               highlightedLine={highlightedLine}
             />
           ),

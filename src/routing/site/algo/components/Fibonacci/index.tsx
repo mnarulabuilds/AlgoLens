@@ -1,18 +1,20 @@
 import React, { useState, lazy, useEffect } from "react"
-import { Alert, Row, Col } from "reactstrap"
-import { FixedSizeList as List } from "react-window"
+import { Alert, Row, Col } from "common/components/Ui"
+import HorizontalVirtualList from "common/components/HorizontalVirtualList"
 import Input from "./Input"
 import useWindowDimensions from "common/helpers/dimensions"
 
 const LazyElement = lazy(() => import("common/components/Element"))
 
 const Fibonacci = () => {
-  const [input, setInput] = useState(null)
-  const [sequence, setSequence] = useState([])
+  const [input, setInput] = useState<number | null>(null)
+  const [sequence, setSequence] = useState<number[]>([])
   const [disabled, setDisabled] = useState(false)
-  const [alert, setAlert] = useState(null)
+  const [alert, setAlert] = useState<{ text: string; type: string } | null>(
+    null
+  )
 
-  const updateSequence = (delay) => {
+  const updateSequence = (delay: number) => {
     setTimeout(() => {
       setSequence((prevSequence) => {
         return prevSequence.concat([
@@ -23,7 +25,7 @@ const Fibonacci = () => {
     }, delay)
   }
 
-  const generateSequence = (input) => {
+  const generateSequence = (input: number) => {
     if (input < 2) {
       setAlert({
         text: "Input should be greater than 2",
@@ -41,7 +43,7 @@ const Fibonacci = () => {
   }
 
   useEffect(() => {
-    if (sequence.length === parseInt(input)) {
+    if (sequence.length === parseInt(String(input))) {
       setAlert({
         text: "Sequence has been generated",
         type: "success",
@@ -71,7 +73,7 @@ const Fibonacci = () => {
         </Col>
       </Row>
 
-      {parseInt(input) >= 2 && sequence.length > 0 && (
+      {parseInt(String(input)) >= 2 && sequence.length > 0 && (
         <Row className="text-center mt-4 mb-4">
           <LazyList sequence={sequence} />
         </Row>
@@ -80,19 +82,17 @@ const Fibonacci = () => {
   )
 }
 
-const LazyList = ({ sequence }) => {
+const LazyList = ({ sequence }: { sequence: number[] }) => {
   const { width: innerWidth } = useWindowDimensions()
 
   return (
-    <List
+    <HorizontalVirtualList
       height={120}
       itemCount={sequence.length}
       itemSize={400}
-      width={innerWidth}
-      direction="horizontal"
-    >
-      {({ index, style }) => (
-        <Col xs={12} style={style} className="align-items-center">
+      width={innerWidth || 800}
+      renderItem={(index) => (
+        <Col xs={12} className="align-items-center">
           <LazyElement
             data={{ value: sequence[index], index }}
             highlight={index === sequence.length - 1}
@@ -100,7 +100,7 @@ const LazyList = ({ sequence }) => {
           />
         </Col>
       )}
-    </List>
+    />
   )
 }
 

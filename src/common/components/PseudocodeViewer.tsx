@@ -1,5 +1,5 @@
 import React from "react"
-import "./PseudocodeViewer.css"
+import "./PseudocodeViewer.module.scss"
 
 export type PseudocodeLine = {
   text: string

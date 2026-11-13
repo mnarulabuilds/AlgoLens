@@ -33,7 +33,7 @@ function extractToken(block: string, name: string): string | undefined {
 }
 
 describe("a11y contrast tokens", () => {
-  const tokensPath = path.join(process.cwd(), "src/base/a11y-tokens.css")
+  const tokensPath = path.join(process.cwd(), "src/base/a11y-tokens.scss")
   const css = fs.readFileSync(tokensPath, "utf8")
 
   const darkBlock =

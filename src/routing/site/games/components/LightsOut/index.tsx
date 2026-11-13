@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { FaLightbulb, FaRedo } from "react-icons/fa"
-import "./LightsOut.css"
+import "./LightsOut.module.scss"
 
 const GRID_SIZES = {
   easy: 3,
   medium: 4,
   hard: 5,
 }
+type Difficulty = keyof typeof GRID_SIZES
+type BestScores = Record<Difficulty, number | null>
+const difficulties: Difficulty[] = ["easy", "medium", "hard"]
 
 const LightsOut = () => {
-  const [difficulty, setDifficulty] = useState("medium")
-  const [grid, setGrid] = useState([])
+  const [difficulty, setDifficulty] = useState<Difficulty>("medium")
+  const [grid, setGrid] = useState<boolean[][]>([])
   const [moves, setMoves] = useState(0)
   const [isSolved, setIsSolved] = useState(false)
-  const [bestScores, setBestScores] = useState({
+  const [bestScores, setBestScores] = useState<BestScores>({
     easy: null,
     medium: null,
     hard: null,
@@ -39,13 +42,13 @@ const LightsOut = () => {
 
   const initializeGame = () => {
     const size = GRID_SIZES[difficulty]
-    const newGrid = Array(size)
-      .fill()
-      .map(() => Array(size).fill(false))
+    const newGrid = Array.from({ length: size }, () =>
+      Array<boolean>(size).fill(false)
+    )
 
     // Generate solvable puzzle with random moves
     const randomMoves = Math.floor(Math.random() * 10) + 5
-    const positions = []
+    const positions: Array<[number, number]> = []
 
     for (let i = 0; i < randomMoves; i++) {
       const row = Math.floor(Math.random() * size)
@@ -63,7 +66,12 @@ const LightsOut = () => {
     setIsSolved(false)
   }
 
-  const toggleLights = (currentGrid, row, col, size) => {
+  const toggleLights = (
+    currentGrid: boolean[][],
+    row: number,
+    col: number,
+    size: number
+  ) => {
     const directions = [
       [0, 0], // center
       [-1, 0], // up
@@ -82,7 +90,7 @@ const LightsOut = () => {
     })
   }
 
-  const handleCellClick = (row, col) => {
+  const handleCellClick = (row: number, col: number) => {
     if (isSolved) return
 
     const size = GRID_SIZES[difficulty]
@@ -112,13 +120,13 @@ const LightsOut = () => {
       <div className="lights-out-header">
         <h1>Lights Out 💡</h1>
         <p>Turn off all the lights!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="lights-out-content">
         <div className="game-controls">
           <div className="difficulty-selector">
-            {Object.keys(GRID_SIZES).map((diff) => (
+            {difficulties.map((diff) => (
               <button
                 key={diff}
                 className={`diff-btn ${difficulty === diff ? "active" : ""}`}

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./BankersAlgorithm.css"
+import "./BankersAlgorithm.module.scss"
 
 const BankersAlgorithm = () => {
   const [allocation] = useState([
@@ -19,8 +19,11 @@ const BankersAlgorithm = () => {
   ])
 
   const [available] = useState([3, 3, 2])
-  const [result, setResult] = useState(null)
-  const [steps, setSteps] = useState([])
+  const [result, setResult] = useState<{
+    status: "safe" | "unsafe"
+    sequence: string
+  } | null>(null)
+  const [steps, setSteps] = useState<string[]>([])
 
   const calculateSafeSequence = () => {
     const n = allocation.length
@@ -98,10 +101,10 @@ const BankersAlgorithm = () => {
                 <table className="table table-hover mb-0 align-middle text-center">
                   <thead className="table-light">
                     <tr>
-                      <th rowSpan="2">Process</th>
-                      <th colSpan="3">Allocation</th>
-                      <th colSpan="3">Max Need</th>
-                      <th colSpan="3">Current Need</th>
+                      <th rowSpan={2}>Process</th>
+                      <th colSpan={3}>Allocation</th>
+                      <th colSpan={3}>Max Need</th>
+                      <th colSpan={3}>Current Need</th>
                     </tr>
                     <tr className="small text-uppercase">
                       <th>A</th>

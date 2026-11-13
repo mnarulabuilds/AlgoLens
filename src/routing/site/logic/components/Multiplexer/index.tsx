@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./Multiplexer.css"
+import "./Multiplexer.module.scss"
 
 const Multiplexer = () => {
   const [in0, setIn0] = useState(false)

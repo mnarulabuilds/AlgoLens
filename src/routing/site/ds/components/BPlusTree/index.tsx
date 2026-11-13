@@ -1,7 +1,13 @@
 import React, { useState } from "react"
-import styles from "./BPlusTree.module.css"
+import styles from "./BPlusTree.module.scss"
 
 class BPlusTreeNode {
+  keys: number[]
+  children: BPlusTreeNode[]
+  values: number[]
+  isLeaf: boolean
+  next: BPlusTreeNode | null
+
   constructor(isLeaf = true) {
     this.keys = []
     this.children = [] // For internal nodes
@@ -12,6 +18,11 @@ class BPlusTreeNode {
 }
 
 class BPlusTree {
+  root: BPlusTreeNode
+  order: number
+  maxKeys: number
+  minKeys: number
+
   constructor(order = 4) {
     this.root = new BPlusTreeNode(true)
     this.order = order
@@ -19,11 +30,11 @@ class BPlusTree {
     this.minKeys = Math.ceil(order / 2) - 1
   }
 
-  search(key) {
+  search(key: number): number | null {
     return this.searchNode(this.root, key)
   }
 
-  searchNode(node, key) {
+  searchNode(node: BPlusTreeNode, key: number): number | null {
     if (node.isLeaf) {
       const index = node.keys.indexOf(key)
       return index !== -1 ? node.values[index] : null
@@ -37,7 +48,7 @@ class BPlusTree {
     return this.searchNode(node.children[i], key)
   }
 
-  insert(key, value = key) {
+  insert(key: number, value: number = key): void {
     const root = this.root
 
     if (root.keys.length === this.maxKeys) {
@@ -51,7 +62,7 @@ class BPlusTree {
     this.insertNonFull(this.root, key, value)
   }
 
-  insertNonFull(node, key, value) {
+  insertNonFull(node: BPlusTreeNode, key: number, value: number): void {
     if (node.isLeaf) {
       // Insert in leaf node
       let i = 0
@@ -80,7 +91,7 @@ class BPlusTree {
     }
   }
 
-  splitChild(parent, index) {
+  splitChild(parent: BPlusTreeNode, index: number): void {
     const fullChild = parent.children[index]
     const newChild = new BPlusTreeNode(fullChild.isLeaf)
 
@@ -116,13 +127,13 @@ class BPlusTree {
     parent.children.splice(index + 1, 0, newChild)
   }
 
-  getHeight(node = this.root) {
+  getHeight(node: BPlusTreeNode = this.root): number {
     if (node.isLeaf) return 1
     return 1 + this.getHeight(node.children[0])
   }
 
-  getAllLeaves() {
-    const leaves = []
+  getAllLeaves(): BPlusTreeNode[] {
+    const leaves: BPlusTreeNode[] = []
     let current = this.getFirstLeaf(this.root)
     while (current) {
       leaves.push(current)
@@ -131,7 +142,7 @@ class BPlusTree {
     return leaves
   }
 
-  getFirstLeaf(node) {
+  getFirstLeaf(node: BPlusTreeNode): BPlusTreeNode {
     if (node.isLeaf) return node
     return this.getFirstLeaf(node.children[0])
   }
@@ -152,9 +163,10 @@ class BPlusTree {
     return newTree
   }
 
-  cloneNode(node, leafMap = {}) {
-    if (!node) return { clonedRoot: null, leafMap }
-
+  cloneNode(
+    node: BPlusTreeNode,
+    leafMap: Record<string, BPlusTreeNode> = {}
+  ): { clonedRoot: BPlusTreeNode; leafMap: Record<string, BPlusTreeNode> } {
     const newNode = new BPlusTreeNode(node.isLeaf)
     newNode.keys = [...node.keys]
     newNode.values = [...node.values]
@@ -176,10 +188,10 @@ class BPlusTree {
 
 const BPlusTreeVisualizer = () => {
   const [tree, setTree] = useState(new BPlusTree(4))
-  const [order, setOrder] = useState(4)
+  const [order, setOrder] = useState("4")
   const [inputValue, setInputValue] = useState("")
   const [searchValue, setSearchValue] = useState("")
-  const [highlightedNodes, setHighlightedNodes] = useState([])
+  const [highlightedNodes, setHighlightedNodes] = useState<number[]>([])
   const [lastOperation, setLastOperation] = useState("")
 
   const handleInitialize = () => {
@@ -238,10 +250,15 @@ const BPlusTreeVisualizer = () => {
     setHighlightedNodes([])
   }
 
-  const renderNode = (node, x, y, width, level) => {
-    if (!node) return []
+  const renderNode = (
+    node: BPlusTreeNode,
+    x: number,
+    y: number,
+    width: number,
+    level: number
+  ): React.ReactNode[] => {
+    const elements: React.ReactNode[] = []
 
-    const elements = []
     const nodeHeight = 50
     const keyWidth = 50
     const nodeWidth = Math.max(node.keys.length * keyWidth + 10, 60)
@@ -363,7 +380,7 @@ const BPlusTreeVisualizer = () => {
 
   const renderLeafLinks = () => {
     const leaves = tree.getAllLeaves()
-    const elements = []
+    const elements: React.ReactNode[] = []
     const leafY = tree.getHeight() * 100 + 25 // Middle of leaf nodes
 
     leaves.forEach((leaf, index) => {

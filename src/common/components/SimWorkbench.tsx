@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react"
-import "./SimWorkbench.css"
+import "./SimWorkbench.module.scss"
 
 type SimWorkbenchProps = {
   title: string

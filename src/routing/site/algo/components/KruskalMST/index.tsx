@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import styles from "./KruskalVisualizer.module.css"
+import styles from "./KruskalVisualizer.module.scss"
 import { useMemo } from "react"
 
 // ---------- useKruskal hook (algorithm + step control + DSU animation state) ----------

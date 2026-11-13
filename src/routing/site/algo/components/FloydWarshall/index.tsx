@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import styles from "./FloydWarshall.module.css"
+import styles from "./FloydWarshall.module.scss"
 
 const FloydWarshallVisualizer = () => {
   const [nodes, setNodes] = useState([])

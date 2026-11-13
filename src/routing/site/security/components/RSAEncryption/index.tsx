@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./RSAEncryption.css"
+import "./RSAEncryption.module.scss"
 
 const RSAEncryption = () => {
   const [p, setP] = useState(61)
@@ -42,16 +42,19 @@ const RSAEncryption = () => {
   const d = findD(e, phi)
 
   // Modular Exponentiation
-  const power = (base, exp, mod) => {
-    let res = 1n
-    base = BigInt(base) % BigInt(mod)
-    exp = BigInt(exp)
-    while (exp > 0n) {
-      if (exp % 2n === 1n) res = (res * base) % BigInt(mod)
-      base = (base * base) % BigInt(mod)
-      exp = exp / 2n
+  const power = (base: number, exp: number, mod: number) => {
+    let result = BigInt(1)
+    let bigBase = BigInt(base) % BigInt(mod)
+    let bigExponent = BigInt(exp)
+    const bigModulus = BigInt(mod)
+    while (bigExponent > BigInt(0)) {
+      if (bigExponent % BigInt(2) === BigInt(1)) {
+        result = (result * bigBase) % bigModulus
+      }
+      bigBase = (bigBase * bigBase) % bigModulus
+      bigExponent /= BigInt(2)
     }
-    return Number(res)
+    return Number(result)
   }
 
   const encrypted = power(message, e, n)

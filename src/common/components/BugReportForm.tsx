@@ -1,6 +1,11 @@
 import React, { useState, FormEvent, ChangeEvent } from "react"
 import { motion } from "framer-motion"
-import { FaBug, FaUpload, FaCheckCircle, FaExclamationTriangle } from "react-icons/fa"
+import {
+  FaBug,
+  FaUpload,
+  FaCheckCircle,
+  FaExclamationTriangle,
+} from "react-icons/fa"
 import {
   sendBugReportEmail,
   isBugReportConfigured,
@@ -19,9 +24,9 @@ const BugReportForm = ({ onSubmit, onCancel }: BugReportFormProps) => {
   const [description, setDescription] = useState("")
   const [reporterEmail, setReporterEmail] = useState("")
   const [file, setFile] = useState<File | null>(null)
-  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">(
-    "idle"
-  )
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "success" | "error"
+  >("idle")
   const [errorMessage, setErrorMessage] = useState("")
 
   const configured = isBugReportConfigured()
@@ -47,7 +52,9 @@ const BugReportForm = ({ onSubmit, onCancel }: BugReportFormProps) => {
     } catch (err) {
       setStatus("error")
       setErrorMessage(
-        err instanceof Error ? err.message : "Something went wrong. Please try again."
+        err instanceof Error
+          ? err.message
+          : "Something went wrong. Please try again."
       )
     }
   }
@@ -82,8 +89,8 @@ const BugReportForm = ({ onSubmit, onCancel }: BugReportFormProps) => {
       {!configured && (
         <div className="alert alert-warning small py-2" role="alert">
           Bug reporting is not configured yet. Add{" "}
-          <code>VITE_WEB3FORMS_ACCESS_KEY</code> to your <code>.env</code> file
-          (see <code>.env.example</code>).
+          <code>NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY</code> to your{" "}
+          <code>.env</code> file (see <code>.env.example</code>).
         </div>
       )}
 

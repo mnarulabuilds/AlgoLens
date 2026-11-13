@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react"
 import Input from "./Input"
-import "./Primes.css"
+import "./Primes.module.scss"
 
 const Primes = () => {
   const [alert, setAlert] = useState(null)

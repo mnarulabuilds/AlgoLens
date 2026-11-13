@@ -3,7 +3,7 @@ import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import "./KMeansClustering.css"
+import "./KMeansClustering.module.scss"
 
 const KMeansClustering = () => {
   const [points, setPoints] = useState([])

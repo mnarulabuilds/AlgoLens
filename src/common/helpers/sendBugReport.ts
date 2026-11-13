@@ -8,16 +8,16 @@ export type BugReportPayload = {
 const WEB3FORMS_ENDPOINT = "https://api.web3forms.com/submit"
 
 export function isBugReportConfigured(): boolean {
-  return Boolean(import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim())
+  return Boolean(process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY?.trim())
 }
 
 export async function sendBugReportEmail(
   payload: BugReportPayload
 ): Promise<void> {
-  const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY?.trim()
+  const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY?.trim()
   if (!accessKey) {
     throw new Error(
-      "Bug reporting is not configured. Add VITE_WEB3FORMS_ACCESS_KEY to your .env file."
+      "Bug reporting is not configured. Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY to your .env file."
     )
   }
 

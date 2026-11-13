@@ -1,0 +1,24 @@
+:global(.seek-chart-container) {
+  background: #fbfcfe;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px;
+  overflow: hidden;
+}
+:global(.seek-chart-container svg) {
+  display: block;
+  margin: 0 auto;
+  overflow: visible;
+}
+:global(.simulation-results h5) {
+  color: #162788;
+  font-weight: 700;
+}
+:global(.simulation-results .badge) {
+  padding: 0.6rem 1rem;
+}
+:global(.simulation-results text) {
+  font-family: inherit;
+  font-weight: 600;
+  fill: #475569;
+}

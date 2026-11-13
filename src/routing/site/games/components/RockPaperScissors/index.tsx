@@ -1,13 +1,18 @@
 import React, { lazy, useCallback, useState } from "react"
 import ChoiceButton from "./ChoiceButton"
-import "./Game.css"
+import "./Game.module.scss"
 import { emojis } from "./emojis"
 
 const Result = lazy(() => import("./Result"))
 
-const choices = ["Rock", "Paper", "Scissors"]
+type Choice = "Rock" | "Paper" | "Scissors"
+type GameResult = "It's a tie!" | "You win!" | "You lose!"
+const choices: Choice[] = ["Rock", "Paper", "Scissors"]
 
-const getResult = (playerChoice, computerChoice) => {
+const getResult = (
+  playerChoice: Choice,
+  computerChoice: Choice
+): GameResult => {
   if (playerChoice === computerChoice) {
     return "It's a tie!"
   }
@@ -22,11 +27,11 @@ const getResult = (playerChoice, computerChoice) => {
 }
 
 const Game = () => {
-  const [playerChoice, setPlayerChoice] = useState(null)
-  const [computerChoice, setComputerChoice] = useState(null)
-  const [result, setResult] = useState(null)
+  const [playerChoice, setPlayerChoice] = useState<Choice | null>(null)
+  const [computerChoice, setComputerChoice] = useState<Choice | null>(null)
+  const [result, setResult] = useState<GameResult | null>(null)
 
-  const handleChoice = useCallback((choice) => {
+  const handleChoice = useCallback((choice: Choice) => {
     if (!result) {
       const randomChoice = choices[Math.floor(Math.random() * choices.length)]
       setPlayerChoice(choice)

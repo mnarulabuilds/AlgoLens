@@ -1,11 +1,26 @@
 import React, { useState } from "react"
-import styles from "./RedBlackTree.module.css"
+import styles from "./RedBlackTree.module.scss"
 
 const RED = "red"
 const BLACK = "black"
 
+type NodeColor = typeof RED | typeof BLACK
+type RBAnimationStep =
+  | {
+      type: "rotate-left" | "rotate-right" | "insert" | "root"
+      node: number
+      message: string
+    }
+  | { type: "recolor"; nodes: number[]; message: string }
+
 class RBNode {
-  constructor(value, color = RED) {
+  value: number
+  color: NodeColor
+  left: RBNode | null
+  right: RBNode | null
+  parent: RBNode | null
+
+  constructor(value: number, color: NodeColor = RED) {
     this.value = value
     this.color = color
     this.left = null
@@ -15,12 +30,15 @@ class RBNode {
 }
 
 class RedBlackTree {
+  root: RBNode | null
+  animationSteps: RBAnimationStep[]
+
   constructor() {
     this.root = null
     this.animationSteps = []
   }
 
-  rotateLeft(node) {
+  rotateLeft(node: RBNode): void {
     this.animationSteps.push({
       type: "rotate-left",
       node: node.value,
@@ -48,7 +66,7 @@ class RedBlackTree {
     node.parent = rightChild
   }
 
-  rotateRight(node) {
+  rotateRight(node: RBNode): void {
     this.animationSteps.push({
       type: "rotate-right",
       node: node.value,
@@ -76,7 +94,7 @@ class RedBlackTree {
     node.parent = leftChild
   }
 
-  fixViolation(node) {
+  fixViolation(node: RBNode): void {
     let parent = null
     let grandParent = null
 
@@ -169,7 +187,7 @@ class RedBlackTree {
     this.root.color = BLACK
   }
 
-  insert(value) {
+  insert(value: number): RBAnimationStep[] {
     this.animationSteps = []
     const newNode = new RBNode(value)
 
@@ -228,7 +246,7 @@ class RedBlackTree {
     return newTree
   }
 
-  cloneNode(node, parent) {
+  cloneNode(node: RBNode | null, parent: RBNode | null): RBNode | null {
     if (node === null) return null
 
     const newNode = new RBNode(node.value, node.color)
@@ -242,9 +260,9 @@ class RedBlackTree {
 const RedBlackTreeVisualizer = () => {
   const [tree, setTree] = useState(new RedBlackTree())
   const [inputValue, setInputValue] = useState("")
-  const [animationSteps, setAnimationSteps] = useState([])
+  const [animationSteps, setAnimationSteps] = useState<RBAnimationStep[]>([])
   const [currentStepIndex, setCurrentStepIndex] = useState(-1)
-  const [highlightedNodes, setHighlightedNodes] = useState([])
+  const [highlightedNodes, setHighlightedNodes] = useState<number[]>([])
 
   const handleInsert = () => {
     if (!inputValue.trim()) return
@@ -264,8 +282,8 @@ const RedBlackTreeVisualizer = () => {
     }
   }
 
-  const highlightStep = (step) => {
-    if (step.type === "recolor" && step.nodes) {
+  const highlightStep = (step: RBAnimationStep) => {
+    if (step.type === "recolor") {
       setHighlightedNodes(step.nodes)
     } else if (step.node !== undefined) {
       setHighlightedNodes([step.node])
@@ -309,14 +327,20 @@ const RedBlackTreeVisualizer = () => {
     setHighlightedNodes([])
   }
 
-  const renderTree = (node, x, y, level, horizontalSpacing) => {
-    if (!node) return null
+  const renderTree = (
+    node: RBNode | null,
+    x: number,
+    y: number,
+    level: number,
+    horizontalSpacing: number
+  ): React.ReactNode[] => {
+    if (!node) return []
 
     const nodeRadius = 28
     const verticalSpacing = 80
     const offset = horizontalSpacing / Math.pow(2, level + 1)
 
-    const elements = []
+    const elements: React.ReactNode[] = []
     const isHighlighted = highlightedNodes.includes(node.value)
 
     // Draw connections to children
@@ -378,7 +402,7 @@ const RedBlackTreeVisualizer = () => {
     return elements
   }
 
-  const getTreeDepth = (node) => {
+  const getTreeDepth = (node: RBNode | null): number => {
     if (!node) return 0
     return 1 + Math.max(getTreeDepth(node.left), getTreeDepth(node.right))
   }

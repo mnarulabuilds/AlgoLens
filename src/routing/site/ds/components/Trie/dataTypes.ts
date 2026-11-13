@@ -1,4 +1,7 @@
 class TrieNode {
+  children: Record<string, TrieNode>
+  isEndOfWord: boolean
+
   constructor() {
     this.children = {}
     this.isEndOfWord = false
@@ -6,6 +9,8 @@ class TrieNode {
 }
 
 class Trie {
+  root: TrieNode
+
   constructor() {
     this.root = new TrieNode()
   }
@@ -21,7 +26,7 @@ class Trie {
     node.isEndOfWord = true
   }
 
-  search(word) {
+  search(word: string): { found: boolean; path: string[] } {
     let node = this.root
     const path = []
     for (const char of word.toLowerCase()) {
@@ -34,7 +39,7 @@ class Trie {
     return { found: node.isEndOfWord, path }
   }
 
-  startsWith(prefix) {
+  startsWith(prefix: string): { found: boolean; path: string[] } {
     let node = this.root
     const path = []
     for (const char of prefix.toLowerCase()) {

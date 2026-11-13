@@ -1,0 +1,56 @@
+:global(.card) {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 300px;
+  padding: 16px;
+  background-color: #fcfcfb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+}
+:global(.card-header) {
+  background-color: #007bff;
+  color: white;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+  text-align: center;
+}
+:global(.card-body) {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 8px;
+}
+:global(.form-control) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+:global(.input-label) {
+  font-size: 14px;
+  color: #555;
+}
+:global(.input-field) {
+  border: 1px solid #e2e2e1;
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+:global(.input-field:focus) {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  outline: none;
+}
+:global(.submit-button) {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+:global(.submit-button:hover) {
+  background-color: #0056b3;
+}

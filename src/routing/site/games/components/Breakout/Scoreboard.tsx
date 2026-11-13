@@ -1,6 +1,8 @@
 import React from "react"
 
-const Scoreboard = React.memo(({ score }) => {
+type ScoreboardProps = { score: number }
+
+const Scoreboard = React.memo(({ score }: ScoreboardProps) => {
   return (
     <div className="scoreboard">
       <h2>Score: {score}</h2>

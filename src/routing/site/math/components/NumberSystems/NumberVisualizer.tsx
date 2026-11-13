@@ -66,7 +66,7 @@ const NumberVisualizer = ({ number, base }) => {
 
   return (
     <div>
-      <VisualizerContainer>{getSymbols(number, base)}</VisualizerContainer>
+      <VisualizerContainer>{getSymbols(number)}</VisualizerContainer>
       {number && (
         <BaseLabel>{`Base: ${base} (${
           baseLabels[base] || "Custom Base"

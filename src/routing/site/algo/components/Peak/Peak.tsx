@@ -9,9 +9,13 @@ import {
   Input,
   InputGroupAddon,
   InputGroupText,
-} from "reactstrap"
+} from "common/components/Ui"
 
-const Peak = React.memo(({ peak }) => {
+interface PeakProps {
+  peak: (start: number, end: number) => void
+}
+
+const Peak = React.memo(({ peak }: PeakProps) => {
   const [start, setStart] = useState("")
   const [end, setEnd] = useState("")
 
@@ -27,7 +31,7 @@ const Peak = React.memo(({ peak }) => {
       <CardBody className="text-center">
         <CardTitle>Any One Peak inside Range</CardTitle>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>Start</InputGroupText>
           </InputGroupAddon>
           <Input
@@ -37,7 +41,7 @@ const Peak = React.memo(({ peak }) => {
           />
         </InputGroup>
         <InputGroup>
-          <InputGroupAddon addonType="prepend">
+          <InputGroupAddon>
             <InputGroupText>End</InputGroupText>
           </InputGroupAddon>
           <Input

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react"
 
 import Canvas from "routing/site/algo/components/ClosestPair/Canvas"
 import Run from "routing/site/algo/components/ClosestPair/Run"
-import { Alert } from "reactstrap"
+import { Alert } from "common/components/Ui"
 import useWindowDimensions from "common/helpers/dimensions"
 
 const ClosestPair = () => {

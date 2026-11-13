@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { motion } from "framer-motion"
-import "./Game2048.css"
+import "./Game2048.module.scss"
+
+type Board = number[][]
+type Direction = "left" | "right" | "up" | "down"
 
 const Game2048 = () => {
-  const [board, setBoard] = useState([])
+  const [board, setBoard] = useState<Board>([])
   const [score, setScore] = useState(0)
   const [bestScore, setBestScore] = useState(0)
   const [gameOver, setGameOver] = useState(false)
@@ -24,9 +27,7 @@ const Game2048 = () => {
   }, [])
 
   const initializeGame = () => {
-    const newBoard = Array(4)
-      .fill()
-      .map(() => Array(4).fill(0))
+    const newBoard = Array.from({ length: 4 }, () => Array<number>(4).fill(0))
     addNewTile(newBoard)
     addNewTile(newBoard)
     setBoard(newBoard)
@@ -35,7 +36,7 @@ const Game2048 = () => {
     setWon(false)
   }
 
-  const addNewTile = (currentBoard) => {
+  const addNewTile = (currentBoard: Board) => {
     const emptyTiles = []
     for (let i = 0; i < 4; i++) {
       for (let j = 0; j < 4; j++) {
@@ -54,14 +55,14 @@ const Game2048 = () => {
   }
 
   const move = useCallback(
-    (direction) => {
+    (direction: Direction) => {
       if (gameOver || won) return
 
-      const newBoard = JSON.parse(JSON.stringify(board))
+      const newBoard = board.map((row) => [...row])
       let moved = false
       let newScore = score
 
-      const moveLeft = (row) => {
+      const moveLeft = (row: number[]) => {
         const filtered = row.filter((val) => val !== 0)
         const merged = []
         let skip = false
@@ -170,10 +171,10 @@ const Game2048 = () => {
   }
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
         e.preventDefault()
-        const directions = {
+        const directions: Record<string, Direction> = {
           ArrowUp: "up",
           ArrowDown: "down",
           ArrowLeft: "left",
@@ -187,8 +188,8 @@ const Game2048 = () => {
     return () => window.removeEventListener("keydown", handleKeyDown)
   }, [move])
 
-  const getTileColor = (value) => {
-    const colors = {
+  const getTileColor = (value: number) => {
+    const colors: Record<number, string> = {
       0: "#cdc1b4",
       2: "#eee4da",
       4: "#ede0c8",
@@ -210,7 +211,7 @@ const Game2048 = () => {
       <div className="game2048-header">
         <h1>2048 Game 🔢</h1>
         <p>Use arrow keys to slide tiles. Merge tiles to reach 2048!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="game2048-content">

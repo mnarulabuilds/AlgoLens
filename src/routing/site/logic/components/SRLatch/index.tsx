@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./SRLatch.css"
+import "./SRLatch.module.scss"
 
 const SRLatch = () => {
   const [s, setS] = useState(false)

@@ -1,5 +1,9 @@
 class TreeNode {
-  constructor(value) {
+  value: number
+  left: TreeNode | null
+  right: TreeNode | null
+
+  constructor(value: number) {
     this.value = value
     this.left = null
     this.right = null
@@ -7,6 +11,8 @@ class TreeNode {
 }
 
 class BinaryTree {
+  root: TreeNode | null
+
   constructor() {
     this.root = null
   }

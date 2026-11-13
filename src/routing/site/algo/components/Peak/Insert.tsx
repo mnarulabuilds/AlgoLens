@@ -11,9 +11,13 @@ import {
   DropdownToggle,
   DropdownItem,
   DropdownMenu,
-} from "reactstrap"
+} from "common/components/Ui"
 
-const Insert = React.memo(({ insert }) => {
+interface InsertProps {
+  insert: (data: number, where: string) => void
+}
+
+const Insert = React.memo(({ insert }: InsertProps) => {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [data, setData] = useState("")
   const [where, setWhere] = useState("Start")
@@ -34,7 +38,6 @@ const Insert = React.memo(({ insert }) => {
         <InputGroup>
           <Input onChange={(e) => setData(e.target.value)} value={data} />
           <InputGroupButtonDropdown
-            addonType="append"
             isOpen={dropdownOpen}
             toggle={toggleDropDown}
           >

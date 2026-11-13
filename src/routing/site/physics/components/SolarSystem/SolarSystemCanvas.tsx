@@ -3,7 +3,7 @@ import React, { Suspense, useMemo, useRef } from "react"
 import { Canvas, useFrame } from "@react-three/fiber"
 import { OrbitControls, Stars, Text, Line } from "@react-three/drei"
 import * as THREE from "three"
-import { usePlanets } from "./PlanetContext"
+import { usePlanets, Planet as PlanetData } from "./PlanetContext"
 import styled from "styled-components"
 
 const InfoPanel = styled.div`
@@ -25,9 +25,9 @@ const InfoPanel = styled.div`
   backdrop-filter: blur(8px);
 `
 
-const Planet = ({ planet }) => {
-  const meshRef = useRef()
-  const groupRef = useRef()
+const Planet = ({ planet }: { planet: PlanetData }) => {
+  const meshRef = useRef<THREE.Mesh | null>(null)
+  const groupRef = useRef<THREE.Group | null>(null)
 
   // Orbit visualization
   const orbitPoints = useMemo(() => {

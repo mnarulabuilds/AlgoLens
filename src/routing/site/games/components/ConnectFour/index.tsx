@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react"
 import { motion } from "framer-motion"
 import { FaRedo, FaUser, FaRobot } from "react-icons/fa"
-import "./ConnectFour.css"
+import "./ConnectFour.module.scss"
 
 const ROWS = 6
 const COLS = 7
@@ -9,12 +9,16 @@ const EMPTY = 0
 const PLAYER = 1
 const AI = 2
 
-const getEmptyBoard = () =>
-  Array(ROWS)
-    .fill()
-    .map(() => Array(COLS).fill(EMPTY))
+type Player = typeof PLAYER | typeof AI
+type Cell = typeof EMPTY | Player
+type Board = Cell[][]
+type Coordinate = [number, number]
+type Winner = Player | "tie"
 
-const getDropRow = (board, col) => {
+const getEmptyBoard = (): Board =>
+  Array.from({ length: ROWS }, () => Array<Cell>(COLS).fill(EMPTY))
+
+const getDropRow = (board: Board, col: number) => {
   for (let row = ROWS - 1; row >= 0; row--) {
     if (board[row][col] === EMPTY) return row
   }
@@ -22,17 +26,17 @@ const getDropRow = (board, col) => {
 }
 
 const ConnectFour = () => {
-  const [board, setBoard] = useState(getEmptyBoard)
-  const [currentPlayer, setCurrentPlayer] = useState(PLAYER)
-  const [winner, setWinner] = useState(null)
-  const [winningCells, setWinningCells] = useState([])
-  const [gameMode, setGameMode] = useState("ai") // 'ai' or '2player'
+  const [board, setBoard] = useState<Board>(getEmptyBoard)
+  const [currentPlayer, setCurrentPlayer] = useState<Player>(PLAYER)
+  const [winner, setWinner] = useState<Winner | null>(null)
+  const [winningCells, setWinningCells] = useState<Coordinate[]>([])
+  const [gameMode, setGameMode] = useState<"ai" | "2player">("ai")
   const [scores, setScores] = useState({ player: 0, ai: 0, ties: 0 })
   const [isAIThinking, setIsAIThinking] = useState(false)
-  const [hoverCol, setHoverCol] = useState(null)
+  const [hoverCol, setHoverCol] = useState<number | null>(null)
 
-  const boardRef = useRef(board)
-  const aiTimeoutRef = useRef(null)
+  const boardRef = useRef<Board>(board)
+  const aiTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     boardRef.current = board
@@ -63,7 +67,9 @@ const ConnectFour = () => {
     }
   }, [currentPlayer, gameMode, winner, isAIThinking])
 
-  const checkWinner = (board) => {
+  const checkWinner = (
+    board: Board
+  ): { winner: Winner; cells: Coordinate[] } | null => {
     // Check horizontal
     for (let row = 0; row < ROWS; row++) {
       for (let col = 0; col < COLS - 3; col++) {
@@ -74,7 +80,7 @@ const ConnectFour = () => {
           board[row][col] === board[row][col + 3]
         ) {
           return {
-            winner: board[row][col],
+            winner: board[row][col] === AI ? AI : PLAYER,
             cells: [
               [row, col],
               [row, col + 1],
@@ -96,7 +102,7 @@ const ConnectFour = () => {
           board[row][col] === board[row + 3][col]
         ) {
           return {
-            winner: board[row][col],
+            winner: board[row][col] === AI ? AI : PLAYER,
             cells: [
               [row, col],
               [row + 1, col],
@@ -118,7 +124,7 @@ const ConnectFour = () => {
           board[row][col] === board[row + 3][col + 3]
         ) {
           return {
-            winner: board[row][col],
+            winner: board[row][col] === AI ? AI : PLAYER,
             cells: [
               [row, col],
               [row + 1, col + 1],
@@ -140,7 +146,7 @@ const ConnectFour = () => {
           board[row][col] === board[row - 3][col + 3]
         ) {
           return {
-            winner: board[row][col],
+            winner: board[row][col] === AI ? AI : PLAYER,
             cells: [
               [row, col],
               [row - 1, col + 1],
@@ -160,7 +166,7 @@ const ConnectFour = () => {
     return null
   }
 
-  const applyMove = (col, player) => {
+  const applyMove = (col: number, player: Player) => {
     const current = boardRef.current
     const row = getDropRow(current, col)
     if (row === -1) return false
@@ -195,13 +201,13 @@ const ConnectFour = () => {
     return true
   }, [winner, gameMode, currentPlayer, isAIThinking])
 
-  const handleColumnClick = (col) => {
+  const handleColumnClick = (col: number) => {
     if (!canInteract) return
     applyMove(col, currentPlayer)
   }
 
-  const makeAIMove = (boardState) => {
-    const validColumns = []
+  const makeAIMove = (boardState: Board) => {
+    const validColumns: number[] = []
     for (let col = 0; col < COLS; col++) {
       if (boardState[0][col] === EMPTY) {
         validColumns.push(col)
@@ -211,7 +217,7 @@ const ConnectFour = () => {
     if (validColumns.length === 0) return
 
     // Simple AI: Try to win, block player, or random
-    let bestCol = null
+    let bestCol: number | null = null
 
     // Check if AI can win
     for (const col of validColumns) {
@@ -271,7 +277,7 @@ const ConnectFour = () => {
     }
   }
 
-  const isWinningCell = (row, col) => {
+  const isWinningCell = (row: number, col: number) => {
     return winningCells.some(([r, c]) => r === row && c === col)
   }
 
@@ -280,7 +286,7 @@ const ConnectFour = () => {
       <div className="connect-four-header">
         <h1>Connect Four 🔴🟡</h1>
         <p>Connect four discs in a row to win!</p>
-        <div className="header-buttons">        </div>
+        <div className="header-buttons"> </div>
       </div>
 
       <div className="connect-four-content">

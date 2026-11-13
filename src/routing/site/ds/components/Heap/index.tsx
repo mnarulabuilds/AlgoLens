@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import styles from "./Heap.module.css"
+import styles from "./Heap.module.scss"
 
 const Heap = () => {
   const [heapArray, setHeapArray] = useState([])

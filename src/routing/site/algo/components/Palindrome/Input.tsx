@@ -1,7 +1,12 @@
 import React, { useState } from "react"
-import "./Input.css"
+import "./Input.module.scss"
 
-const Input = React.memo(({ disabled, checkPalindrome }) => {
+interface InputProps {
+  disabled: boolean
+  checkPalindrome: (input: string) => void
+}
+
+const Input = React.memo(({ disabled, checkPalindrome }: InputProps) => {
   const [input, setInput] = useState("")
 
   const handleSubmit = () => {

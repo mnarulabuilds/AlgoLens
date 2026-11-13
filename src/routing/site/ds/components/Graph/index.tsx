@@ -56,14 +56,14 @@ const GraphVisualizer = () => {
         {edges.map((edge, index) => (
           <Edge
             key={index}
-            x1={nodes.find((node) => node.id === edge.source).x}
-            y1={nodes.find((node) => node.id === edge.source).y}
-            x2={nodes.find((node) => node.id === edge.target).x}
-            y2={nodes.find((node) => node.id === edge.target).y}
+            $x1={nodes.find((node) => node.id === edge.source).x}
+            $y1={nodes.find((node) => node.id === edge.source).y}
+            $x2={nodes.find((node) => node.id === edge.target).x}
+            $y2={nodes.find((node) => node.id === edge.target).y}
           />
         ))}
         {nodes.map((node) => (
-          <Node key={node.id} x={node.x} y={node.y}>
+          <Node key={node.id} $x={node.x} $y={node.y}>
             {node.id}
           </Node>
         ))}
@@ -116,7 +116,7 @@ const GraphContainer = styled.div`
   margin: 20px auto;
 `
 
-const Node = styled.div`
+const Node = styled.div<{ $x: number; $y: number }>`
   position: absolute;
   width: 30px;
   height: 30px;
@@ -127,8 +127,8 @@ const Node = styled.div`
   align-items: center;
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  left: ${(props) => props.x}px;
-  top: ${(props) => props.y}px;
+  left: ${(props) => props.$x}px;
+  top: ${(props) => props.$y}px;
 `
 
 const drawLine = keyframes`
@@ -142,13 +142,18 @@ const drawLine = keyframes`
   }
 `
 
-const Edge = styled.svg.attrs((props) => ({
+const Edge = styled.svg.attrs<{
+  $x1: number
+  $y1: number
+  $x2: number
+  $y2: number
+}>((props) => ({
   children: (
     <line
-      x1={props.x1}
-      y1={props.y1}
-      x2={props.x2}
-      y2={props.y2}
+      x1={props.$x1}
+      y1={props.$y1}
+      x2={props.$x2}
+      y2={props.$y2}
       stroke="black"
     />
   ),

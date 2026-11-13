@@ -1,13 +1,15 @@
 import React, { useCallback, useState } from "react"
 import { FaLink } from "react-icons/fa"
 import { copyToClipboard } from "common/helpers/copyToClipboard"
-import "./CopyShareLink.css"
+import "./CopyShareLink.module.scss"
 
 type CopyShareLinkProps = {
   label?: string
 }
 
-const CopyShareLink = ({ label = "Copy link to this view" }: CopyShareLinkProps) => {
+const CopyShareLink = ({
+  label = "Copy link to this view",
+}: CopyShareLinkProps) => {
   const [copied, setCopied] = useState(false)
 
   const onCopy = useCallback(async () => {

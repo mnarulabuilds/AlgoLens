@@ -3,7 +3,7 @@ import { useMarkComplete } from "common/hooks/useMarkComplete"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import styles from "./BFSGraph.module.css"
+import styles from "./BFSGraph.module.scss"
 
 const graph = {
   A: ["B", "C"],

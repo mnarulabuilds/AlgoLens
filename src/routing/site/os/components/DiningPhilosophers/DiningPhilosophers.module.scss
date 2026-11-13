@@ -1,0 +1,107 @@
+:global(.table-wrapper) {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1/1;
+  margin: 2rem auto;
+}
+:global(.table-circle) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  height: 65%;
+  background: #f8f9fa;
+  border-radius: 50%;
+  border: 4px solid #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+:global(.table-label) {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #adb5bd;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+:global(.philosopher-node) {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translate(-50%, -50%);
+  border: 4px solid transparent;
+}
+:global(.philosopher-node.thinking) {
+  border-color: #dee2e6;
+  color: #6c757d;
+}
+:global(.philosopher-node.hungry) {
+  border-color: #ffc107;
+  background: #fff8e1;
+}
+:global(.philosopher-node.eating) {
+  border-color: #4caf50;
+  background: #e8f5e9;
+  box-shadow: 0 0 15px rgba(76, 175, 80, 0.3);
+}
+:global(.phil-avatar) {
+  font-size: 1.5rem;
+}
+:global(.phil-id) {
+  font-size: 0.75rem;
+  font-weight: 800;
+}
+:global(.chopstick) {
+  position: absolute;
+  width: 4px;
+  height: 40px;
+  background: #495057;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+:global(.chopstick.taken) {
+  background: #ced4da;
+}
+:global(.legend-dot) {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+}
+:global(.legend-dot.thinking) {
+  background: #dee2e6;
+}
+:global(.legend-dot.hungry) {
+  background: #ffc107;
+}
+:global(.legend-dot.eating) {
+  background: #4caf50;
+}
+:global(.log-container) {
+  background: #f1f3f5;
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: monospace;
+  font-size: 0.85rem;
+  min-height: 150px;
+}
+:global(.log-entry) {
+  padding: 0.4rem 0;
+  border-bottom: 1px solid #dee2e6;
+  color: #495057;
+}
+:global(.log-entry:last-child) {
+  border-bottom: none;
+}

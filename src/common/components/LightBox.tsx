@@ -1,5 +1,5 @@
 import React, { useEffect, ReactNode } from "react"
-import "./CustomizedDialogs.css"
+import "./CustomizedDialogs.module.scss"
 
 type DialogAction = {
   text?: string

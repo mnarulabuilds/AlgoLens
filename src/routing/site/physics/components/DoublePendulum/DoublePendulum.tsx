@@ -76,15 +76,15 @@ const Row = styled.div`
   flex-wrap: wrap;
 `
 
-const Button = styled.button`
+const Button = styled.button<{ $primary?: boolean }>`
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.14);
   background: ${(p) =>
-    p.primary
+    p.$primary
       ? "linear-gradient(180deg, #fbac61, #e98c2f)"
       : "rgba(255, 255, 255, 0.06)"};
-  color: ${(p) => (p.primary ? "#111827" : "rgba(255, 255, 255, 0.9)")};
+  color: ${(p) => (p.$primary ? "#111827" : "rgba(255, 255, 255, 0.9)")};
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.15s ease, background 0.15s ease;
@@ -140,8 +140,8 @@ function rk4Step(state, dt, derivs) {
 }
 
 export default function DoublePendulum() {
-  const canvasRef = useRef(null)
-  const wrapRef = useRef(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+  const wrapRef = useRef<HTMLDivElement | null>(null)
   const rafRef = useRef(0)
   const lastTRef = useRef(0)
   const trailRef = useRef([])
@@ -351,7 +351,7 @@ export default function DoublePendulum() {
 
       <ControlsCard>
         <Row>
-          <Button primary onClick={() => setRunning((v) => !v)}>
+          <Button $primary onClick={() => setRunning((v) => !v)}>
             {running ? "Pause" : "Play"}
           </Button>
           <Button onClick={() => reset(false)}>Reset</Button>

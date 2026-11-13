@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { motion } from "framer-motion"
-import "./MemoryAllocation.css"
+import "./MemoryAllocation.module.scss"
 
 const MemoryAllocation = () => {
   const [initialBlocks] = useState([

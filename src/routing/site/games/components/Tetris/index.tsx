@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react"
-import styles from "./Tetris.module.css"
+import styles from "./Tetris.module.scss"
 
 const COLS = 10
 const ROWS = 20

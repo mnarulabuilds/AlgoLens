@@ -1,5 +1,5 @@
 import React, { useState, useCallback, lazy } from "react"
-import { Container, Row, Col } from "reactstrap"
+import { Container, Row, Col } from "common/components/Ui"
 import Insert from "./Insert"
 import Delete from "./Delete"
 import Update from "./Update"
@@ -8,12 +8,12 @@ import Peak from "./Peak"
 const Element = lazy(() => import("common/components/Element"))
 
 const Visuals = () => {
-  const [array, setArray] = useState([])
-  const [highlights, setHighlights] = useState([])
-  const [iter, setIter] = useState(0)
+  const [array, setArray] = useState<number[]>([])
+  const [highlights, setHighlights] = useState<number[]>([])
+  const [iter, setIter] = useState<number | "Completed">(0)
 
   const insert = useCallback(
-    (data, where) => {
+    (data: number, where: string) => {
       if (data) {
         const newArr = [...array]
         if (where.toLowerCase() === "start") {
@@ -31,7 +31,7 @@ const Visuals = () => {
   )
 
   const deleteData = useCallback(
-    (data, position) => {
+    (data: number, position: number) => {
       let newArr = [...array]
       if (data) {
         const length = newArr.length
@@ -55,16 +55,16 @@ const Visuals = () => {
   )
 
   const update = useCallback(
-    (position, value) => {
+    (position: number, value: number) => {
       if (
         !Number.isNaN(value) &&
-        parseInt(position) <= array.length - 1 &&
-        parseInt(position) >= 0
+        parseInt(String(position)) <= array.length - 1 &&
+        parseInt(String(position)) >= 0
       ) {
         const newArr = [...array]
         newArr[position] = value
         setArray(newArr)
-        setHighlights([parseInt(position)])
+        setHighlights([parseInt(String(position))])
       } else {
         alert("Cannot update")
       }
@@ -72,17 +72,24 @@ const Visuals = () => {
     [array]
   )
 
-  const isPeak = (arr, mid, start, end) => {
+  const isPeak = (
+    arr: number[],
+    mid: number,
+    start: number,
+    end: number
+  ): { r: boolean; d?: "left" | "right" } => {
     const midEle =
-      arr[mid] === parseFloat(arr[mid]) ? parseFloat(arr[mid]) : arr[mid]
+      arr[mid] === parseFloat(String(arr[mid]))
+        ? parseFloat(String(arr[mid]))
+        : arr[mid]
     if (mid > start && mid < end) {
       const midMoreEle =
-        arr[mid + 1] === parseFloat(arr[mid + 1])
-          ? parseFloat(arr[mid + 1])
+        arr[mid + 1] === parseFloat(String(arr[mid + 1]))
+          ? parseFloat(String(arr[mid + 1]))
           : arr[mid + 1]
       const midLessEle =
-        arr[mid - 1] === parseFloat(arr[mid - 1])
-          ? parseFloat(arr[mid - 1])
+        arr[mid - 1] === parseFloat(String(arr[mid - 1]))
+          ? parseFloat(String(arr[mid - 1]))
           : arr[mid - 1]
       if (midEle >= midMoreEle && midEle >= midLessEle) {
         return { r: true }
@@ -92,16 +99,16 @@ const Visuals = () => {
       }
     } else if (mid === start && mid < end) {
       const midMoreEle =
-        arr[mid + 1] === parseFloat(arr[mid + 1])
-          ? parseFloat(arr[mid + 1])
+        arr[mid + 1] === parseFloat(String(arr[mid + 1]))
+          ? parseFloat(String(arr[mid + 1]))
           : arr[mid + 1]
       if (midEle >= midMoreEle) {
         return { r: true }
       }
     } else if (mid === end && mid > start) {
       const midLessEle =
-        arr[mid - 1] === parseFloat(arr[mid - 1])
-          ? parseFloat(arr[mid - 1])
+        arr[mid - 1] === parseFloat(String(arr[mid - 1]))
+          ? parseFloat(String(arr[mid - 1]))
           : arr[mid - 1]
       if (midEle >= midLessEle) {
         return { r: true }
@@ -111,8 +118,8 @@ const Visuals = () => {
     return { r: false, d: "right" }
   }
 
-  const bsPeak = useCallback((start, end, arr) => {
-    const mid = parseInt(start + (end - start) / 2)
+  const bsPeak = useCallback((start: number, end: number, arr: number[]) => {
+    const mid = parseInt(String(start + (end - start) / 2))
     if (start > end) {
       setHighlights([])
       return
@@ -122,12 +129,16 @@ const Visuals = () => {
       setHighlights([mid])
       setIter("Completed")
     } else if (d === "right") {
-      setIter((prevIter) => prevIter + 1)
+      setIter((prevIter) =>
+        typeof prevIter === "number" ? prevIter + 1 : prevIter
+      )
       setTimeout(() => {
         bsPeak(mid + 1, end, arr)
       }, 1000)
     } else if (d === "left") {
-      setIter((prevIter) => prevIter + 1)
+      setIter((prevIter) =>
+        typeof prevIter === "number" ? prevIter + 1 : prevIter
+      )
       setTimeout(() => {
         bsPeak(start, mid - 1, arr)
       }, 1000)
@@ -135,7 +146,7 @@ const Visuals = () => {
   }, [])
 
   const peak = useCallback(
-    (start, end) => {
+    (start: number, end: number) => {
       if (start >= 0 && end >= 0) {
         if (start === Math.floor(start) && end === Math.floor(end)) {
           if (start > end) {
@@ -146,7 +157,7 @@ const Visuals = () => {
             let s = Math.floor(start)
             start = s
             end = Math.floor(end)
-            const highlightsRange = []
+            const highlightsRange: number[] = []
             while (s <= end) {
               highlightsRange.push(s)
               s++
@@ -198,7 +209,7 @@ const Visuals = () => {
           )
         })}
       </Row>
-      {(parseInt(iter) > 0 || iter !== "0") && (
+      {(parseInt(String(iter)) > 0 || String(iter) !== "0") && (
         <Row className="mt-4 mb-4">Steps: {iter}</Row>
       )}
     </Container>

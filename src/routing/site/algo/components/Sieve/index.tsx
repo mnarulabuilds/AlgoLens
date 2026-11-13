@@ -1,7 +1,7 @@
 import React, { lazy, useCallback, useState, Suspense, useEffect } from "react"
-import { Alert, Row, Col } from "reactstrap"
+import { Alert, Row, Col } from "common/components/Ui"
 import Range from "./Range"
-import { FixedSizeList as List } from "react-window"
+import HorizontalVirtualList from "common/components/HorizontalVirtualList"
 import useWindowDimensions from "common/helpers/dimensions"
 
 const LazyElement = lazy(() => import("common/components/Element"))
@@ -92,15 +92,13 @@ const LazyList = ({ start, end, sieve }) => {
   }, [start, end])
 
   return (
-    <List
+    <HorizontalVirtualList
       height={120}
       itemCount={numbers.length}
       itemSize={200}
       width={innerWidth || 800}
-      direction="horizontal"
-    >
-      {({ index, style }) => (
-        <Col xs={12} style={style}>
+      renderItem={(index) => (
+        <Col xs={12}>
           <LazyElement
             highlight={isPrime[index]}
             data={{ value: numbers[index], index }}
@@ -108,7 +106,7 @@ const LazyList = ({ start, end, sieve }) => {
           />
         </Col>
       )}
-    </List>
+    />
   )
 }
 

@@ -1,11 +1,8 @@
 import React, { useState } from "react"
-import { Link } from "react-router-dom"
+import Link from "next/link"
 import { motion } from "framer-motion"
 import { useUser } from "common/context/UserContext"
-import {
-  LEARNING_PATHS,
-  getPathProgress,
-} from "routing/base/learningPaths"
+import { LEARNING_PATHS, getPathProgress } from "routing/base/learningPaths"
 import {
   FaStar,
   FaHistory,
@@ -18,7 +15,7 @@ import {
   FaCheckCircle,
   FaRoute,
 } from "react-icons/fa"
-import "./ProfilePage.css"
+import "./ProfilePage.module.scss"
 
 const ProfilePage = () => {
   const {
@@ -213,7 +210,7 @@ const ProfilePage = () => {
                     Start exploring visualizations and click the star button to
                     add them to your favorites!
                   </p>
-                  <Link to="/" className="explore-btn">
+                  <Link href="/" className="explore-btn">
                     Explore Topics
                   </Link>
                 </div>
@@ -227,7 +224,7 @@ const ProfilePage = () => {
                       animate={{ scale: 1, opacity: 1 }}
                       whileHover={{ y: -5 }}
                     >
-                      <Link to={fav.route} className="item-link">
+                      <Link href={fav.route} className="item-link">
                         <div className="item-header">
                           <span className="item-category">{fav.category}</span>
                           <span className="item-date">
@@ -294,7 +291,7 @@ const ProfilePage = () => {
                       <ol className="learning-path-steps">
                         {path.steps.map((step) => (
                           <li key={step.topicId}>
-                            <Link to={step.route}>{step.label}</Link>
+                            <Link href={step.route}>{step.label}</Link>
                             {completedTopics.includes(step.topicId) && (
                               <FaCheckCircle
                                 className="step-done"
@@ -322,7 +319,7 @@ const ProfilePage = () => {
                   <FaHistory className="empty-icon" />
                   <h3>No recent activity</h3>
                   <p>Your recently viewed visualizations will appear here.</p>
-                  <Link to="/" className="explore-btn">
+                  <Link href="/" className="explore-btn">
                     Start Exploring
                   </Link>
                 </div>
@@ -345,7 +342,7 @@ const ProfilePage = () => {
                         animate={{ x: 0, opacity: 1 }}
                         whileHover={{ x: 5 }}
                       >
-                        <Link to={item.route} className="list-item-link">
+                        <Link href={item.route} className="list-item-link">
                           <div className="list-item-content">
                             <span className="list-item-category">
                               {item.category}

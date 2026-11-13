@@ -1,0 +1,21 @@
+:global(.choice-button) {
+  padding: 10px 20px;
+  margin: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  border: none;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+:global(.choice-button:hover) {
+  transform: scale(1.1);
+  background-color: #e0e0e0;
+}
+:global(.choice-button[disabled]) {
+  cursor: not-allowed;
+}
+:global(.emoji) {
+  font-size: 24px;
+  margin-right: 8px;
+}

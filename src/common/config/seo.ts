@@ -19,11 +19,10 @@ export function seoImageUrl(): string {
   return `${SEO.siteUrl.replace(/\/$/, "")}${SEO.ogImagePath}`
 }
 
-/** HashRouter canonical: base URL + hash path */
 export function buildCanonicalUrl(routePath: string): string {
   const normalized = routePath.startsWith("/") ? routePath : `/${routePath}`
   const base = SEO.siteUrl.replace(/\/$/, "")
-  return `${base}/#${normalized}`
+  return `${base}${normalized === "/" ? "/" : `${normalized}/`}`
 }
 
 export function buildWebSiteJsonLd(): Record<string, unknown> {
@@ -36,7 +35,7 @@ export function buildWebSiteJsonLd(): Record<string, unknown> {
     inLanguage: "en",
     potentialAction: {
       "@type": "SearchAction",
-      target: `${SEO.siteUrl}#/?q={search_term_string}`,
+      target: `${SEO.siteUrl}?q={search_term_string}`,
       "query-input": "required name=search_term_string",
     },
   }

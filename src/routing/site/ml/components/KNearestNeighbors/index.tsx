@@ -2,16 +2,21 @@ import React, { useState } from "react"
 import { FaCode } from "react-icons/fa"
 import CustomizedDialogs from "common/components/LightBox"
 import PseudocodeViewer from "common/components/PseudocodeViewer"
-import "./KNearestNeighbors.css"
+import "./KNearestNeighbors.module.scss"
+
+type Point = { x: number; y: number; class: number }
+type Neighbor = Point & { distance: number; index: number }
+type TestPoint = { x: number; y: number }
+type VoronoiCell = { x: number; y: number; class: number; size: number }
 
 const KNearestNeighbors = () => {
-  const [points, setPoints] = useState([])
-  const [testPoint, setTestPoint] = useState(null)
+  const [points, setPoints] = useState<Point[]>([])
+  const [testPoint, setTestPoint] = useState<TestPoint | null>(null)
   const [k, setK] = useState(3)
   const [currentClass, setCurrentClass] = useState(0)
   const [showVoronoi, setShowVoronoi] = useState(false)
-  const [prediction, setPrediction] = useState(null)
-  const [neighbors, setNeighbors] = useState([])
+  const [prediction, setPrediction] = useState<number | null>(null)
+  const [neighbors, setNeighbors] = useState<Neighbor[]>([])
   const [showPseudocode, setShowPseudocode] = useState(false)
 
   const canvasWidth = 600
@@ -78,8 +83,8 @@ const KNearestNeighbors = () => {
     { id: 2, name: "Class C", color: "#FFD93D" },
   ]
 
-  const handleCanvasClick = (e) => {
-    const rect = e.target.getBoundingClientRect()
+  const handleCanvasClick = (e: React.MouseEvent<SVGSVGElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect()
     const x = e.clientX - rect.left
     const y = e.clientY - rect.top
 
@@ -96,11 +101,11 @@ const KNearestNeighbors = () => {
     }
   }
 
-  const distance = (p1, p2) => {
+  const distance = (p1: TestPoint, p2: TestPoint) => {
     return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2)
   }
 
-  const classifyPoint = (point) => {
+  const classifyPoint = (point: TestPoint) => {
     if (points.length === 0) {
       setPrediction(null)
       setNeighbors([])
@@ -119,7 +124,7 @@ const KNearestNeighbors = () => {
     const kNearest = distances.slice(0, Math.min(k, points.length))
 
     // Count votes for each class
-    const votes = {}
+    const votes: Record<number, number> = {}
     kNearest.forEach((neighbor) => {
       votes[neighbor.class] = (votes[neighbor.class] || 0) + 1
     })
@@ -179,8 +184,8 @@ const KNearestNeighbors = () => {
     setNeighbors([])
   }
 
-  const generateVoronoiGrid = () => {
-    const grid = []
+  const generateVoronoiGrid = (): VoronoiCell[] => {
+    const grid: VoronoiCell[] = []
     const gridSize = 20
 
     for (let x = 0; x < canvasWidth; x += gridSize) {
@@ -197,7 +202,7 @@ const KNearestNeighbors = () => {
           const kNearest = distances.slice(0, Math.min(k, points.length))
 
           // Count votes
-          const votes = {}
+          const votes: Record<number, number> = {}
           kNearest.forEach((neighbor) => {
             votes[neighbor.class] = (votes[neighbor.class] || 0) + 1
           })

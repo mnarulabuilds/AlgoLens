@@ -1,0 +1,45 @@
+:global(.hashing-container) {
+  max-width: 1000px;
+}
+:global(.hash-output) {
+  min-height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #dee2e6;
+  word-break: break-all;
+}
+:global(.bit-grid) {
+  display: grid;
+  grid-template-columns: repeat(32, 1fr);
+  gap: 4px;
+}
+:global(.bit-cell) {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: bold;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+:global(.bit-one) {
+  background-color: #0d6efd;
+  color: white;
+}
+:global(.bit-zero) {
+  background-color: #e9ecef;
+  color: #adb5bd;
+}
+@media (max-width: 992px) {
+  :global(.bit-grid) {
+    grid-template-columns: repeat(16, 1fr);
+  }
+}
+@media (max-width: 576px) {
+  :global(.bit-grid) {
+    grid-template-columns: repeat(8, 1fr);
+  }
+}

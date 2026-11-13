@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { FaBook, FaChevronDown, FaChevronUp } from "react-icons/fa"
 import { LearnContent } from "routing/base/learnContent"
-import "./LearnPanel.css"
+import "./LearnPanel.module.scss"
 
 type LearnPanelProps = {
   content: LearnContent
@@ -20,7 +20,11 @@ const LearnPanel = ({ content }: LearnPanelProps) => {
       >
         <FaBook aria-hidden="true" />
         <span>Learn</span>
-        {open ? <FaChevronUp aria-hidden="true" /> : <FaChevronDown aria-hidden="true" />}
+        {open ? (
+          <FaChevronUp aria-hidden="true" />
+        ) : (
+          <FaChevronDown aria-hidden="true" />
+        )}
       </button>
 
       {open && (

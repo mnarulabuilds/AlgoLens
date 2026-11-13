@@ -1,6 +1,6 @@
 import React, { useState } from "react"
-import { Chess } from "chess.js"
-import "./styles.css"
+import { Chess, Square as ChessSquare } from "chess.js"
+import "./styles.module.scss"
 
 const PIECE_UNICODE = {
   w: {
@@ -24,11 +24,11 @@ const PIECE_UNICODE = {
 export default function App() {
   const [game] = useState(new Chess())
 
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState<ChessSquare | null>(null)
   const [fenBoard, setFenBoard] = useState(game.board())
 
-  const handleClick = (row, col) => {
-    const square = String.fromCharCode(97 + col) + (8 - row)
+  const handleClick = (row: number, col: number) => {
+    const square = `${String.fromCharCode(97 + col)}${8 - row}` as ChessSquare
 
     if (selected) {
       try {
@@ -48,7 +48,7 @@ export default function App() {
     }
   }
 
-  const getSquareColor = (row, col) => {
+  const getSquareColor = (row: number, col: number) => {
     return (row + col) % 2 === 0 ? "light" : "dark"
   }
 

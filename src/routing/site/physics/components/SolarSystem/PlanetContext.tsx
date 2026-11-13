@@ -1,9 +1,23 @@
 import React, { createContext, useState, useContext } from "react"
 
-const PlanetContext = createContext()
+export type Planet = {
+  name: string
+  radius: number
+  distance: number
+  speed: number
+  angle: number
+  fillColor: string
+  hasRings?: boolean
+}
+type PlanetContextValue = {
+  planets: Planet[]
+  setPlanets: React.Dispatch<React.SetStateAction<Planet[]>>
+}
 
-export const PlanetProvider = ({ children }) => {
-  const [planets, setPlanets] = useState([
+const PlanetContext = createContext<PlanetContextValue | undefined>(undefined)
+
+export const PlanetProvider = ({ children }: { children: React.ReactNode }) => {
+  const [planets, setPlanets] = useState<Planet[]>([
     {
       name: "Sun",
       radius: 25,
@@ -86,4 +100,10 @@ export const PlanetProvider = ({ children }) => {
   )
 }
 
-export const usePlanets = () => useContext(PlanetContext)
+export const usePlanets = () => {
+  const context = useContext(PlanetContext)
+  if (!context) {
+    throw new Error("usePlanets must be used within a PlanetProvider")
+  }
+  return context
+}

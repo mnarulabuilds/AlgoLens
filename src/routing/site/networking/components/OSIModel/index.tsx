@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import "./OSIModel.css"
+import "./OSIModel.module.scss"
 
 const layers = [
   {

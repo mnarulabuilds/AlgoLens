@@ -5,14 +5,16 @@ import {
   InputGroupAddon,
   InputGroupText,
   Alert,
-} from "reactstrap"
+} from "common/components/Ui"
 import { MdExpandMore } from "react-icons/md"
 
 interface DeleteProps {
   parent: {
     deleteItem: (data: string, position: number) => void
     alert: { text: string; type: string; alertId: number } | null
-    setAlert: (alert: { text: string; type: string; alertId: number } | null) => void
+    setAlert: (
+      alert: { text: string; type: string; alertId: number } | null
+    ) => void
   }
   alertId: number
 }
@@ -69,7 +71,7 @@ const Delete = React.memo(({ parent, alertId }: DeleteProps) => {
               </Alert>
             )}
             <InputGroup>
-              <InputGroupAddon addonType="prepend">
+              <InputGroupAddon>
                 <InputGroupText>Position</InputGroupText>
               </InputGroupAddon>
               <Input
@@ -81,7 +83,7 @@ const Delete = React.memo(({ parent, alertId }: DeleteProps) => {
               />
             </InputGroup>
             <InputGroup className="mt-3">
-              <InputGroupAddon addonType="prepend">
+              <InputGroupAddon>
                 <InputGroupText>Value</InputGroupText>
               </InputGroupAddon>
               <Input

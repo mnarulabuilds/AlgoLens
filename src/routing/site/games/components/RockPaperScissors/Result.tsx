@@ -1,7 +1,9 @@
 import React from "react"
-import "./Result.css"
+import "./Result.module.scss"
 
-const Result = React.memo(({ result, resetGame }) => {
+type ResultProps = { result: string; resetGame: () => void }
+
+const Result = React.memo(({ result, resetGame }: ResultProps) => {
   return (
     <div className="result">
       <h2 className="result-text">{result}</h2>

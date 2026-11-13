@@ -1,13 +1,18 @@
 import React, { useState } from "react"
 import Board from "./Board"
-import "./Game.css"
+import "./Game.module.scss"
+
+type SquareValue = "X" | "O" | null
+type HistoryEntry = { squares: SquareValue[] }
 
 const Game = () => {
-  const [history, setHistory] = useState([{ squares: Array(9).fill(null) }])
+  const [history, setHistory] = useState<HistoryEntry[]>([
+    { squares: Array<SquareValue>(9).fill(null) },
+  ])
   const [stepNumber, setStepNumber] = useState(0)
   const [isXNext, setIsXNext] = useState(true)
 
-  const handleClick = (index) => {
+  const handleClick = (index: number) => {
     const currentHistory = history.slice(0, stepNumber + 1)
     const current = currentHistory[currentHistory.length - 1]
     const squares = current.squares.slice()
@@ -22,7 +27,7 @@ const Game = () => {
     setIsXNext(!isXNext)
   }
 
-  const jumpTo = (step) => {
+  const jumpTo = (step: number) => {
     setStepNumber(step)
     setIsXNext(step % 2 === 0)
   }
@@ -70,7 +75,7 @@ const Game = () => {
   )
 }
 
-const calculateWinner = (squares) => {
+const calculateWinner = (squares: SquareValue[]): "X" | "O" | null => {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],

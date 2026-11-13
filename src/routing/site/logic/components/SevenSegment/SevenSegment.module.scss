@@ -1,0 +1,71 @@
+:global(.seven-segment-container) {
+  max-width: 1100px;
+}
+:global(.display-case) {
+  background: #000;
+  min-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+:global(.seven-segment-visual) {
+  position: relative;
+  width: 140px;
+  height: 250px;
+}
+:global(.segment) {
+  position: absolute;
+  background: #222;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+}
+:global(.segment.on) {
+  background: #ff3e3e;
+  box-shadow: 0 0 15px #ff3e3e, 0 0 30px #ff3e3e;
+}
+:global(.seg-horiz) {
+  width: 100px;
+  height: 15px;
+}
+:global(.seg-vert) {
+  width: 15px;
+  height: 100px;
+}
+:global(.seg-a) {
+  top: 0;
+  left: 20px;
+}
+:global(.seg-b) {
+  top: 15px;
+  left: 125px;
+}
+:global(.seg-c) {
+  top: 135px;
+  left: 125px;
+}
+:global(.seg-d) {
+  bottom: 0;
+  left: 20px;
+}
+:global(.seg-e) {
+  top: 135px;
+  left: 0;
+}
+:global(.seg-f) {
+  top: 15px;
+  left: 0;
+}
+:global(.seg-g) {
+  top: 115px;
+  left: 20px;
+}
+
+:global(.seven-segment-visual) {
+  transform: skewX(-5deg);
+}
+@media (max-width: 576px) {
+  :global(.display-case) {
+    min-width: 100%;
+    padding: 2rem !important;
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useMarkComplete } from "common/hooks/useMarkComplete"
-import styles from "./BellmanFord.module.css"
+import styles from "./BellmanFord.module.scss"
 
 const BellmanFordVisualizer = () => {
   const [nodes, setNodes] = useState([])

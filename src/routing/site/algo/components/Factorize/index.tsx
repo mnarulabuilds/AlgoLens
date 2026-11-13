@@ -1,18 +1,20 @@
 import React, { useState, lazy, useCallback, useMemo } from "react"
 import { FaEquals, FaCircle } from "react-icons/fa"
-import { Alert, Row, Col } from "reactstrap"
-import { FixedSizeList as List } from "react-window"
+import { Alert, Row, Col } from "common/components/Ui"
+import HorizontalVirtualList from "common/components/HorizontalVirtualList"
 import Input from "./Input"
 import useWindowDimensions from "common/helpers/dimensions"
 
 const LazyElement = lazy(() => import("common/components/Element"))
 
 const Factorize = () => {
-  const [input, setInput] = useState(null)
+  const [input, setInput] = useState<number | null>(null)
   const [disabled, setDisabled] = useState(false)
-  const [alert, setAlert] = useState(null)
+  const [alert, setAlert] = useState<{ text: string; type: string } | null>(
+    null
+  )
 
-  const factorize = useCallback((number) => {
+  const factorize = useCallback((number: number) => {
     setDisabled(true)
     if (number < 0 || !Number.isInteger(number)) {
       setAlert({
@@ -78,12 +80,12 @@ const Factorize = () => {
         </Col>
       </Row>
 
-      {parseInt(input) >= 0 && (
+      {parseInt(String(input)) >= 0 && (
         <Row className="text-center mt-4 mb-4 align-items-center">
           <Col xs={4}>
             <LazyElement
               highlight={true}
-              data={{ value: `Factors(${input})` }}
+              data={{ value: `Factors(${input})`, index: -1 }}
               type="array"
             />
           </Col>
@@ -91,7 +93,7 @@ const Factorize = () => {
             <FaEquals style={{ margin: "auto 5px" }} />
           </Col>
           <Col xs={6}>
-            <LazyList factorize={factorize} input={input} />
+            <LazyList factorize={factorize} input={input ?? 0} />
           </Col>
         </Row>
       )}
@@ -99,24 +101,28 @@ const Factorize = () => {
   )
 }
 
-const LazyList = ({ input, factorize }) => {
+interface LazyListProps {
+  input: number
+  factorize: (number: number) => number[]
+}
+
+const LazyList = ({ input, factorize }: LazyListProps) => {
   const factors = useMemo(() => factorize(input), [input])
   const { width: innerWidth } = useWindowDimensions()
 
   return (
-    <List
+    <HorizontalVirtualList
       height={120}
       itemCount={factors.length}
       itemSize={240}
-      width={innerWidth * 0.5}
-      direction="horizontal"
-    >
-      {({ index, style }) => (
-        <Row style={style} className="align-items-center">
+      width={(innerWidth || 1600) * 0.5}
+      renderItem={(index) => (
+        <Row className="align-items-center">
           <Col xs={6}>
             <LazyElement
               data={{ value: factors[index], index: index + 1 }}
               type="array"
+              highlight={false}
             />
           </Col>
           {index < factors.length - 1 && (
@@ -126,7 +132,7 @@ const LazyList = ({ input, factorize }) => {
           )}
         </Row>
       )}
-    </List>
+    />
   )
 }
 
