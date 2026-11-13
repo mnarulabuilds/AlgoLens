@@ -1,2 +1,5 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
+Allow: /
+
+Sitemap: https://mnarulabuilds.github.io/AlgoLens/sitemap.xml
